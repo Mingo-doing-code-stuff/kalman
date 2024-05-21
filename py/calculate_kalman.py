@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Read the CSV file
-df = pd.read_csv('c_serial_port/data_acc.csv', delimiter=';')
+df = pd.read_csv('c_serial_port/data.csv', delimiter=';')
 
 print(df.describe())
 print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")

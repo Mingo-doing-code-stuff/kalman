@@ -5,11 +5,13 @@
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{style}
+\usepackage[ddmmyyyy]{datetime}
 
 \title{Kalman Filter}
 \subtitle{Grundlagen}
 \author{P.Schön, C.Thein}
 \date{\today}
+\renewcommand{\dateseparator}{.}
 
 
 
@@ -18,20 +20,20 @@
 \frame{\titlepage}
 
 \begin{frame}
-\frametitle{Inhaltsverzeichnis}
-\tableofcontents
+    \frametitle{Inhaltsverzeichnis}
+    \tableofcontents
 \end{frame}
 
 \section{Einleitung}
 
 \begin{frame}
-\frametitle{Was ist das Kalman Filter?}
-Das Kalman Filter ist ein mathematisches Verfahren zur iterativen Schätzung von Parametern zur 
-Beschreibung von Systemzuständen. 
+    \frametitle{Was ist das Kalman Filter?}
+    Das Kalman Filter ist ein mathematisches Verfahren zur iterativen Schätzung von Parametern zur
+    Beschreibung von Systemzuständen.
 
-Dabei wird wiederholt eine Vorhersage über einen Parameterwert 
-abgegeben, mit dem fehleranfälligen Messwert kombiniert, und erneut gnutzt um daraus eine Vorhersage 
-zu treffen.
+    Dabei wird wiederholt eine Vorhersage über einen Parameterwert
+    abgegeben, mit dem fehleranfälligen Messwert kombiniert, und erneut gnutzt um daraus eine Vorhersage
+    zu treffen.
 \end{frame}
 
 \section{Vereinfachte Erklärung}
@@ -71,45 +73,45 @@ zu treffen.
 \end{frame}
 
 \begin{frame}
-\frametitle{Aufzählungen}
-\begin{itemize}
-    \item Erster Punkt
-    \item Zweiter Punkt
-    \item Dritter Punkt
-\end{itemize}
+    \frametitle{Aufzählungen}
+    \begin{itemize}
+        \item Erster Punkt
+        \item Zweiter Punkt
+        \item Dritter Punkt
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Mathematische Ausdrücke}
-\begin{itemize}
-    \item Inline: \(E = mc^2\)
-    \item Displayed:
-    \[
-    \int_0^\infty e^{-x^2} \, dx = \frac{\sqrt{\pi}}{2}
-    \]
-\end{itemize}
+    \frametitle{Mathematische Ausdrücke}
+    \begin{itemize}
+        \item Inline: \(E = mc^2\)
+        \item Displayed:
+              \[
+                  \int_0^\infty e^{-x^2} \, dx = \frac{\sqrt{\pi}}{2}
+              \]
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Bilder einfügen}
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\textwidth]{sample}
-    \caption{Ein Beispielbild}
-\end{figure}
+    \frametitle{Bilder einfügen}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\textwidth]{sample}
+        \caption{Ein Beispielbild}
+    \end{figure}
 \end{frame}
 
 \section{Zusammenfassung}
 
 \begin{frame}
-\frametitle{Zusammenfassung}
-In dieser Präsentation haben wir die grundlegenden Elemente von LaTeX vorgestellt, darunter:
-\begin{itemize}
-    \item Textformatierung
-    \item Aufzählungen und Listen
-    \item Mathematische Ausdrücke
-    \item Bilder einfügen
-\end{itemize}
+    \frametitle{Zusammenfassung}
+    In dieser Präsentation haben wir die grundlegenden Elemente von LaTeX vorgestellt, darunter:
+    \begin{itemize}
+        \item Textformatierung
+        \item Aufzählungen und Listen
+        \item Mathematische Ausdrücke
+        \item Bilder einfügen
+    \end{itemize}
 \end{frame}
 
 \end{document}
