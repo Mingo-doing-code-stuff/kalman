@@ -1,0 +1,116 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{style}
+
+\title{Kalman Filter}
+\subtitle{Grundlagen}
+\author{P.Schön, C.Thein}
+\date{\today}
+
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Inhaltsverzeichnis}
+\tableofcontents
+\end{frame}
+
+\section{Einleitung}
+
+\begin{frame}
+\frametitle{Was ist das Kalman Filter?}
+Das Kalman Filter ist ein mathematisches Verfahren zur iterativen Schätzung von Parametern zur 
+Beschreibung von Systemzuständen. 
+
+Dabei wird wiederholt eine Vorhersage über einen Parameterwert 
+abgegeben, mit dem fehleranfälligen Messwert kombiniert, und erneut gnutzt um daraus eine Vorhersage 
+zu treffen.
+\end{frame}
+
+\section{Vereinfachte Erklärung}
+
+
+
+
+\begin{frame}
+    \frametitle{Ablauf des Kalman Filters}
+
+    \textbf{Vorhersage}
+
+    1. Denn nächten Zustand darstellen: \( \hat{x}_{k} = A\hat{x}_{k-1}+Bu_{k-1} \)
+
+    2. Die Fehlerkovarianz vorausberechnen: \( P_{k}=AP_{k-1}A^{T}+Q \)
+
+    \textbf{Korrektur}
+
+    3. Den Kalman Gain berechnen: \( K_{k}=P_{k}H^{T}(HP_{k}H^T+R)^{-1} \)
+
+    4. Die Schätzung mit \(z_k\) aktualisieren: \( \hat{x}_{k}=\hat{x}_{k}+K_{k}(z_{k}-H\hat{x}_{k}) \)
+
+    5. Die Fehlerkovarianz aktualisieren: \( P_{k}=(I-K_{k}H)P_{k} \)
+\end{frame}
+
+
+\section{EXAMPLES}
+
+\begin{frame}
+    \frametitle{Ablauf des Kalman Filters}
+    \begin{itemize}
+        \item \textbf{Fettgedruckt}
+        \item \textit{Kursiv}
+        \item \underline{Unterstrichen}
+        \item \texttt{Monospaced}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Aufzählungen}
+\begin{itemize}
+    \item Erster Punkt
+    \item Zweiter Punkt
+    \item Dritter Punkt
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Mathematische Ausdrücke}
+\begin{itemize}
+    \item Inline: \(E = mc^2\)
+    \item Displayed:
+    \[
+    \int_0^\infty e^{-x^2} \, dx = \frac{\sqrt{\pi}}{2}
+    \]
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Bilder einfügen}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{sample}
+    \caption{Ein Beispielbild}
+\end{figure}
+\end{frame}
+
+\section{Zusammenfassung}
+
+\begin{frame}
+\frametitle{Zusammenfassung}
+In dieser Präsentation haben wir die grundlegenden Elemente von LaTeX vorgestellt, darunter:
+\begin{itemize}
+    \item Textformatierung
+    \item Aufzählungen und Listen
+    \item Mathematische Ausdrücke
+    \item Bilder einfügen
+\end{itemize}
+\end{frame}
+
+\end{document}
+\include{style}

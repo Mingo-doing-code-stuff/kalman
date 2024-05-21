@@ -1,0 +1,95 @@
+\ProvidesPackage{beamerthemesss}
+\mode<presentation>
+\usepackage{xcolor}
+\usepackage{tikz}
+\RequirePackage{enumitem} 
+
+
+\definecolor{orange_100}{RGB}{255, 107, 0} 	% orange_100
+\definecolor{orange_80}{RGB}{255, 137, 51} 	% orange_80
+\definecolor{black_100}{RGB}{0, 0, 0} 		% black_100
+\definecolor{black_80}{RGB}{50, 50, 50} 		% black_80
+\definecolor{black_60}{RGB}{100, 100, 100} 	% black_60
+\definecolor{white}{RGB}{255, 255, 255} 		% white
+
+
+% Define a command to set the foreground color of lists
+\newcommand{\setlistcolor}[1]{
+    \setlist[enumerate]{label=\textcolor{#1}{\textbullet}}
+    \setlist[itemize]{label=\textcolor{#1}{\textbullet}}
+}
+\setlistcolor{orange_80}
+
+% Schriftarten einstellen
+\setbeamerfont{title}{size=\huge,series=\bfseries}
+\setbeamerfont{subtitle}{size=\small,series=\bfseries}
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamerfont{normal text}{size=\small}
+
+% Farben anwenden
+\setbeamercolor{title}{fg=orange_100}
+\setbeamercolor{subtitle}{fg=black_60}
+\setbeamercolor{frametitle}{fg=orange_100}
+\setbeamercolor{section in toc}{fg=black_80}
+\setbeamercolor{normal text}{fg=black_80}
+\renewcommand{\figurename}{\textcolor{orange_100}{Fig.}}
+
+% Layout anpassen
+\setbeamertemplate{navigation symbols}{}
+
+% Customize header and footer with dotted lines made of circles
+\setbeamertemplate{headline}{
+    \begin{tikzpicture}[remember picture,overlay]
+    	\ifnum\theframenumber=1
+        \node[anchor=north east, inner sep=0pt, yshift=-0.5mm, xshift=-2mm] at (current page.north east) {
+            \includegraphics[height=4.8mm]{logo.png}
+        };
+        \fi
+        \draw[thick, dash pattern=on 0pt off 2\pgflinewidth, line cap=round, color=orange_100]
+              ([yshift=-7.5mm]current page.north west) -- 
+              ([yshift=-7.5mm]current page.north east);
+    \end{tikzpicture}
+}
+
+\setbeamertemplate{footline}{
+    \begin{tikzpicture}[remember picture,overlay]
+        \ifnum\theframenumber>1
+        	\draw[thick, dash pattern=on 0pt off 2\pgflinewidth, line cap=round, color=orange_100] 
+              ([yshift=8mm]current page.south west) -- 
+              ([yshift=8mm]current page.south east);
+                      \node[anchor=east, inner sep=0pt, yshift=2.5mm, xshift=-5mm] at (current page.south east) {
+        					\color{black_60}
+        					\insertframenumber/
+        					\inserttotalframenumber
+        	};
+        	\node[anchor=west, inner sep=0pt, yshift=3.5mm, xshift=-2mm] at (current page.south west) {
+        		\includegraphics[height=7.8mm]{watermark.png}
+        	};
+        \fi
+        \ifnum\theframenumber=1
+        	\node[anchor=west, inner sep=0pt, yshift=6mm, xshift=-4mm] at (current page.south west) {
+        		\includegraphics[height=9.8mm]{watermark.png}
+        	};
+        \fi
+
+    \end{tikzpicture}
+}
+
+% Abschnittsüberschriften
+\setbeamercolor{section in head/foot}{bg=orange_100,fg=white}
+\setbeamerfont{section in head/foot}{series=\bfseries}
+\setbeamertemplate{section in head/foot shaded}{\color{orange_100!50}}
+
+\setbeamertemplate{frametitle}{
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[
+        	anchor=base west, 
+        	fill=white, 
+        	yshift=-3.9mm, 
+        	xshift=-2mm
+        ] {\bfseries\insertframetitle};
+    \end{tikzpicture}
+}
+
+
+\endinput
