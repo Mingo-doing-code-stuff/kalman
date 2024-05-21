@@ -10,16 +10,16 @@ import functools
 import matplotlib.pyplot as plt
 
 # Read the CSV file
-df = pd.read_csv('c_serial_port/data_flugzeug.csv', delimiter=';')
+df = pd.read_csv('c_serial_port/gyro.csv', delimiter=';')
 
 
 # Starting values
 mean0 = 0.0   # e.g. meters or miles
-var0 = 20.0
+var0 = 1
 
 # simulated physics prediction
 y_data = df.iloc[:, 0]
-meanMove_Array = [0.0] * 5
+meanMove_Array = [0.0] * 10
 meanMove = 0.0
 varMove = 0.1
 
@@ -47,7 +47,7 @@ var, mean = correct(new_var, new_mean, varSensor, meanSensor)
 distances = y_data
 positions = []
 correction = []
-
+predictions = []
 mean = mean0
 var = var0
 
@@ -57,15 +57,18 @@ for m in range(len(distances)):
     # Predict
     var, mean = predict(var, mean, varMove, distances[m])
 
+    predictions.append(mean)
+
     print('After prediction:\tmean= %.2f\tvar= %.2f' % (mean, var))
 
-    positions.append(y_data[0:m].sum())
-    meanMove_Array.insert(0, m)
+    # positions.append(y_data[0:m].sum())
+    positions.append(y_data[m])
+    meanMove_Array.insert(0, y_data[m])
     meanMove_Array.pop()
-    meanMove = functools.reduce(lambda a, b: a+b, meanMove_Array) / 5
+    meanMove = functools.reduce(lambda a, b: a+b, meanMove_Array) / 10
 
     # Correct
-    var, mean = correct(var, mean, varSensor, positions[m])
+    var, mean = correct(var, mean, varSensor, meanMove)
     correction.append(mean)
     print('After correction:\tmean= %.2f\tvar=  %.2f' % (mean, var))
     print('Actual value:\t\t\tposi= %.2f\n' % positions[m])
@@ -73,15 +76,12 @@ for m in range(len(distances)):
 
 print(correction)
 print(positions)
-
-count = []
-
-for i in range(len(correction)):
-    count.append(i+1)
+print(predictions)
 
 plt.figure(figsize=(10, 5))
 plt.plot(correction[0:200], label='Correction', marker='x')
-plt.plot(positions[1:201], label='Position', marker='.', linestyle='')
+plt.plot(positions[1:201], label='Sensor data', marker='.', linestyle='')
+plt.plot(predictions[0:200], label='Prediction')
 plt.legend(loc='best')
 plt.xlabel('Count')
 plt.show()
