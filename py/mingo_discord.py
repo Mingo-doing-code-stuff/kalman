@@ -42,10 +42,46 @@ import matplotlib.pyplot as plt
 #  |   P_k-1 | Wert der vorherigen Fehlerkovarianz                                                 |
 #  |       R | Varianz der Messergebnisse                                                          |
 #  | ------- | ----------------------------------------------------------------------------------- |
+#  |       Q | = 0, Rauschen durch Umwelteinflüsse, hier einmal vernachlässigt                      |
 #  |       A | = 1, da durch Ruhelage neue Geschwindigkeit gleich der alten                        |
 #  |       H | = 1, da Messwert immer aus Zustandswert und Rauschen besteht                        |
 #  | B*u_k-1 | = 0, da kein zuletzt eingegangenes Steuersignal                                     |
 #  * --------------------------------------------------------------------------------------------- *
+
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-
+# Auslagerung der Funktionen / Mathematik
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-
+
+def get_next_estimate(x_kprev,A =1, B = 0,uprev = 0):
+    x_k = A * x_k-1 + B * uprev
+    return 1
+
+def get_next_error_estimation( P_kprev, A = 1,AT = 1,Q = 0):
+    P_k = A * P_k-1 * AT + Q 
+    return P_k
+
+def receive_new_messurement(iteration):
+    return messurement_bias[iteration]
+
+def update_kalman_gain(P_k, R, HT, H):
+    # [3.] Den Kalman Gain berechnen
+    K_k = P_k * HT * ( 1 / (H * P_k * H^T + R) )
+    return K_k
+
+def update_estimate(x_k, K_k, z_k, H = 1):
+    # [4.] Die Schätzung mit der gemessenen Winkelgeschwindigkeit aktualisieren
+    x_k = x_k + K_k(z_k - H * x_k)
+    filter_collected_values_array[iteration] = x_k
+    return x_k
+
+def update_error_estimate(P_k, I, K_k, H = 1):
+    # [5.] Die Fehlerkovarianz aktualisieren
+    P_k = ( I - K_k * H) * P_k
+    return P_k
+
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-
+# Setup
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-
 
 df = pd.read_csv('c_serial_port/data_flugzeug.csv', delimiter=';')
 messurement_data_gyro_axis_x = df.iloc[:, 0]
@@ -63,9 +99,9 @@ varianz_der_messung = messurement_bias_varianz
 I = 1
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-
-# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-
 # Anwendung der Filteriterationen
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-
+
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-
 # -- Initiale Vorbelegung
 
