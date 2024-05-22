@@ -29,7 +29,23 @@ import matplotlib.pyplot as plt
 # 
 #   4. Erstelen eines Plotts
 # 
-#  
+#  > Bedeutung der Mathematischen Zeichen:
+# 
+#  * --------------------------------------------------------------------------------------------- *
+#  | Zeichen | Bedeutung                                                                           |
+#  | ------- | ----------------------------------------------------------------------------------- |
+#  |       k | Zeitintervall der Messwerte / Iteration                                             |
+#  |     z_k | gemessene Geschwindigkeit des Sensors                                               |
+#  |     x_k | Wert der aktuellen Schätzung                                                        |
+#  |   x_k-1 | Wert der vorherigen Schätzung                                                       |
+#  |     P_k | Wert der aktuelle Fehlerkovarianz                                                   |
+#  |   P_k-1 | Wert der vorherigen Fehlerkovarianz                                                 |
+#  |       R | Varianz der Messergebnisse                                                          |
+#  | ------- | ----------------------------------------------------------------------------------- |
+#  |       A | = 1, da durch Ruhelage neue Geschwindigkeit gleich der alten                        |
+#  |       H | = 1, da Messwert immer aus Zustandswert und Rauschen besteht                        |
+#  | B*u_k-1 | = 0, da kein zuletzt eingegangenes Steuersignal                                     |
+#  * --------------------------------------------------------------------------------------------- *
 
 df = pd.read_csv('c_serial_port/data_flugzeug.csv', delimiter=';')
 messurement_data_gyro_axis_x = df.iloc[:, 0]
@@ -87,27 +103,30 @@ for iteration in range(1, messurement_sample_size):
 
     # -- Vorhersage - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     
-    # [1.] Die Fehlerkovarianz vorrausberechnen
-    # xk = xk-1 
-    estimate_current_iteration = estimate_previous_iteration
-
-    # [2.] Den nächsten Zustand darstellen
-    # xk = xk-1
+    # [1.] Den nächsten Zustand darstellen
+    # x_k = x_k-1                                                      [x_k = A * x_k-1 + B * u_k-1]
     estimate_current_iteration = filter_collected_values_array[iteration - 1]
+
+    # [2.] Die Fehlerkovarianz vorrausberechnen
+    # P_k = P_k-1                                                       [P_k = A * P_k-1 * A^T + Q ]
+    error_covariance_current_iteration =  error_covariance_previous_iteration
 
     # -- Korrektur - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     messurement_current = messurement_bias[iteration]
 
     # [3.] Den Kalman Gain berechnen
+    # K_k = P_k * (P_k + R)^-1                            [K_k = P_k * H^T * (H * P_k * H^T + R)^-1]
     kalman_gain_current_iteration = error_covariance_current_iteration / (error_covariance_current_iteration + varianz_der_messung)
     kalman_collected_values_array[iteration] = kalman_gain_current_iteration
 
     # [4.] Die Schätzung mit der gemessenen Winkelgeschwindigkeit aktualisieren
+    # x_k + K_k * (z_k - x_k)                                       [x_k = x_k + K_k(z_k - H * x_k)]
     estimate_current_iteration = estimate_current_iteration + kalman_gain_current_iteration * (messurement_current - estimate_current_iteration)
     filter_collected_values_array[iteration] = estimate_current_iteration
 
     # [5.] Die Fehlerkovarianz aktualisieren
+    # P_k = (I - K_k) * P_k                                            [ P_k = ( I - K_k * H) * P_k]
     error_covariance_previous_iteration = (I - kalman_gain_current_iteration) * error_covariance_current_iteration
 
     # -- Next Iteration  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
