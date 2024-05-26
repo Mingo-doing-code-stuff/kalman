@@ -4,10 +4,10 @@ sigma = 15
 
 # State Transition
 A = np.array([
-    [1,0,0.2,0],
-    [0,1,0,0.2],
-    [0,0,1,0],
-    [0,0,0,1]
+    [1, 0, 0.2, 0],
+    [0, 1, 0, 0.2],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1]
 ])
 
 # Input Control Matrix is ignored
@@ -62,33 +62,33 @@ I = np.eye(4)
 c = np.zeros((4, 1))  # Assuming control vector is zero
 noisyX = 1.0
 noisyY = 2.0
-x = np.array(x).reshape(-1, 1)  
+x = np.array(x).reshape(-1, 1)
 
-for i in range(20):
-    
+for i in range(200):
+
     deltaX = noisyX - x[0, 0]
     deltaY = noisyY - x[1, 0]
     measurement = np.array([[noisyX], [noisyY], [deltaX], [deltaY]])
-        
+
     # PREDICTION step
     # x = (A * x) + (B * c)
     x = np.dot(A, x) + np.dot(B, c)
-    
+
     # P = (A * P * AT) + Q
     P = np.dot(np.dot(A, P), A.T) + Q
 
     # CORRECTION step
     # S = (H * P * HT) + R
     S = np.dot(np.dot(H, P), H.T) + R
-    
+
     # K = P * HT * S^-1
     K = np.dot(np.dot(P, H.T), np.linalg.inv(S))
-    
+
     # y = m - (H * x)
     y = measurement - np.dot(H, x)
 
     # x = x + (K * y)
     x = x + np.dot(K, y)
-    
+
     print(f"x: {x[0]}")
     print(f"y: {x[1]}")
