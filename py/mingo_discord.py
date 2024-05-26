@@ -83,8 +83,8 @@ def update_error_estimate(P_k, I, K_k, H = 1):
 # Setup
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-
 
-df = pd.read_csv('c_serial_port/data_flugzeug.csv', delimiter=';')
-messurement_data_gyro_axis_x = df.iloc[:, 0]
+df = pd.read_csv('c_serial_port/gyro.csv', delimiter=';')
+messurement_data_gyro_axis_x = df.iloc[0:40, 1]
 # Anzahl der Messwerte
 messurement_sample_size = len(messurement_data_gyro_axis_x)
 # Median der Messwerte
@@ -92,7 +92,7 @@ median_of_messurement_data = np.median(messurement_data_gyro_axis_x)
 # Temperaturbias (Drift) berechnen
 messurement_bias = messurement_data_gyro_axis_x - median_of_messurement_data
 # Varianz der Messergebnisse (für ein anschauliches Beispiel verwenden wir 0.1)
-messurement_bias_varianz = 0.58
+messurement_bias_varianz = 0.1
 # Varianz der Messergebnisse wird durch R dargestellt
 varianz_der_messung = messurement_bias_varianz
 # Einheitsmatrix, hier numerisch, deshalb = 1
