@@ -66,6 +66,7 @@
     \begin{figure}
         \centering
         \includegraphics[width=0.7\textwidth]{images/01_normal_distribution.png}
+        \caption{Start Postion at \(t_0\)}
     \end{figure}
 \end{frame}
 
@@ -73,7 +74,8 @@
     \frametitle{Kalman explained}
     \begin{figure}
         \centering
-        \includegraphics[width=0.7\textwidth]{images/02_normal_distribution_after_move.png}
+        \includegraphics[width=0.9\textwidth]{images/02_normal_distribution_after_move.png}
+        \caption{Calculated Postion at \(t_1\)}
     \end{figure}
 \end{frame}
 
@@ -81,28 +83,161 @@
     \frametitle{Kalman explained}
     \begin{figure}
         \centering
-        \includegraphics[width=0.7\textwidth]{images/03_first_prediction.png}
+        \includegraphics[width=0.9\textwidth]{images/03_first_prediction.png}
+        \caption{Predicted Postion at \(t_1\)}
     \end{figure}
 \end{frame}
-
 
 \begin{frame}
     \frametitle{Kalman explained}
     \begin{figure}
         \centering
-        \includegraphics[width=0.7\textwidth]{images/04_measurement.png}
+        \includegraphics[width=0.9\textwidth]{images/04_measurement.png}
+        \caption{Messured Sensor Data of Postion at \(t_1\)}
     \end{figure}
 \end{frame}
-
 
 \begin{frame}
     \frametitle{Kalman explained}
     \begin{figure}
         \centering
-        \includegraphics[width=0.7\textwidth]{images/05_correction.png}
+        \includegraphics[width=0.9\textwidth]{images/05_correction.png}
+        \caption{Correction of the Kalman Gain after Messurement at \(t_1\)}
     \end{figure}
 \end{frame}
 
+\begin{frame}
+    \frametitle{Takeaways}
+    \begin{itemize}
+        \item The precision sinks with the prediction
+        \item The precision grows with the correction
+    \end{itemize}
+    
+\end{frame}
+
+\section{Joystick example}
+
+\begin{frame}
+    \frametitle{State Representation}
+    % //TODO: Make x's differentiabable
+    We define the state vector \(x\) to include the position and velocity of the mouse in both x and y directions
+    \[
+        \left[ \begin{array}{r}
+            x  \\
+            y  \\
+            v_{x}  \\
+            v_{y} \\
+        \end{array}\right]    
+    \]
+    where:
+    \begin{itemize}
+        \item \(x\) is the position on the x-axis
+        \item \(y\) is the postion on the y-axis
+        \item \(v_{x}\) is the velocity in the x-direction
+        \item \(v_{y}\) is the velocity in the y-direction
+
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Formulate the Transtition Model}
+    The state transition model describes how the state evolves from one time step to the next. 
+    If we assume a constant velocity model, the state transition can be expressed as:
+    \[x_{k+1}=Ax_{k}+w_{k}\]
+    where \(w_{k}\) represents the proces noise, assumed to be Gaussian with zero mean and covariance \(Q\).
+\end{frame}
+
+\begin{frame}
+    \frametitle{Create the Transition Matrix}
+    % //TODO: Adjust Velocity to not be constant
+    The transition matrix A for a constant velocity Model is: 
+    \[
+        \left[ \begin{array}{rrrr}
+            1 & 0 & \Delta t & 0        \\
+            0 & 1 & 0        & \Delta t \\
+            1 & 0 & 1        & 0        \\
+            0 & 0 & 0        & 1        \\
+        \end{array}\right]    
+    \]
+    \(\Delta t\) is the time intervall between mesurements.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Observation Model}
+    The observation model realtes the state to the measurements:
+    \[z_{k}=Hx_{k}+v_{k}\]
+    where \(v_{k}\) represents the measurement noise, assumed to be Gaussian with zero mean and
+    covariance \(R\).
+
+    The observation matrix \(H\) for direct measurement of position is:
+    \[H = \left[
+        \begin{array}{rrrr}
+            1 & 0 & 0 & 0 \\
+            0 & 1 & 0 & 0 \\
+        \end{array}
+    \right]\]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Prediction Step}
+    The prediction step estimates the next state and its uncertainty:
+    \begin{itemize}
+        \item Predict the state:
+    \end{itemize}
+    \[x_{k+1}=Ax_{k}\]
+    \begin{itemize}
+        \item Predict the error coavriance:
+    \end{itemize}
+    \[P_{k+1}=AP_{k}A^{T}+Q\]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Correction Step}
+    The correction step updates the state estimate with the new measurement:
+    \begin{itemize}
+        \item Compute the Kalman gain:
+    \end{itemize}
+    \[K_{k} = P_{k}H^{T}(HP_{k}H^{T}+R)^{-1}\]
+    \begin{itemize}
+        \item Update the state estimate:
+    \end{itemize}
+    \[x_{k} = x_{k}+K_{k}(z_{k}-Hx_{k})\]
+    \begin{itemize}
+        \item Update the error covariance:
+    \end{itemize}
+    \[P_{k} = (I-K_{k}H)P_{k}\]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Kalman Filter}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.95\textwidth]{images/06_kalman_diagram.png}
+        \caption{Iterative Nature of the Kalman filter}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Cheat Sheet - Math Symbols}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|c|p{8cm}|}
+        \hline
+        \textbf{Zeichen} & \textbf{Bedeutung} \\ \hline
+        k          & Zeitintervall der Messwerte / Iteration \\ \hline
+        z\_k       & gemessene Geschwindigkeit des Sensors \\ \hline
+        x\_k       & Wert der aktuellen Schätzung \\ \hline
+        x\_{k-1}   & Wert der vorherigen Schätzung \\ \hline
+        P\_k       & Wert der aktuellen Fehlerkovarianz \\ \hline
+        P\_{k-1}   & Wert der vorherigen Fehlerkovarianz \\ \hline
+        R          & Varianz der Messergebnisse \\ \hline
+        Q          & Process noise covariance \\ \hline
+        A          & Transition Matrix \\ \hline
+        H          & Observation Matrix \\ \hline
+        B*u\_{k-1} & Control signal \\ \hline
+        \end{tabular}
+        \end{table}
+\end{frame}
 
 \section{EXAMPLES}
 
