@@ -15,31 +15,39 @@ canvas_width = 800
 canvas_height = 600
 route_padding = 40
 # State Transition
-A = np.array([[1, 0, 0.2, 0],
-                    [0, 1, 0, 0.2],
-                    [0, 0, 1, 0],
-                    [0, 0, 0, 1]])
+A = np.array([
+    [1, 0, 0.2, 0],
+    [0, 1, 0, 0.2],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1]
+])
 
 # Input Control Matrix is ignored
 B = np.eye(4)
 
 # Observation Matrix
-H = np.array([[1, 0, 1, 0],
-                    [0, 1, 0, 1],
-                    [0, 0, 0, 0],
-                    [0, 0, 0, 0]])
+H = np.array([
+    [1, 0, 1, 0],
+    [0, 1, 0, 1],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0]
+])
 
 # Process Noise
-Q = np.array([[0, 0, 0, 0],
-                    [0, 0, 0, 0],
-                    [0, 0, 0.1, 0],
-                    [0, 0, 0, 0.1]])
+Q = np.array([
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0.1, 0],
+    [0, 0, 0, 0.1]
+])
 
 # Measurement Noise
-R = np.array([[sigma, 0, 0, 0],
-                    [0, sigma, 0, 0],
-                    [0, 0, sigma, 0],
-                    [0, 0, 0, sigma]])
+R = np.array([
+    [sigma, 0, 0, 0],
+    [0, sigma, 0, 0],
+    [0, 0, sigma, 0],
+    [0, 0, 0, sigma]
+])
 
 x = np.zeros((4, 1))
 x_prev = np.zeros((4, 1))
@@ -53,7 +61,6 @@ c = np.zeros((4, 1))
 
 
 def calculate_kalman(noisy_x, noisy_y, prev_noisy_x, prev_noisy_y):
-    # Declare x, x_prev, P and P_prev as global variables
     global x, x_prev, P, P_prev 
     x[0, 0] = prev_noisy_x
     x[1, 0] = prev_noisy_y
@@ -81,7 +88,6 @@ def calculate_kalman(noisy_x, noisy_y, prev_noisy_x, prev_noisy_y):
 
 # Create the main window
 root = tk.Tk()
-
 root.title("Responsive Dot")
 root.geometry(f"{canvas_width}x{canvas_height}")
 root.title("Kalman Example in 2D - Visualisation")
@@ -89,6 +95,7 @@ root.title("Kalman Example in 2D - Visualisation")
 # Create a Canvas widget
 canvas = tk.Canvas(root, width=canvas_width, height=canvas_height, bg='#1F1F31')
 canvas.pack()
+
 
 # Draw the initial dot (circle)
 dot_radius = 2
@@ -135,7 +142,6 @@ for i in range(tail):
 
 rectangle = canvas.create_rectangle(
     40, 40, (canvas_width-route_padding), (canvas_height - route_padding), outline='#292940', width=1)
-
 canvas.tag_lower(rectangle)
 
 def check_position():
@@ -149,13 +155,10 @@ def check_position():
     else:
         dot_y = dot_y - step_size
 
-
 def add_noise():
     global dot_x, dot_y
-    noise = np.array([1,1]) + random.gauss(1, 15)
+    noise = np.random.randn(2) * random.gauss(1, 15)
     return [dot_x, dot_y] + noise
-
-
 
 def update_canvas(new_x, new_y):
 
