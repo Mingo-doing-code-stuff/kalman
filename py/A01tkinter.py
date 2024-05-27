@@ -134,17 +134,17 @@ for i in range(tail):
     kalman_lines.append(kalman_line_create(40, 40, 40, 40))
 
 rectangle = canvas.create_rectangle(
-    40, 40, 360, 360, outline='#292940', width=1)
+    40, 40, (canvas_width-route_padding), (canvas_height - route_padding), outline='#292940', width=1)
 
 canvas.tag_lower(rectangle)
 
 def check_position():
-    global dot_x, dot_y
-    if (dot_x < 360 and dot_y == 40):
+    global dot_x, dot_y, route_padding
+    if (dot_x < (canvas_width - route_padding) and dot_y == route_padding):
         dot_x = dot_x + step_size
-    elif (dot_x == 360 and dot_y < 360):
+    elif (dot_x == (canvas_width - route_padding) and dot_y < (canvas_height - route_padding)):
         dot_y = dot_y + step_size
-    elif (dot_x > 40 and dot_y == 360):
+    elif (dot_x > route_padding and dot_y == (canvas_height - route_padding)):
         dot_x = dot_x - step_size
     else:
         dot_y = dot_y - step_size
@@ -162,11 +162,6 @@ def update_canvas(new_x, new_y):
     global dot_x, dot_y
     dot_x = new_x
     dot_y = new_y
-
-    # DEBUG BEGIN
-    global render_iteration
-    render_iteration += 1 
-    # DEBUG END
 
     noise_x, noise_y = add_noise()
     prev_noise_temp = noise_dots[len(noise_dots)-1]
