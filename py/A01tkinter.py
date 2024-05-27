@@ -2,10 +2,10 @@ import tkinter as tk
 import random
 import numpy as np
 
-sigma = 10
+sigma = 5
 
 # measurement interval in ms
-measurement_interval = 200
+measurement_interval = 50
 
 delta_t = measurement_interval / 1000
 
@@ -131,7 +131,7 @@ dot_y = initial_y
 
 
 def oval_create(x, y):
-    return canvas.create_oval(x - dot_radius, y - dot_radius, x + dot_radius, y + dot_radius, fill='blue')
+    return canvas.create_oval(x - dot_radius, y - dot_radius, x + dot_radius, y + dot_radius)
 
 
 def noise_oval_create(x, y):
@@ -173,13 +173,13 @@ print(last_dots)
 def check_position():
     global dot_x, dot_y
     if (dot_x < 360 and dot_y == 40):
-        dot_x = dot_x + dot_radius * 4
+        dot_x = dot_x + dot_radius
     elif (dot_x == 360 and dot_y < 360):
-        dot_y = dot_y + dot_radius * 4
+        dot_y = dot_y + dot_radius
     elif (dot_x > 40 and dot_y == 360):
-        dot_x = dot_x - dot_radius * 4
+        dot_x = dot_x - dot_radius
     else:
-        dot_y = dot_y - dot_radius * 4
+        dot_y = dot_y - dot_radius
 
 
 def add_noise():
@@ -218,7 +218,7 @@ def move_dot(new_x, new_y):
 
     canvas.coords(oval_temp, dot_x - dot_radius, dot_y - dot_radius,
                   dot_x + dot_radius, dot_y + dot_radius)
-    canvas.itemconfig(oval_temp, fill='blue')
+    canvas.itemconfig(oval_temp, fill='', outline='')
 
     canvas.coords(line_temp, prev_line[2], prev_line[3], noise_x, noise_y)
 
