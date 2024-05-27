@@ -59,18 +59,9 @@ P = np.array([
     [0, 0, 0, 1]
 ])
 
-A = np.array(A)
-B = np.array(B)
-H = np.array(H)
-Q = np.array(Q)
-R = np.array(R)
-x = np.array(x)
-P = np.array(P)
 I = np.eye(4)
 c = np.zeros((4, 1))  # Assuming control vector is zero
-print(x)
 x = np.array(x).reshape(-1, 1)
-print(x)
 
 
 def calculate_kalman(noisy_x, noisy_y, prev_noisy_x, prev_noisy_y):
@@ -84,7 +75,6 @@ def calculate_kalman(noisy_x, noisy_y, prev_noisy_x, prev_noisy_y):
 
     # PREDICTION step
     # [x_k = A * x_k-1 + B * u_k-1]
-    print(f"x1: {x}")
     x = np.dot(A, x)
     print(f"[pred] current x:\n{x}\n")
     # [P_k = A * P_k-1 * A^T + Q ]
@@ -191,7 +181,6 @@ def check_position():
 def add_noise():
     global dot_x, dot_y
     noise = np.random.randn(2) * noise_factor
-    print(f"noise: {noise}")
     return [dot_x, dot_y] + noise
 
 
