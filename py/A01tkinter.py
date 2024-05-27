@@ -3,8 +3,8 @@ import random
 import numpy as np
 
 # -- KALMAN PREFERENCES
-measurement_interval = 20
-sigma = 15
+
+sigma = 15 # //TODO: Fix the adjustability of sigma
 draw_phase = 0
 real_point = None
 
@@ -15,11 +15,16 @@ step_size = 10
 canvas_width = w_steps * step_size
 canvas_height = h_steps * step_size
 route_padding = 60
-dot_radius = 2
+line_width = '2'
+dot_size = 1
+dot_radius = max(int(line_width), dot_size)
 
+fps = 60
 tail = 20
 
+
 # -- SETUP
+measurement_interval = int(1000/fps)
 dot_x = route_padding
 dot_y = route_padding
 
@@ -97,47 +102,50 @@ def calculate_kalman(noisy_x, noisy_y, prev_noisy_x, prev_noisy_y):
 
 # Create the main window
 root = tk.Tk()
-root.title("Responsive Dot")
 root.geometry(f"{canvas_width}x{canvas_height}")
 root.title("Kalman Example in 2D - Visualisation")
 
 # Create a Canvas widget
-canvas = tk.Canvas(root, width=canvas_width,
-                   height=canvas_height, bg='#1F1F31')
+canvas = tk.Canvas(root, width=canvas_width, height=canvas_height, bg='#1F1F31')
 canvas.pack()
 
 
-def oval_create(x, y):
+def exact_oval_create(x, y):
     return canvas.create_oval(x - dot_radius, y - dot_radius, x + dot_radius, y + dot_radius, fill='blue', outline='')
 
-
 def noise_oval_create(x, y):
-    return canvas.create_oval(x - dot_radius, y - dot_radius, x + dot_radius, y + dot_radius, fill='lightgreen', outline='')
+    return canvas.create_oval(x - dot_radius, y - dot_radius, x + dot_radius, y + dot_radius, fill='green', outline='')
 
+def kalman_oval_create(x, y):
+    return canvas.create_oval(x - dot_radius, y - dot_radius, x + dot_radius, y + dot_radius, fill='red', outline='')
 
 def noise_line_create(x, y, prev_x, prev_y):
-    return canvas.create_line(x, y, prev_x, prev_y, fill='lightgreen', width='2')
+    return canvas.create_line(x, y, prev_x, prev_y, fill='green', width=line_width)
 
 
 def kalman_line_create(x, y, prev_x, prev_y):
-    return canvas.create_line(x, y, prev_x, prev_y, fill='red', width='2')
+    return canvas.create_line(x, y, prev_x, prev_y, fill='red', width=line_width)
 
 
-last_dots = []
+exact_dots = []
 for i in range(tail):
-    last_dots.append(oval_create(40, 40))
+    exact_dots.append(exact_oval_create(route_padding, route_padding))
 
 noise_dots = []
 for i in range(tail):
-    noise_dots.append(noise_oval_create(40, 40))
+    noise_dots.append(noise_oval_create(route_padding, route_padding))
 
 noise_lines = []
 for i in range(tail):
-    noise_lines.append(noise_line_create(40, 40, 40, 40))
+    noise_lines.append(noise_line_create(route_padding, route_padding, route_padding, route_padding))
+
+kalman_dots = []
+for i in range(tail):
+    kalman_dots.append(kalman_oval_create(route_padding, route_padding))
 
 kalman_lines = []
 for i in range(tail):
-    kalman_lines.append(kalman_line_create(40, 40, 40, 40))
+    kalman_lines.append(kalman_line_create(route_padding, route_padding, route_padding, route_padding))
 
 rectangle = canvas.create_rectangle(
     route_padding, route_padding, (canvas_width-route_padding), (canvas_height - route_padding), outline='#292940', width=1)
@@ -159,12 +167,10 @@ def check_position():
         #BL
         dot_y = dot_y - step_size
 
-
 def add_noise():
     global dot_x, dot_y
     noise = np.random.randn(2) * random.gauss(1, 15)
     return [dot_x, dot_y] + noise
-
 
 def update_canvas(new_x, new_y):
 
@@ -187,27 +193,35 @@ def update_canvas(new_x, new_y):
     print(f"kalman x:\t{kalman_x},\nkalman y:\t{kalman_y}\n")
 
     # POP ELEMENTS
-    oval_temp = last_dots.pop(0)
-    noise_temp = noise_dots.pop(0)
-    line_temp = noise_lines.pop(0)
-    kalman_temp = kalman_lines.pop(0)
+    exact_oval_temp = exact_dots.pop(0)
+    noise_dots_temp = noise_dots.pop(0)
+    noise_line_temp = noise_lines.pop(0)
+    kalman_dot_temp =kalman_dots.pop(0)
+    kalman_lines_temp = kalman_lines.pop(0)
 
-    prev_line = canvas.coords(noise_lines[len(noise_lines)-1])
-    prev_kalman = canvas.coords(kalman_lines[len(kalman_lines)-1])
+    prev_noise_line = canvas.coords(noise_lines[len(noise_lines)-1])
+    prev_kalman_line = canvas.coords(kalman_lines[len(kalman_lines)-1])
 
-    canvas.coords(noise_temp, noise_x - dot_radius, noise_y -
-                  dot_radius, noise_x + dot_radius, noise_y + dot_radius)
-    canvas.coords(oval_temp, dot_x - dot_radius, dot_y -
+    canvas.coords(exact_oval_temp, dot_x - dot_radius, dot_y -
                   dot_radius, dot_x + dot_radius, dot_y + dot_radius)
-    canvas.coords(line_temp, prev_line[2], prev_line[3], noise_x, noise_y)
-    canvas.coords(kalman_temp, prev_kalman[2],
-                  prev_kalman[3], kalman_x, kalman_y)
+    
+    canvas.coords(noise_dots_temp, noise_x - dot_radius, noise_y -
+                  dot_radius, noise_x + dot_radius, noise_y + dot_radius)
+    
+    canvas.coords(noise_line_temp, prev_noise_line[2], prev_noise_line[3], noise_x, noise_y)
+
+    canvas.coords(kalman_dot_temp, kalman_x - dot_radius, kalman_y -
+                  dot_radius, kalman_x + dot_radius, kalman_y + dot_radius)
+    
+    canvas.coords(kalman_lines_temp, prev_kalman_line[2],
+                  prev_kalman_line[3], kalman_x, kalman_y)
 
     # PUSH ELEMENTS
-    last_dots.insert(len(last_dots), oval_temp)
-    noise_dots.insert(len(noise_dots), noise_temp)
-    noise_lines.insert(len(noise_lines), line_temp)
-    kalman_lines.insert(len(kalman_lines), kalman_temp)
+    exact_dots.insert(len(exact_dots), exact_oval_temp)
+    noise_dots.insert(len(noise_dots), noise_dots_temp)
+    noise_lines.insert(len(noise_lines), noise_line_temp)
+    kalman_dots.insert(len(kalman_dots), kalman_dot_temp)
+    kalman_lines.insert(len(kalman_lines), kalman_lines_temp)
 
     check_position()
     root.after(measurement_interval, update_canvas, dot_x, dot_y)
