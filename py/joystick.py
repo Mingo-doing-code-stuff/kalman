@@ -2,31 +2,6 @@ import serial
 import tkinter as tk
 import random
 
-# Function to update joystick position
-
-mean0 = 0.0   # e.g. meters or miles
-var0  = 20.0
-
-meanMove = 25.0  # e.g. meters, calculated from velocity*dt or step counter or wheel encoder ...
-varMove  = 10.0   # Estimated or determined with static measurements
-
-def predict(var, mean, varMove, meanMove):
-    new_var = var + varMove
-    new_mean= mean + meanMove
-    return new_var, new_mean
-
-new_var, new_mean = predict(var0, mean0, varMove, meanMove)
-
-meanSensor = 25.0
-varSensor  = 12.0
-
-def correct(var, mean, varSensor, meanSensor):
-    new_mean=(varSensor*mean + var*meanSensor) / (var+varSensor)
-    new_var = 1/(1/var +1/varSensor)
-    return new_var, new_mean
-
-var = 0 
-mean = 0
 
 def update_position():
     data = ser.readline().decode().strip().split(',')
@@ -38,14 +13,6 @@ def update_position():
         y_mapped = int((y_pos / 1023) * canvas_height)  # Invert the Y-axis
         canvas.coords(joystick_indicator, x_mapped - indicator_radius, y_mapped - indicator_radius,
                       x_mapped + indicator_radius, y_mapped + indicator_radius)
-        
-        new_var, new_mean = predict(var, mean, varMove, meanMove) 
-
-        var, mean = correct(new_var, new_mean, varSensor, x_mapped)
-        x_kalman = mean
-        _, y_kalman = y_mapped -10
-        canvas.coords(joystick_indicator_kalman, x_kalman - indicator_radius, y_kalman - indicator_radius,
-                      x_kalman + indicator_radius, y_kalman + indicator_radius)
 
         # Change color randomly when joystick is pressed
         if is_pressed == 0:
@@ -59,7 +26,7 @@ def update_position():
 
 # Serial port configuration
 # Replace 'COM4' with your Arduino's serial port
-ser = serial.Serial('/dev/tty.usbmodem101', 9600)
+ser = serial.Serial('COM4', 9600)
 
 # Create GUI
 root = tk.Tk()
@@ -75,9 +42,9 @@ canvas.pack()
 
 # Draw coordinate axes
 canvas.create_line(0, canvas_height//2, canvas_width,
-                   canvas_height//2, width=8)  # X-axis
+                   canvas_height//2, width=1)  # X-axis
 canvas.create_line(canvas_width//2, 0, canvas_width//2,
-                   canvas_height, width=8)    # Y-axis
+                   canvas_height, width=1)    # Y-axis
 
 # Draw gridlines
 for i in range(1, 11):
@@ -94,9 +61,6 @@ joystick_indicator = canvas.create_oval(canvas_width//2 - indicator_radius, canv
                                         canvas_width//2 + indicator_radius, canvas_height//2 + indicator_radius,
                                         fill="red")
 
-joystick_indicator_kalman = canvas.create_oval(canvas_width//2 - indicator_radius, canvas_height//2 - indicator_radius,
-                                        canvas_width//2 + indicator_radius, canvas_height//2 + indicator_radius,
-                                        fill="blue")
 # Colors for random selection
 colors = ["red", "green", "blue", "yellow", "orange", "purple"]
 
