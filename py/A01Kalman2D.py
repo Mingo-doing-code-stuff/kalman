@@ -62,9 +62,11 @@ I = np.eye(4)
 c = np.zeros((4, 1))  # Assuming control vector is zero
 noisyX = 1.0
 noisyY = 2.0
+print(x)
 x = np.array(x).reshape(-1, 1)
+print(x)
 
-for i in range(200):
+for i in range(5):
 
     deltaX = noisyX - x[0, 0]
     deltaY = noisyY - x[1, 0]
@@ -92,3 +94,31 @@ for i in range(200):
 
     print(f"x: {x[0]}")
     print(f"y: {x[1]}")
+
+    def calculate_kalman(noisy_x, noisy_y, real_x, real_y):
+        x[0, 0] = real_x
+        x[1, 0] = real_y
+        deltaX = noisy_x - x[0, 0]
+        deltaY = noisy_y - x[1, 0]
+        measurement = np.array([[noisyX], [noisyY], [deltaX], [deltaY]])
+
+        # PREDICTION step
+        # x = (A * x) + (B * c)
+        x = np.dot(A, x) + np.dot(B, c)
+
+        # P = (A * P * AT) + Q
+        P = np.dot(np.dot(A, P), A.T) + Q
+
+        # CORRECTION step
+        # S = (H * P * HT) + R
+        S = np.dot(np.dot(H, P), H.T) + R
+
+        # K = P * HT * S^-1
+        K = np.dot(np.dot(P, H.T), np.linalg.inv(S))
+
+        # y = m - (H * x)
+        y = measurement - np.dot(H, x)
+
+        # x = x + (K * y)
+        x = x + np.dot(K, y)
+        return x[0], x[1]
