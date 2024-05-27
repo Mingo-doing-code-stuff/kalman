@@ -9,13 +9,13 @@ draw_phase = 0
 real_point = None
 
 # -- GUI CONFIGURATION
-canvas_width = 800
-canvas_height = int(0.75 * canvas_width)
-route_padding = 40
-
+w_steps = 80
+h_steps = 60
+step_size = 10
+canvas_width = w_steps * step_size
+canvas_height = h_steps * step_size
+route_padding = 60
 dot_radius = 2
-# // TODO: FInd good Math equation for constant step size 
-step_size = 120 
 
 tail = 20
 
@@ -134,19 +134,23 @@ for i in range(tail):
     kalman_lines.append(kalman_line_create(40, 40, 40, 40))
 
 rectangle = canvas.create_rectangle(
-    40, 40, (canvas_width-route_padding), (canvas_height - route_padding), outline='#292940', width=1)
+    route_padding, route_padding, (canvas_width-route_padding), (canvas_height - route_padding), outline='#292940', width=1)
 canvas.tag_lower(rectangle)
 
 def check_position():
     global dot_x, dot_y, route_padding
     if (dot_x < (canvas_width - route_padding) and dot_y == route_padding):
-        dot_x = dot_x + (canvas_width - 2 * route_padding) / step_size
-    elif (dot_x == (canvas_width - route_padding) and dot_y < (canvas_height - route_padding)):
-        dot_y = dot_y + (canvas_height - 2 * route_padding) / step_size
-    elif (dot_x > route_padding and dot_y == (canvas_height - route_padding)):
-        dot_x = dot_x - (canvas_width - 2 * route_padding) / step_size
+        # TR
+        dot_x = dot_x + step_size
+    elif (dot_x == (canvas_width - route_padding) and dot_y <= (canvas_height - route_padding)):
+        # TL
+        dot_y = dot_y + step_size
+    elif (dot_x > route_padding and dot_y >= (canvas_height - route_padding)):
+        # BR
+        dot_x = dot_x - step_size
     else:
-        dot_y = dot_y - (canvas_height - 2 * route_padding) / step_size
+        #BL
+        dot_y = dot_y - step_size
 
 def add_noise():
     global dot_x, dot_y
