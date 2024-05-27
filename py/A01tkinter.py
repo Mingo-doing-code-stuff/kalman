@@ -82,25 +82,28 @@ def calculate_kalman(noisy_x, noisy_y, prev_noisy_x, prev_noisy_y):
     measurement = np.array([[noisy_x], [noisy_y], [deltaX], [deltaY]])
 
     # PREDICTION step
-    # x = (A * x) + (B * c)
-    x = np.dot(A, x) + np.dot(B, c)
-
-    # P = (A * P * AT) + Q
+    # [x_k = A * x_k-1 + B * u_k-1]
+    x = np.dot(A, x)
+    # [P_k = A * P_k-1 * A^T + Q ]
     P = np.dot(np.dot(A, P), A.T) + Q
 
     # CORRECTION step
-    # S = (H * P * HT) + R
+
     S = np.dot(np.dot(H, P), H.T) + R
 
-    # K = P * HT * S^-1
-    K = np.dot(np.dot(P, H.T), np.linalg.inv(S))
-
-    # y = m - (H * x)
     y = measurement - np.dot(H, x)
 
-    # x = x + (K * y)
+    # [K_k = P_k * H^T * (H * P_k * H^T + R)^-1]
+    K = np.dot(np.dot(P, H.T), np.linalg.inv(S))
+
+    # x_k = x_k + K_k(z_k - H * x_k)]
     x = x + np.dot(K, y)
+
+    # [ P_k = ( I - K_k * H) * P_k]
+    P = (I - np.dot(K, H)) @ P 
+
     return x[0, 0], x[1, 0]
+
 
 
 # Create the main window
