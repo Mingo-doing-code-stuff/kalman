@@ -2,17 +2,18 @@ import tkinter as tk
 import random
 import numpy as np
 
-sigma = 5
+sigma = 2
+variance = sigma ** 2
 
 # measurement interval in ms
-measurement_interval = 50
+measurement_interval = 100
 
 delta_t = measurement_interval / 1000
 
 # State Transition
 A = np.array([
-    [1, 0, delta_t, 0],
-    [0, 1, 0, delta_t],
+    [1, 0, 10, 0],
+    [0, 1, 0, 10],
     [0, 0, 1, 0],
     [0, 0, 0, 1]
 ])
@@ -37,25 +38,25 @@ H = np.array([
 Q = np.array([
     [0, 0, 0, 0],
     [0, 0, 0, 0],
-    [0, 0, 0.1, 0],
-    [0, 0, 0, 0.1]
+    [0, 0, 0.01, 0],
+    [0, 0, 0, 0.01]
 ])
 
 # Measurement Noise
 R = np.array([
-    [sigma, 0, 0, 0],
-    [0, sigma, 0, 0],
-    [0, 0, sigma, 0],
-    [0, 0, 0, sigma]
+    [variance, 0, 0, 0],
+    [0, variance, 0, 0],
+    [0, 0, variance, 0],
+    [0, 0, 0, variance]
 ])
 
 x = np.array([0, 0, 0, 0])
 
 P = np.array([
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0]
+    [1, 0, 0, 0],
+    [0, 1, 0, 0],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1]
 ])
 
 A = np.array(A)
@@ -83,27 +84,33 @@ def calculate_kalman(noisy_x, noisy_y, prev_noisy_x, prev_noisy_y):
 
     # PREDICTION step
     # [x_k = A * x_k-1 + B * u_k-1]
+    print(f"x1: {x}")
     x = np.dot(A, x)
+    print(f"x2: {x}")
+
     # [P_k = A * P_k-1 * A^T + Q ]
     P = np.dot(np.dot(A, P), A.T) + Q
 
     # CORRECTION step
 
-    S = np.dot(np.dot(H, P), H.T) + R
+    S = np.dot(H, np.dot(P, H.T)) + R
 
     y = measurement - np.dot(H, x)
 
     # [K_k = P_k * H^T * (H * P_k * H^T + R)^-1]
     K = np.dot(np.dot(P, H.T), np.linalg.inv(S))
 
+    print(f"kalman-gain: \n{K}")
+
     # x_k = x_k + K_k(z_k - H * x_k)]
     x = x + np.dot(K, y)
 
     # [ P_k = ( I - K_k * H) * P_k]
-    P = (I - np.dot(K, H)) @ P 
+    P = np.dot((I - np.dot(K, H)), P)
+
+    print(f"P:\n{P}")
 
     return x[0, 0], x[1, 0]
-
 
 
 # Create the main window
@@ -124,7 +131,7 @@ noise_dot_radius = 0
 initial_x = 40
 initial_y = 40
 tail = 20
-noise_factor = 5
+noise_factor = 4
 # Initial position
 dot_x = initial_x
 dot_y = initial_y
@@ -173,18 +180,20 @@ print(last_dots)
 def check_position():
     global dot_x, dot_y
     if (dot_x < 360 and dot_y == 40):
-        dot_x = dot_x + dot_radius
+        dot_x = dot_x + dot_radius * 4
     elif (dot_x == 360 and dot_y < 360):
-        dot_y = dot_y + dot_radius
+        dot_y = dot_y + dot_radius * 4
     elif (dot_x > 40 and dot_y == 360):
-        dot_x = dot_x - dot_radius
+        dot_x = dot_x - dot_radius * 4
     else:
-        dot_y = dot_y - dot_radius
+        dot_y = dot_y - dot_radius * 4
 
 
 def add_noise():
     global dot_x, dot_y
-    return [dot_x, dot_y] + np.random.randn(2) * noise_factor
+    noise = np.random.randn(2) * noise_factor
+    print(f"noise: {noise}")
+    return [dot_x, dot_y] + noise
 
 
 def move_dot(new_x, new_y):
@@ -203,6 +212,7 @@ def move_dot(new_x, new_y):
     kalman_x, kalman_y = calculate_kalman(
         noise_x, noise_y, prev_noise_x, prev_noise_y)
 
+    print(prev_noise_x, prev_noise_y)
     print(kalman_x, kalman_y)
 
     oval_temp = last_dots.pop(0)
