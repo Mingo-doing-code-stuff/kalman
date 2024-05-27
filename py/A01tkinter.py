@@ -2,70 +2,58 @@ import tkinter as tk
 import random
 import numpy as np
 
-sigma = 2
-variance = sigma ** 2
-
 # measurement interval in ms
 measurement_interval = 20
 
-delta_t = 1 #measurement_interval / 1000
+delta_t = 0 #1 #measurement_interval / 1000
+
+width = 350
+height = 350
+sigma = 15
+draw_phase = 0
+real_point = None
+states = []
 
 # State Transition
-A = np.array([
-    [1, 0, delta_t, 0],
-    [0, 1, 0, delta_t],
-    [0, 0, 4, 0],
-    [0, 0, 0, 4]
-])
+A = np.array([[1, 0, 0.2, 0],
+                    [0, 1, 0, 0.2],
+                    [0, 0, 1, 0],
+                    [0, 0, 0, 1]])
 
 # Input Control Matrix is ignored
-B = np.array([
-    [1, 0, 0, 0],
-    [0, 1, 0, 0],
-    [0, 0, 1, 0],
-    [0, 0, 0, 1]
-])
+B = np.eye(4)
 
 # Observation Matrix
-H = np.array([
-    [1, 0, 1, 0],
-    [0, 1, 0, 1],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0]
-])
+H = np.array([[1, 0, 1, 0],
+                    [0, 1, 0, 1],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0]])
 
 # Process Noise
-Q = np.array([
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0.01, 0],
-    [0, 0, 0, 0.01]
-])
+Q = np.array([[0, 0, 0, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0.1, 0],
+                    [0, 0, 0, 0.1]])
 
 # Measurement Noise
-R = np.array([
-    [variance, 0, 0, 0],
-    [0, variance, 0, 0],
-    [0, 0, variance, 0],
-    [0, 0, 0, variance]
-])
+R = np.array([[sigma, 0, 0, 0],
+                    [0, sigma, 0, 0],
+                    [0, 0, sigma, 0],
+                    [0, 0, 0, sigma]])
 
-x = np.array([0, 0, 0, 0])
+x = np.zeros((4, 1))
+x_prev = np.zeros((4, 1))
 
-P = np.array([
-    [1, 0, 0, 0],
-    [0, 1, 0, 0],
-    [0, 0, 1, 0],
-    [0, 0, 0, 1]
-])
+P = np.zeros((4, 4))
+P_prev = np.zeros((4, 4))
 
 I = np.eye(4)
-c = np.zeros((4, 1))  # Assuming control vector is zero
-x = np.array(x).reshape(-1, 1)
+
+c = np.zeros((4, 1))
 
 
 def calculate_kalman(noisy_x, noisy_y, prev_noisy_x, prev_noisy_y):
-    global x, P  # Declare x and P as global variables
+    global x, x_prev, P, P_prev  # Declare x and P as global variables
     x[0, 0] = prev_noisy_x
     x[1, 0] = prev_noisy_y
     deltaX = noisy_x - x[0, 0]
@@ -75,28 +63,27 @@ def calculate_kalman(noisy_x, noisy_y, prev_noisy_x, prev_noisy_y):
 
     # PREDICTION step
     # [x_k = A * x_k-1 + B * u_k-1]
-    x = np.dot(A, x)
+    x = np.dot(A, x_prev) + np.dot(B, c)
     print(f"[pred] current x:\n{x}\n")
     # [P_k = A * P_k-1 * A^T + Q ]
-    P = np.dot(np.dot(A, P), A.T) + Q
+    P = np.dot(np.dot(A, P_prev), A.T) + Q
     print(f"[pred] current P:\n{P}\n")
 
     # CORRECTION step
 
-    S = np.dot(H, np.dot(P, H.T)) + R
-
-    y = measurement - np.dot(H, x)
+    measurement = measurement - np.dot(H, x)
 
     # [K_k = P_k * H^T * (H * P_k * H^T + R)^-1]
+    S = np.dot(np.dot(H, P), H.T) + R
     K = np.dot(np.dot(P, H.T), np.linalg.inv(S))
     print(f"[corr] current K:\n{K}\n")
 
     # x_k = x_k + K_k(z_k - H * x_k)]
-    x = x + np.dot(K, y)
+    x_prev = x + np.dot(K, measurement)
     print(f"[corr] current x:\n{x}\n")
 
     # [ P_k = ( I - K_k * H) * P_k]
-    P = (I - np.dot(K, H)) @ P 
+    P_prev = np.dot(np.eye(4) - np.dot(K, H), P)
     print(f"[corr] current P:\n{P}\n ")
 
     return x[0, 0], x[1, 0]
@@ -180,8 +167,9 @@ def check_position():
 
 def add_noise():
     global dot_x, dot_y
-    noise = np.random.randn(2) * noise_factor
+    noise = np.array([1,1]) + random.gauss(1, 15)
     return [dot_x, dot_y] + noise
+
 
 
 def update_canvas(new_x, new_y):
@@ -216,17 +204,13 @@ def update_canvas(new_x, new_y):
     line_temp = noise_lines.pop(0)
     kalman_temp = kalman_lines.pop(0)
 
-    prev_line = canvas.coords(noise_lines[len(noise_lines)-1])
+    prev_line   = canvas.coords( noise_lines[len(noise_lines )-1])
     prev_kalman = canvas.coords(kalman_lines[len(kalman_lines)-1])
 
-    canvas.coords(noise_temp, noise_x - noise_dot_radius, noise_y -
-                  noise_dot_radius, noise_x + noise_dot_radius, noise_y + noise_dot_radius)
-    canvas.coords(oval_temp, dot_x - dot_radius, dot_y - dot_radius,
-                  dot_x + dot_radius, dot_y + dot_radius)
-    canvas.itemconfig(oval_temp, fill='lightblue', outline='')
+    canvas.coords(noise_temp, noise_x - noise_dot_radius, noise_y - noise_dot_radius, noise_x + noise_dot_radius, noise_y + noise_dot_radius)
+    canvas.coords(oval_temp, dot_x - dot_radius, dot_y - dot_radius, dot_x + dot_radius, dot_y + dot_radius)
     canvas.coords(line_temp, prev_line[2], prev_line[3], noise_x, noise_y)
-    canvas.coords(kalman_temp, prev_kalman[2],
-                  prev_kalman[3], kalman_x, kalman_y)
+    canvas.coords(kalman_temp, prev_kalman[2], prev_kalman[3], kalman_x, kalman_y)
 
     # PUSH ELEMENTS
     last_dots.insert(len(last_dots), oval_temp)
