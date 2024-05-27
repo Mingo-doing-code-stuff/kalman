@@ -7,13 +7,13 @@ measurement_interval = 20
 
 delta_t = 0 #1 #measurement_interval / 1000
 
-width = 350
-height = 350
 sigma = 15
 draw_phase = 0
 real_point = None
 states = []
-
+canvas_width = 800
+canvas_height = 600
+route_padding = 40
 # State Transition
 A = np.array([[1, 0, 0.2, 0],
                     [0, 1, 0, 0.2],
@@ -53,50 +53,38 @@ c = np.zeros((4, 1))
 
 
 def calculate_kalman(noisy_x, noisy_y, prev_noisy_x, prev_noisy_y):
-    global x, x_prev, P, P_prev  # Declare x and P as global variables
+    # Declare x, x_prev, P and P_prev as global variables
+    global x, x_prev, P, P_prev 
     x[0, 0] = prev_noisy_x
     x[1, 0] = prev_noisy_y
     deltaX = noisy_x - x[0, 0]
     deltaY = noisy_y - x[1, 0]
-
     measurement = np.array([[noisy_x], [noisy_y], [deltaX], [deltaY]])
 
     # PREDICTION step
     # [x_k = A * x_k-1 + B * u_k-1]
     x = np.dot(A, x_prev) + np.dot(B, c)
-    print(f"[pred] current x:\n{x}\n")
     # [P_k = A * P_k-1 * A^T + Q ]
     P = np.dot(np.dot(A, P_prev), A.T) + Q
-    print(f"[pred] current P:\n{P}\n")
 
     # CORRECTION step
-
     measurement = measurement - np.dot(H, x)
-
     # [K_k = P_k * H^T * (H * P_k * H^T + R)^-1]
     S = np.dot(np.dot(H, P), H.T) + R
     K = np.dot(np.dot(P, H.T), np.linalg.inv(S))
-    print(f"[corr] current K:\n{K}\n")
-
     # x_k = x_k + K_k(z_k - H * x_k)]
     x_prev = x + np.dot(K, measurement)
-    print(f"[corr] current x:\n{x}\n")
-
     # [ P_k = ( I - K_k * H) * P_k]
     P_prev = np.dot(np.eye(4) - np.dot(K, H), P)
-    print(f"[corr] current P:\n{P}\n ")
 
     return x[0, 0], x[1, 0]
 
-
-render_iteration = 0
 # Create the main window
 root = tk.Tk()
-root.title("Responsive Dot")
-root.geometry("400x400")
 
-canvas_width = 400
-canvas_height = 400
+root.title("Responsive Dot")
+root.geometry(f"{canvas_width}x{canvas_height}")
+root.title("Kalman Example in 2D - Visualisation")
 
 # Create a Canvas widget
 canvas = tk.Canvas(root, width=canvas_width, height=canvas_height, bg='#1F1F31')
@@ -146,12 +134,9 @@ for i in range(tail):
     kalman_lines.append(kalman_line_create(40, 40, 40, 40))
 
 rectangle = canvas.create_rectangle(
-    40, 40, 360, 360, outline='lightgrey', width=1)
+    40, 40, 360, 360, outline='#292940', width=1)
 
 canvas.tag_lower(rectangle)
-
-# print(last_dots)
-
 
 def check_position():
     global dot_x, dot_y
@@ -180,8 +165,6 @@ def update_canvas(new_x, new_y):
 
     # DEBUG BEGIN
     global render_iteration
-    print(f"--- render iteration: {render_iteration} ---")
-    print(f"received x:\t{dot_x},\nreceived y:\t{dot_y}\n")
     render_iteration += 1 
     # DEBUG END
 
