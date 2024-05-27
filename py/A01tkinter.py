@@ -9,6 +9,12 @@ draw_phase = 0
 real_point = None
 
 # -- GUI CONFIGURATION
+w_steps = 80
+h_steps = 60
+step_size = 10
+canvas_width = w_steps * step_size
+canvas_height = h_steps * step_size
+route_padding = 60
 dot_radius = 2
 
 tail = 20
