@@ -4,10 +4,15 @@ import numpy as np
 
 sigma = 10
 
+# measurement interval in ms
+measurement_interval = 200
+
+delta_t = measurement_interval / 1000
+
 # State Transition
 A = np.array([
-    [1, 0, 4, 0],
-    [0, 1, 0, 4],
+    [1, 0, delta_t, 0],
+    [0, 1, 0, delta_t],
     [0, 0, 1, 0],
     [0, 0, 0, 1]
 ])
@@ -62,8 +67,6 @@ x = np.array(x)
 P = np.array(P)
 I = np.eye(4)
 c = np.zeros((4, 1))  # Assuming control vector is zero
-noisyX = 1.0
-noisyY = 2.0
 print(x)
 x = np.array(x).reshape(-1, 1)
 print(x)
@@ -76,7 +79,7 @@ def calculate_kalman(noisy_x, noisy_y, prev_noisy_x, prev_noisy_y):
     deltaX = noisy_x - x[0, 0]
     deltaY = noisy_y - x[1, 0]
 
-    measurement = np.array([[noisyX], [noisyY], [deltaX], [deltaY]])
+    measurement = np.array([[noisy_x], [noisy_y], [deltaX], [deltaY]])
 
     # PREDICTION step
     # x = (A * x) + (B * c)
@@ -118,7 +121,7 @@ noise_dot_radius = 0
 initial_x = 40
 initial_y = 40
 tail = 20
-noise_factor = 1
+noise_factor = 5
 # Initial position
 dot_x = initial_x
 dot_y = initial_y
@@ -133,7 +136,7 @@ def noise_oval_create(x, y):
 
 
 def noise_line_create(x, y, prev_x, prev_y):
-    return canvas.create_line(x, y, prev_x, prev_y, fill='black', width='2')
+    return canvas.create_line(x, y, prev_x, prev_y, fill='lightgreen', width='2')
 
 
 def kalman_line_create(x, y, prev_x, prev_y):
@@ -182,13 +185,13 @@ def add_noise():
 
 
 def move_dot(new_x, new_y):
+
     global dot_x, dot_y
     dot_x = new_x
     dot_y = new_y
     noise_x, noise_y = add_noise()
 
     prev_noise_temp = noise_dots[len(noise_dots)-1]
-    print(canvas.coords(prev_noise_temp))
 
     prev_noise_dot = canvas.coords(prev_noise_temp)
     prev_noise_x = prev_noise_dot[0] + noise_dot_radius
@@ -196,6 +199,8 @@ def move_dot(new_x, new_y):
 
     kalman_x, kalman_y = calculate_kalman(
         noise_x, noise_y, prev_noise_x, prev_noise_y)
+
+    print(kalman_x, kalman_y)
 
     oval_temp = last_dots.pop(0)
     noise_temp = noise_dots.pop(0)
@@ -228,12 +233,12 @@ def move_dot(new_x, new_y):
     check_position()
 
     print(dot_x, dot_y)
-    root.after(200, move_dot, dot_x, dot_y)
+    root.after(measurement_interval, move_dot, dot_x, dot_y)
 
 
 # Example of updating the dot's position after 2 seconds
 # Move dot to (300, 300) after 2 seconds
-root.after(100, move_dot, dot_x, dot_y)
+root.after(measurement_interval, move_dot, dot_x, dot_y)
 
 # Run the Tkinter event loop
 root.mainloop()
