@@ -95,10 +95,12 @@ def calculate_kalman(noisy_x, noisy_y, prev_noisy_x, prev_noisy_y):
 
     return x[0, 0], x[1, 0]
 
+
 def update_mouse_position(event):
     global dot_x, dot_y
 
     dot_x, dot_y = event.x, event.y
+
 
 # Create the main window
 root = tk.Tk()
@@ -120,10 +122,6 @@ canvas.bind("<Motion>", update_mouse_position)
 
 # Indicator radius
 indicator_radius = 3
-
-joystick_indicator = canvas.create_oval(canvas_width//2 - indicator_radius, canvas_height//2 - indicator_radius,
-                                        canvas_width//2 + indicator_radius, canvas_height//2 + indicator_radius,
-                                        fill="red")
 
 
 def update_position():
@@ -193,7 +191,7 @@ def add_noise():
 def update_canvas():
 
     global dot_x, dot_y
-        
+
     noise_x, noise_y = add_noise()
     prev_noise_temp = noise_dots[len(noise_dots)-1]
     prev_noise_dot = canvas.coords(prev_noise_temp)
