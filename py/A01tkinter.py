@@ -4,7 +4,7 @@ import numpy as np
 
 # -- KALMAN PREFERENCES
 
-sigma = 15 # //TODO: Fix the adjustability of sigma
+sigma = 1 # //TODO: Fix the adjustability of sigma
 draw_phase = 0
 real_point = None
 
@@ -19,7 +19,7 @@ line_width = '2'
 dot_size = 1
 dot_radius = max(int(line_width), dot_size)
 
-fps = 60
+fps = 24
 tail = 20
 
 
@@ -168,8 +168,8 @@ def check_position():
         dot_y = dot_y - step_size
 
 def add_noise():
-    global dot_x, dot_y
-    noise = np.random.randn(2) * random.gauss(1, 15)
+    global dot_x, dot_y, sigma
+    noise = np.random.randn(2) * random.gauss(1, sigma)
     return [dot_x, dot_y] + noise
 
 def update_canvas(new_x, new_y):
