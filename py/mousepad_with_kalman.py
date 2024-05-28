@@ -1,60 +1,6 @@
-import time
 import tkinter as tk
 import random
 import numpy as np
-import serial
-from pynput import mouse
-import threading
-
-
-# Shared state for coordinates
-shared_state = {
-    'x': 0,
-    'y': 0
-}
-
-# Lock for thread-safe updates
-state_lock = threading.Lock()
-
-
-def on_move(x, y):
-    with state_lock:
-        shared_state['x'] = x
-        shared_state['y'] = y
-
-
-def on_click(x, y, button, pressed):
-    if pressed:
-        print(f'Mouse clicked at ({x}, {y}) with {button}')
-
-
-def on_scroll(x, y, dx, dy):
-    print(f'Mouse scrolled at ({x}, {y}) with delta ({dx}, {dy})')
-
-
-def start_listener():
-    with mouse.Listener(
-            on_move=on_move,
-            on_click=on_click,
-            on_scroll=on_scroll) as listener:
-        listener.join()
-
-
-# Start the listener in a separate thread
-listener_thread = threading.Thread(target=start_listener)
-listener_thread.start()
-
-# Continue with the rest of your program
-print("Listener started. Doing other things...")
-
-# Example of doing other work in the main thread
-
-
-# Function to get current mouse coordinates
-def get_coordinates():
-    with state_lock:
-        return shared_state['x'], shared_state['y']
-
 
 # -- KALMAN PREFERENCES
 measurement_interval = 20
@@ -149,6 +95,10 @@ def calculate_kalman(noisy_x, noisy_y, prev_noisy_x, prev_noisy_y):
 
     return x[0, 0], x[1, 0]
 
+def update_mouse_position(event):
+    global dot_x, dot_y
+
+    dot_x, dot_y = event.x, event.y
 
 # Create the main window
 root = tk.Tk()
@@ -156,12 +106,17 @@ root.title("Responsive Dot")
 root.geometry(f"{canvas_width}x{canvas_height}")
 root.title("Kalman Example in 2D - Visualisation")
 
-
 # Create a Canvas widget
 canvas = tk.Canvas(root, width=canvas_width,
                    height=canvas_height, bg='#1F1F31')
 canvas.pack()
 
+# # Erstelle ein Label, um die Mausposition anzuzeigen
+# position_label = tk.Label(root, text="Mouse position: (0, 0)")
+# position_label.pack()
+
+# Binde das Motion-Ereignis an die update_mouse_position-Funktion
+canvas.bind("<Motion>", update_mouse_position)
 
 # Indicator radius
 indicator_radius = 3
@@ -237,13 +192,8 @@ def add_noise():
 
 def update_canvas():
 
-    joystick_x, joystick_y = get_coordinates()
-    print(joystick_x, joystick_y)
-
     global dot_x, dot_y
-    dot_x = joystick_x
-    dot_y = joystick_y
-
+        
     noise_x, noise_y = add_noise()
     prev_noise_temp = noise_dots[len(noise_dots)-1]
     prev_noise_dot = canvas.coords(prev_noise_temp)
