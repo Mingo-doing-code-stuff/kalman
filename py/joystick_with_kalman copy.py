@@ -131,10 +131,7 @@ def update_position():
         canvas.coords(joystick_indicator, x_mapped - indicator_radius, y_mapped - indicator_radius,
                       x_mapped + indicator_radius, y_mapped + indicator_radius)
 
-        # Change color randomly when joystick is pressed
-        if is_pressed == 0:
-            random_color = random.choice(colors)
-            canvas.itemconfig(joystick_indicator, fill=random_color)
+        return x_mapped, y_mapped
 
 
 def oval_create(x, y):
@@ -196,11 +193,13 @@ def add_noise():
     return [dot_x, dot_y] + noise
 
 
-def update_canvas(new_x, new_y):
+def update_canvas():
+
+    joystick_x, joystick_y = update_position()
 
     global dot_x, dot_y
-    dot_x = new_x
-    dot_y = new_y
+    dot_x = joystick_x
+    dot_y = joystick_y
 
     noise_x, noise_y = add_noise()
     prev_noise_temp = noise_dots[len(noise_dots)-1]
@@ -239,9 +238,8 @@ def update_canvas(new_x, new_y):
     noise_lines.insert(len(noise_lines), line_temp)
     kalman_lines.insert(len(kalman_lines), kalman_temp)
 
-    check_position()
-    root.after(measurement_interval, update_canvas, dot_x, dot_y)
+    root.after(measurement_interval, update_canvas)
 
 
-root.after(measurement_interval, update_canvas, dot_x, dot_y)
+root.after(measurement_interval, update_canvas)
 root.mainloop()
