@@ -6,8 +6,6 @@ import serial
 from pynput import mouse
 import threading
 
-print(1)
-
 
 # Shared state for coordinates
 shared_state = {
@@ -58,7 +56,6 @@ def get_coordinates():
         return shared_state['x'], shared_state['y']
 
 
-print(2)
 # -- KALMAN PREFERENCES
 measurement_interval = 20
 sigma = 15
@@ -164,6 +161,7 @@ root.title("Kalman Example in 2D - Visualisation")
 canvas = tk.Canvas(root, width=canvas_width,
                    height=canvas_height, bg='#1F1F31')
 canvas.pack()
+
 
 # Indicator radius
 indicator_radius = 3
