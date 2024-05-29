@@ -170,3 +170,4 @@ this.last = window.Matrix.I(4).subtract(K.multiply(this.H)).multiply(P);
 ```
 
 Dieser Code glättet die Mausbewegung durch die Kombination der gemessenen Positionen und den geschätzten Zuständen. Dies führt zu einer robusteren Schätzung der tatsächlichen Mausposition, indem der Rauscheffekt reduziert wird.
+
