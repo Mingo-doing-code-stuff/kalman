@@ -27,12 +27,13 @@
 
 - Mauspad in Präse integrieren (wenn das geht)
 - Slider und Settings für Anzeigefenster
-- Gauss 1D Simulation (viele Gauss Kurven, wie Balzer82)
+- ~~Gauss 1D Simulation (viele Gauss Kurven, wie Balzer82)~~
 
 ## 29.05.2024
 
 ### Ziele
 
+- ~~Auslagern in Klassen~~
 - Mauspad in Präse integrieren (wenn das geht)
 - Slider und Settings für Anzeigefenster
 - ~~Gauss 1D Simulation (viele Gauss Kurven, wie Balzer82)~~ (deprecated)

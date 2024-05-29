@@ -1,12 +1,10 @@
 import tkinter as tk
 import random
 import numpy as np
+from kalman_class import Kalman
 
 # -- KALMAN PREFERENCES
 measurement_interval = 20
-sigma = 15
-draw_phase = 0
-real_point = None
 
 # -- GUI CONFIGURATION
 w_steps = 80
@@ -17,83 +15,17 @@ canvas_height = h_steps * step_size
 route_padding = 60
 dot_radius = 2
 
-tail = 20
+tail = 20  # canvas
 
 # -- SETUP
 dot_x = route_padding
 dot_y = route_padding
 
-# State Transition
-A = np.array([
-    [1, 0, 0.2, 0],
-    [0, 1, 0, 0.2],
-    [0, 0, 1, 0],
-    [0, 0, 0, 1]
-])
+kalman_obj = Kalman(route_padding, route_padding)
 
-# Input Control Matrix is ignored
-B = np.eye(4)
+kalman_obj.set_sigma(15)
 
-# Observation Matrix
-H = np.array([
-    [1, 0, 1, 0],
-    [0, 1, 0, 1],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0]
-])
-
-# Process Noise
-Q = np.array([
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0.1, 0],
-    [0, 0, 0, 0.1]
-])
-
-# Measurement Noise
-R = np.array([
-    [sigma, 0, 0, 0],
-    [0, sigma, 0, 0],
-    [0, 0, sigma, 0],
-    [0, 0, 0, sigma]
-])
-
-x = np.zeros((4, 1))
-x_prev = np.zeros((4, 1))
-
-P = np.zeros((4, 4))
-P_prev = np.zeros((4, 4))
-
-I = np.eye(4)
-
-c = np.zeros((4, 1))
-
-
-def calculate_kalman(noisy_x, noisy_y, prev_noisy_x, prev_noisy_y):
-    global x, x_prev, P, P_prev
-    x[0, 0] = prev_noisy_x
-    x[1, 0] = prev_noisy_y
-    deltaX = noisy_x - x[0, 0]
-    deltaY = noisy_y - x[1, 0]
-    measurement = np.array([[noisy_x], [noisy_y], [deltaX], [deltaY]])
-
-    # PREDICTION step
-    # [x_k = A * x_k-1 + B * u_k-1]
-    x = np.dot(A, x_prev) + np.dot(B, c)
-    # [P_k = A * P_k-1 * A^T + Q ]
-    P = np.dot(np.dot(A, P_prev), A.T) + Q
-
-    # CORRECTION step
-    measurement = measurement - np.dot(H, x)
-    # [K_k = P_k * H^T * (H * P_k * H^T + R)^-1]
-    S = np.dot(np.dot(H, P), H.T) + R
-    K = np.dot(np.dot(P, H.T), np.linalg.inv(S))
-    # x_k = x_k + K_k(z_k - H * x_k)]
-    x_prev = x + np.dot(K, measurement)
-    # [ P_k = ( I - K_k * H) * P_k]
-    P_prev = np.dot(np.eye(4) - np.dot(K, H), P)
-
-    return x[0, 0], x[1, 0]
+sigma = kalman_obj.get_sigma()
 
 
 def update_mouse_position(event):
@@ -122,11 +54,6 @@ canvas.bind("<Motion>", update_mouse_position)
 
 # Indicator radius
 indicator_radius = 3
-
-
-def update_position():
-    mouse_x, mouse_y = on_move()
-    return mouse_x, mouse_y
 
 
 def oval_create(x, y):
@@ -199,7 +126,7 @@ def update_canvas():
     prev_noise_y = prev_noise_dot[1] + dot_radius
     print(f"-- previous Noise point was: {prev_noise_x}, {prev_noise_y}\n")
 
-    kalman_x, kalman_y = calculate_kalman(
+    kalman_x, kalman_y = kalman_obj.calculate_kalman(
         noise_x, noise_y, prev_noise_x, prev_noise_y)
 
     print(
