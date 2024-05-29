@@ -228,33 +228,5 @@ def update_canvas(new_x, new_y):
     check_position()
     root.after(measurement_interval, update_canvas, dot_x, dot_y)
 
-
-canvas.grid(row=0, column=0, padx=10, pady=10)
-
-# Create a frame for sliders and buttons
-control_frame = Frame(root)
-control_frame.grid(row=0, column=1, padx=10, pady=10, sticky="n")
-
-# Create sliders
-x_slider = Scale(control_frame, from_=0, to=350, label="X Position", orient="horizontal")
-x_slider.grid(row=0, column=0, pady=5)
-x_slider.bind("<Motion>", lambda event: update_canvas())  # Update canvas on slider change
-
-y_slider = Scale(control_frame, from_=0, to=350, label="Y Position", orient="horizontal")
-y_slider.grid(row=1, column=0, pady=5)
-y_slider.bind("<Motion>", lambda event: update_canvas())  # Update canvas on slider change
-
-# Create a toggle button
-toggle_var = IntVar()
-toggle_button = Checkbutton(control_frame, text="Toggle Color", variable=toggle_var, command=update_canvas)
-toggle_button.grid(row=2, column=0, pady=5)
-
-# Create a dropdown (combobox) widget
-dropdown_var = tk.StringVar(value="Option 1")
-dropdown = ttk.Combobox(control_frame, textvariable=dropdown_var)
-dropdown['values'] = ("Option 1", "Option 2")
-dropdown.grid(row=3, column=1, padx=10, pady=5)
-dropdown.bind("<<ComboboxSelected>>", update_canvas)
-
 root.after(measurement_interval, update_canvas, dot_x, dot_y)
 root.mainloop()
