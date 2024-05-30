@@ -8,3 +8,4 @@ LaTeX/build/
 *.synctex.gs(busy)
 *.aux
 *.aux(busy)
+*.pyc
