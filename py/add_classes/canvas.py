@@ -1,5 +1,6 @@
 import tkinter as tk
 from Adapter import Adapter9000
+from datamodel import DataModel
 
 class CanvasWrapper:
 
@@ -11,13 +12,13 @@ class CanvasWrapper:
         self.canvas_height = canvas_height
         self.isMouseSelected = 0
         self.adapter = Adapter9000(canvas_width, canvas_height, step_size, padding)
+        self.data = DataModel(0,0)
         self.adapter.update_input_signal(-1)
         self.canvas = self.create_canvas()
         pass
 
 
     def create_canvas(self):
-
         root = tk.Tk()
         root.geometry(f"{self.canvas_width}x{self.canvas_height}")
         root.title("Kalman Example in 2D - Visualisation")
@@ -37,10 +38,13 @@ class CanvasWrapper:
             self.isMouseSelected = 0
             self.adapter.update_input_signal(var)
 
+
     def update_canvas(self):
         x, y = self.adapter.update_values()
+        self.render_canvas()
         # //TODO: Render Cycle Updates
         return
+    
     
     def render_canvas(self):
         return
