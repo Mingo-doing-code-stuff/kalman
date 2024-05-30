@@ -2,8 +2,11 @@ from rectangularPath import RectangularPath
 from joystick import Joystick
 # from mouse import Mouse ???
 from kalman_class import Kalman
+from datamodel import DataModel
 import numpy as np
 import random
+import sys
+
 
 class NoiseGenerator():
     def add_noise():
@@ -11,33 +14,49 @@ class NoiseGenerator():
         noise = np.random.randn(2) * random.gauss(1, 15)
         return [dot_x, dot_y] + noise
 
+
 class Adapter9000():
-    
-    def __init__(self, canvas_width, canvas_height, step_size, padding):
-        self.x_pos = 0 
+
+    def __init__(self, canvas, step_size, tail):
+        self.x_pos = 0
         self.y_pos = 0
-        self.canvas_width = canvas_width
-        self.canvas_height = canvas_height
+        self.tail = tail
+        self.canvas = canvas
+        self.canvas_width = self.canvas.winfo_reqwidth()
+        self.canvas_height = canvas.winfo_reqheight()
         self.step_size = step_size
-        self.padding = padding
+        print("Adapter running")
+        self.input = RectangularPath()
+        self.kalman = Kalman()
+        self.noise_generator = NoiseGenerator()
+        self.data = DataModel(3, self.canvas, self.tail,
+                              self.step_size, self.canvas_width, self.canvas_height)
+        self.canvas = self.data.canvas
         pass
 
-    # //TODO: Move Up in init Eventually
-    input = RectangularPath()
-    kalman = Kalman()
-    noise_generator = NoiseGenerator()
-    
     def update_input_signal(self, idx):
         if (idx == 1):
-            # self.input = Mouse 
+            # self.input = Mouse
             return
         elif (idx == 2):
             self.input = Joystick(self.canvas_width, self.canvas_height)
-            return 
+            self.kalman = Kalman()
+            self.noise_generator = NoiseGenerator()
+            self.data = DataModel(
+                idx, self.canvas, self.tail, self.step_size, self.canvas_width, self.canvas_height)
+            return
+        elif (idx == 3):
+            self.input = RectangularPath(
+                self.canvas_width, self.canvas_height, self.step_size, 60)
+            self.kalman = Kalman()
+            self.noise_generator = NoiseGenerator()
+            self.data = DataModel(
+                idx, self.canvas, self.tail, self.step_size, self.canvas_width, self.canvas_height)
+            return
         else:
-            self.input = RectangularPath(self.canvas_width, self.canvas_height, self.step_size, self.padding)
-            return 
-    
+            print("Error: no valid mode selected")
+            sys.exit()
+
     def update_values(self):
         self.x_pos, self.y_pos = self.input.update_position()
         return
