@@ -1,5 +1,7 @@
 # TODOs
 
+---
+
 ## 27.05.2024
 
 ### Ziele
@@ -14,6 +16,8 @@
 - PowerPoint auf Latex Migrieren
 - ~~Overleaf "reinschauen"~~
 
+---
+
 ## 28.05.2024
 
 ### Ziele
@@ -25,17 +29,29 @@
 
 ### Optionale Ziele
 
-- Mauspad in Präse integrieren (wenn das geht)
+- ~~Mauspad in Präse integrieren (wenn das geht)~~
 - Slider und Settings für Anzeigefenster
 - ~~Gauss 1D Simulation (viele Gauss Kurven, wie Balzer82)~~
+
+---
 
 ## 29.05.2024
 
 ### Ziele
 
 - ~~Auslagern in Klassen~~
-- Mauspad in Präse integrieren (wenn das geht)
+- ~~Mauspad in Präse integrieren (wenn das geht)~~
 - Slider und Settings für Anzeigefenster
+- Powerpoint auf Latex migrieren
 - ~~Gauss 1D Simulation (viele Gauss Kurven, wie Balzer82)~~ (deprecated)
 
 ### Optionale Ziele
+
+---
+
+## 30.05.2024
+
+### Ziele
+
+- Slider und Settings für Anzeigefenster
+- Powerpoint auf Latex migrieren
