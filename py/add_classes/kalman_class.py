@@ -4,15 +4,14 @@ import numpy as np
 class Kalman:
 
     # -- SETUP
-    def __init__(self, x_start, y_start):
-        self.dot_x = x_start
-        self.dot_y = y_start
+    def __init__(self):
+        pass
 
     sigma = 1
 
     def set_sigma(self, s):
         self.sigma = s
-    
+
     def get_sigma(self):
         return self.sigma
 

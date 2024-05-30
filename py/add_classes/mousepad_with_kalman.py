@@ -21,7 +21,7 @@ tail = 20  # canvas
 dot_x = route_padding
 dot_y = route_padding
 
-kalman_obj = Kalman(route_padding, route_padding)
+kalman_obj = Kalman()
 
 kalman_obj.set_sigma(15)
 

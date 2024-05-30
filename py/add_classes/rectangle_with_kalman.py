@@ -6,9 +6,6 @@ from kalman_class import Kalman
 
 # -- KALMAN PREFERENCES
 
-draw_phase = 0
-real_point = None
-
 # -- GUI CONFIGURATION
 w_steps = 80
 h_steps = 60
@@ -23,7 +20,7 @@ dot_radius = max(int(line_width), dot_size)
 fps = 24
 tail = 20
 
-kalman_obj = Kalman(route_padding, route_padding)
+kalman_obj = Kalman()
 kalman_obj.set_sigma(15)
 
 sigma = kalman_obj.get_sigma()

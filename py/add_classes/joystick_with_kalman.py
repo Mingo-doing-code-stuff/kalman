@@ -27,7 +27,7 @@ tail = 20
 dot_x = canvas_width / 2
 dot_y = canvas_height / 2
 
-kalman_obj = Kalman(canvas_width / 2, canvas_height / 2)
+kalman_obj = Kalman()
 
 kalman_obj.set_sigma(15)
 sigma = kalman_obj.get_sigma()
