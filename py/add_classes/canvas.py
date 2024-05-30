@@ -1,15 +1,20 @@
 import tkinter as tk
-
+from Adapter import Adapter9000
 
 class CanvasWrapper:
 
-    def __init__(self, w_steps=80, h_steps=60, step_size=10):
+    def __init__(self, w_steps=80, h_steps=60, step_size=10, padding = 40):
         self.step_size = step_size
-        self.canvas_width = w_steps * self.step_size
-        self.canvas_height = h_steps * self.step_size
+        canvas_width = w_steps * step_size
+        self.canvas_width = canvas_width 
+        canvas_height = h_steps * step_size
+        self.canvas_height = canvas_height
+        self.isMouseSelected = 0
+        self.adapter = Adapter9000(canvas_width, canvas_height, step_size, padding)
+        self.adapter.update_input_signal(-1)
         self.canvas = self.create_canvas()
-        self.selected = 0
         pass
+
 
     def create_canvas(self):
 
@@ -23,5 +28,19 @@ class CanvasWrapper:
         canvas.pack()
         return canvas
 
+
     def set_selected(self, var):
-        self.selected = var
+        if (var == 0):
+            self.isMouseSelected = 1
+            self.adapter.update_input_signal(var)
+        else:
+            self.isMouseSelected = 0
+            self.adapter.update_input_signal(var)
+
+    def update_canvas(self):
+        x, y = self.adapter.update_values()
+        # //TODO: Render Cycle Updates
+        return
+    
+    def render_canvas(self):
+        return
