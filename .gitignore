@@ -1,7 +1,6 @@
 *.DS_Store
 LaTeX/build/
 *.nav
-*.pdf
 *.snm
 *.synctex.gs
 *.aux
