@@ -1,6 +1,10 @@
 *.DS_Store
 LaTeX/build/
 *.nav
+*.nav(busy)
 *.snm
+*.snm(busy)
 *.synctex.gs
+*.synctex.gs(busy)
 *.aux
+*.aux(busy)
