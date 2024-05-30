@@ -2,16 +2,12 @@ import random
 import numpy as np
 import tkinter as tk
 from kalman_class import Kalman
+from canvas import CanvasWrapper
 
 
 # -- KALMAN PREFERENCES
 
 # -- GUI CONFIGURATION
-w_steps = 80
-h_steps = 60
-step_size = 10
-canvas_width = w_steps * step_size
-canvas_height = h_steps * step_size
 route_padding = 60
 line_width = '2'
 dot_size = 1
@@ -32,14 +28,12 @@ dot_y = route_padding
 
 
 # Create the main window
-root = tk.Tk()
-root.geometry(f"{canvas_width}x{canvas_height}")
-root.title("Kalman Example in 2D - Visualisation")
+canvasWrapper = CanvasWrapper()
+canvas = canvasWrapper.canvas
 
-# Create a Canvas widget
-canvas = tk.Canvas(root, width=canvas_width,
-                   height=canvas_height, bg='#1F1F31')
-canvas.pack()
+canvas_width = canvasWrapper.canvas_width
+canvas_height = canvasWrapper.canvas_height
+step_size = canvasWrapper.step_size
 
 
 def exact_oval_create(x, y):
@@ -164,8 +158,8 @@ def update_canvas(new_x, new_y):
     kalman_lines.insert(len(kalman_lines), kalman_lines_temp)
 
     check_position()
-    root.after(measurement_interval, update_canvas, dot_x, dot_y)
+    canvas.after(measurement_interval, update_canvas, dot_x, dot_y)
 
 
-root.after(measurement_interval, update_canvas, dot_x, dot_y)
-root.mainloop()
+canvas.after(measurement_interval, update_canvas, dot_x, dot_y)
+canvas.mainloop()
