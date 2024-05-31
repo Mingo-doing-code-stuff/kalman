@@ -20,12 +20,13 @@ class CanvasWrapper:
 
 
     def create_canvas(self):
-        self.root.geometry(f"{self.canvas_width}x{self.canvas_height}")
-        self.root.title("Kalman Example in 2D - Visualisation")
+        root = tk.Tk()
+        root.geometry(f"{self.canvas_width}x{self.canvas_height}")
+        root.title("Kalman Example in 2D - Visualisation")
 
         # Create a Canvas widget
-        canvas = tk.Canvas(self.root, width=self.canvas_width,
-                           height=self.canvas_height, bg='#1F1F31')
+        canvas = tk.Canvas(root, width=self.canvas_width,
+                           height=self.canvas_height, bg='#FFFFFF')#'#1F1F31')
         canvas.pack()
         return canvas
 
@@ -51,14 +52,20 @@ class CanvasWrapper:
         return
     
     
+    def create_dot(self, point):
+        self.canvas.create_oval(point.x-2,point.y-2,point.x+40,point.y+40, fill="red")
+
     def render_canvas(self):
         position_points = self.data.position_points
         noi = self.data.noise_points
         kal = self.data.kalman_points
         
         for p in position_points:
-            self.canvas.create_oval(p.x-2,p.y-2,p.x+2,p.y+2, fill="red")
+            self.create_dot(p)
+        self.canvas.pack()
+        self.canvas.after(125,self.update_canvas)
         return
+        
     
     def run(self):
         self.canvas.after(125, self.update_canvas)

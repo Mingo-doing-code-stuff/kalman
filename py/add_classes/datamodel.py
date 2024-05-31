@@ -7,8 +7,8 @@ class DataModel():
     
 
     def add_new_pos_point(self, point = Point()):
-        self.positon_points.pop(0)
-        self.positon_points.insert(-1, point)
+        self.position_points.pop(0)
+        self.position_points.insert(-1, point)
 
     def add_new_noise_point(self, point = Point()):
         self.noise_points.pop(0)

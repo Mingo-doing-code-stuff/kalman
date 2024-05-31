@@ -31,11 +31,11 @@ class Adapter9000():
         self.canvas_height = canvas_height
         self.step_size = step_size
         self.padding = padding
-        self.sima = sigma
+        self.sigma = sigma
         pass
 
     # //TODO: Move Up in init Eventually
-    input = RectangularPath()
+    input = RectangularPath(200,200,10,40)
     kalman = Kalman()
     noise_generator = NoiseGenerator()
     prev_noise = [0,0]
@@ -70,7 +70,7 @@ class Adapter9000():
     
     def update_values(self):
         x_pos, y_pos = self.input.update_position()
-        x_n, y_n = self.noise_generator(x_pos, y_pos)
+        x_n, y_n = self.noise_generator.add_noise(x_pos, y_pos)
         x_n_prev,y_n_prev = self.get_prev_noise()
         self.set_prev_noise(x_n,y_n)
         x_k, y_k = self.kalman.calculate_kalman(x_n,y_n,x_n_prev,y_n_prev)
