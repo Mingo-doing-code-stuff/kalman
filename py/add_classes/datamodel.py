@@ -1,18 +1,25 @@
 from point import Point
+# from canvasHandler import CanvasHandler
 
 
 class DataModel():
 
-    def __init__(self, model_number, canvas, tail, step_size, canvas_width, canvas_height):
-        self.step_size = step_size
-        self.canvas_width = canvas_width
-        self.canvas_height = canvas_height
-        self.tail = tail
+    # def __init__(self, model_number, tail, step_size, canvas_width, canvas_height):
+    def __init__(self, canvas):
         self.canvas = canvas
-        initial_x, initial_y = self.setup(model_number)
-        self.position_points, self.noise_points, self.kalman_points = self.prefill(
-            self.tail, initial_x, initial_y)
-        print("DataModel running")
+        self.tail = 20
+        self.x = 40  # delete after
+        self.y = 40  # delete after
+
+        # self.step_size = step_size
+        # self.canvas_width = canvas_width
+        # self.canvas_height = canvas_height
+        # self.tail = tail
+        # self.canvas = canvas
+        # initial_x, initial_y = self.setup(model_number)
+        # self.position_points, self.noise_points, self.kalman_points = self.prefill(
+        #     self.tail, initial_x, initial_y)
+        # print("DataModel running")
 
     def add_new_pos_point(self, point=Point()):
         self.position_points.pop(0)
@@ -26,15 +33,18 @@ class DataModel():
         self.kalman_points.pop(0)
         self.kalman_points.insert(-1, point)
 
-    def prefill(self, tail, x, y):
+    def oval_create(self, x, y):
+        self.canvas.create_oval(x - 2, y - 2, x + 2, y + 2, fill='blue')
+
+    def prefill(self):
         position_points = []
         noise_points = []
         kalman_points = []
 
-        for i in range(tail):
-            position_points.append(Point(x, y))
-            noise_points.append(Point(x, y))
-            kalman_points.append(Point(x, y))
+        for i in range(self.tail):
+            position_points.append(self.oval_create(self.x, self.y))
+            noise_points.append(self.oval_create(self.x+40, self.y+40))
+            kalman_points.append(self.oval_create(self.x+80, self.y+80))
 
         return position_points, noise_points, kalman_points
 
@@ -60,3 +70,4 @@ class DataModel():
         rectangle_origin_x = (self.canvas_width - rectangle_width) / 2
         rectangle_origin_y = (self.canvas_height - rectangle_height) / 2
         return rectangle_origin_x, rectangle_origin_y
+

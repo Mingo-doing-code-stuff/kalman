@@ -1,3 +1,3 @@
-from canvasWrapper import CanvasWrapper
+from canvasHandler import CanvasHandler
 
-test = CanvasWrapper()
+test = CanvasHandler()

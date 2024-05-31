@@ -29,7 +29,7 @@ class Adapter9000():
         self.input = RectangularPath()
         self.kalman = Kalman()
         self.noise_generator = NoiseGenerator()
-        self.data = DataModel(3, self.canvas, self.tail,
+        self.data = DataModel(3, self.tail,
                               self.step_size, self.canvas_width, self.canvas_height)
         self.canvas = self.data.canvas
         pass
@@ -43,7 +43,7 @@ class Adapter9000():
             self.kalman = Kalman()
             self.noise_generator = NoiseGenerator()
             self.data = DataModel(
-                idx, self.canvas, self.tail, self.step_size, self.canvas_width, self.canvas_height)
+                idx, self.tail, self.step_size, self.canvas_width, self.canvas_height)
             return
         elif (idx == 3):
             self.input = RectangularPath(
@@ -51,7 +51,7 @@ class Adapter9000():
             self.kalman = Kalman()
             self.noise_generator = NoiseGenerator()
             self.data = DataModel(
-                idx, self.canvas, self.tail, self.step_size, self.canvas_width, self.canvas_height)
+                idx, self.tail, self.step_size, self.canvas_width, self.canvas_height)
             return
         else:
             print("Error: no valid mode selected")

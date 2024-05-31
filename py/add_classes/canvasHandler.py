@@ -1,17 +1,18 @@
 import tkinter as tk
-from adapter import Adapter9000
+# from adapter import Adapter9000
 from datamodel import DataModel
 from canvasBuilder import CanvasBuilder
 
 
-class CanvasWrapper:
+class CanvasHandler:
 
     def __init__(self, canvas_height=600, canvas_width=800, step_size=10, tail=20):
         canvas_build = CanvasBuilder(canvas_width, canvas_height)
-        canvas = canvas_build.canvas
-        print(canvas.create_oval(140.0, 150.0, 141.0, 151.0))
+        self.root, self.canvas = canvas_build.get_canvas()
 
-        self.adapter = Adapter9000(canvas, step_size, tail)
+        # print(canvas.create_oval(140.0, 150.0, 141.0, 151.0))
+
+        # self.adapter = Adapter9000(canvas, step_size, tail)
         pass
 
     def testing(self):
@@ -19,6 +20,10 @@ class CanvasWrapper:
             temp = array.pop(0)
             # make stuff, update temp
             array.insert(len(array), temp)
+
+    def pass_canvas_to_dataModel(self):
+        dataModel = DataModel(self.canvas)
+        dataModel.prefill()
 
     # def set_selected(self, mode):
     #     if (mode == 0):
@@ -36,3 +41,13 @@ class CanvasWrapper:
 
     def render_canvas(self):
         return
+
+    def get_canvas(self):
+        return self.root, self.canvas
+
+
+if __name__ == "__main__":
+    handler = CanvasHandler()
+    root, canvas = handler.get_canvas()
+    root.after(0, handler.pass_canvas_to_dataModel)
+    root.mainloop()
