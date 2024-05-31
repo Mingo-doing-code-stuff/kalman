@@ -9,3 +9,5 @@ LaTeX/build/
 *.aux
 *.aux(busy)
 *.pyc
+
+.venv

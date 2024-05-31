@@ -14,8 +14,7 @@ class CanvasWrapper:
         self.adapter = Adapter9000(canvas_width, canvas_height, step_size, padding)
         self.data = DataModel(0,0)
         self.adapter.update_input_signal(-1)
-        self.canvas = self.create_canvas()
-        self.root = tk.Tk()
+        self.root, self.canvas = self.create_canvas()
         pass
 
 
@@ -26,9 +25,9 @@ class CanvasWrapper:
 
         # Create a Canvas widget
         canvas = tk.Canvas(root, width=self.canvas_width,
-                           height=self.canvas_height, bg='#FFFFFF')#'#1F1F31')
+                           height=self.canvas_height, bg='#1F1F31')
         canvas.pack()
-        return canvas
+        return root, canvas
 
 
     def set_selected(self, var):
