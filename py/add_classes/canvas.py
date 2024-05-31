@@ -1,6 +1,7 @@
 import tkinter as tk
 from Adapter import Adapter9000
 from datamodel import DataModel
+from point import Point
 
 class CanvasWrapper:
 
@@ -10,13 +11,20 @@ class CanvasWrapper:
         self.canvas_width = canvas_width 
         canvas_height = h_steps * step_size
         self.canvas_height = canvas_height
-        self.isMouseSelected = 0
+        self.isMouseSelected = 1
         self.adapter = Adapter9000(canvas_width, canvas_height, step_size, padding)
         self.data = DataModel(0,0)
+        self.mouse_dot_x, self.mouse_dot_y = 0, 0
         self.adapter.update_input_signal(-1)
         self.root, self.canvas = self.create_canvas()
         pass
 
+    def update_mouse_position(self,event):
+        self.mouse_dot_x, self.mouse_dot_y = event.x, event.y
+
+    def update_position(self):
+        mouse_x, mouse_y = self.on_move()
+        return mouse_x, mouse_y
 
     def create_canvas(self):
         root = tk.Tk()
@@ -26,6 +34,7 @@ class CanvasWrapper:
         # Create a Canvas widget
         canvas = tk.Canvas(root, width=self.canvas_width,
                            height=self.canvas_height, bg='#1F1F31')
+        canvas.bind("<Motion>", self.update_mouse_position)
         canvas.pack()
         return root, canvas
 
@@ -37,7 +46,6 @@ class CanvasWrapper:
         else:
             self.isMouseSelected = 0
             self.adapter.update_input_signal(var)
-
 
     def update_canvas(self):
         position, noise, kalman = self.adapter.update_values()
@@ -58,6 +66,10 @@ class CanvasWrapper:
         position_points = self.data.position_points
         noi = self.data.noise_points
         kal = self.data.kalman_points
+
+        if self.isMouseSelected:
+            position_point = Point(self.mouse_dot_x,self.mouse_dot_y)
+            self.create_dot(position_point)
         
         for p in position_points:
             self.create_dot(p)
