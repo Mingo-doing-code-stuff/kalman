@@ -17,21 +17,15 @@ class NoiseGenerator():
 
 class Adapter9000():
 
-    def __init__(self, canvas, step_size, tail):
+    def __init__(self, canvas):
+        self.canvas = canvas
         self.x_pos = 0
         self.y_pos = 0
-        self.tail = tail
-        self.canvas = canvas
+        self.tail = 20
         self.canvas_width = self.canvas.winfo_reqwidth()
-        self.canvas_height = canvas.winfo_reqheight()
-        self.step_size = step_size
+        self.canvas_height = self.canvas.winfo_reqheight()
+        self.step_size = 10
         print("Adapter running")
-        self.input = RectangularPath()
-        self.kalman = Kalman()
-        self.noise_generator = NoiseGenerator()
-        self.data = DataModel(3, self.tail,
-                              self.step_size, self.canvas_width, self.canvas_height)
-        self.canvas = self.data.canvas
         pass
 
     def update_input_signal(self, idx):
@@ -59,4 +53,29 @@ class Adapter9000():
 
     def update_values(self):
         self.x_pos, self.y_pos = self.input.update_position()
+        self.position_points.pop(0)
+        self.position_points.insert(len(self.position_points), self.canvas.coords(
+            self.x_pos - 2, self.y_pos - 2, self.x_pos + 2, self.y_pos + 2))
         return
+
+    def get_canvas(self):
+        return self.canvas
+
+    def get_canvas_dimensions(self):
+        return self.root, self.canvas
+
+    def initial_setup(self):
+        self.input = RectangularPath(
+            self.canvas_width, self.canvas_height, self.step_size)
+        self.kalman = Kalman()
+        self.noise_generator = NoiseGenerator()
+        self.data = DataModel(self.canvas)
+        self.position_points, self.noise_points, self.kalman_points = self.data.prefill()
+        print("initial setup complete")
+        print(self.data)
+
+# if __name__ == "__main__":
+#     adapter = Adapter9000()
+#     root, canvas = adapter.get_canvas()
+#     root.after(0, adapter.initial_setup)
+#     root.mainloop()

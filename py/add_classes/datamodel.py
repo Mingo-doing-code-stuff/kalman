@@ -43,8 +43,8 @@ class DataModel():
 
         for i in range(self.tail):
             position_points.append(self.oval_create(self.x, self.y))
-            noise_points.append(self.oval_create(self.x+40, self.y+40))
-            kalman_points.append(self.oval_create(self.x+80, self.y+80))
+            noise_points.append(self.oval_create(self.x, self.y))
+            kalman_points.append(self.oval_create(self.x, self.y))
 
         return position_points, noise_points, kalman_points
 

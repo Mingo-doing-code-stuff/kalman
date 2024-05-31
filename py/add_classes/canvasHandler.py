@@ -1,6 +1,6 @@
 import tkinter as tk
 # from adapter import Adapter9000
-from datamodel import DataModel
+from adapter import Adapter9000
 from canvasBuilder import CanvasBuilder
 
 
@@ -21,9 +21,16 @@ class CanvasHandler:
             # make stuff, update temp
             array.insert(len(array), temp)
 
-    def pass_canvas_to_dataModel(self):
-        dataModel = DataModel(self.canvas)
-        dataModel.prefill()
+    def pass_canvas_to_adapter(self):
+        adapter = Adapter9000(self.canvas)
+        adapter.initial_setup()
+        adapter.update_values()
+        adapter.update_values()
+        adapter.update_values()
+        adapter.update_values()
+        adapter.update_values()
+        adapter.update_values()
+        adapter.update_values()
 
     # def set_selected(self, mode):
     #     if (mode == 0):
@@ -33,14 +40,14 @@ class CanvasHandler:
     #         self.isMouseSelected = False
     #         self.adapter.update_input_signal(mode)
 
-    def update_canvas(self):
-        x, y = self.adapter.update_values()
-        self.render_canvas()
-        # //TODO: Render Cycle Updates
-        return
+    # def update_canvas(self):
+    #     x, y = self.adapter.update_values()
+    #     self.render_canvas()
+    #     # //TODO: Render Cycle Updates
+    #     return
 
-    def render_canvas(self):
-        return
+    # def render_canvas(self):
+    #     return
 
     def get_canvas(self):
         return self.root, self.canvas
@@ -49,5 +56,5 @@ class CanvasHandler:
 if __name__ == "__main__":
     handler = CanvasHandler()
     root, canvas = handler.get_canvas()
-    root.after(0, handler.pass_canvas_to_dataModel)
+    root.after(0, handler.pass_canvas_to_adapter)
     root.mainloop()
