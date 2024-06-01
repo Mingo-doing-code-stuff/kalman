@@ -1,9 +1,7 @@
 import tkinter as tk
-# Assuming you have this class correctly implemented
-from adapter import Adapter9000
-# Assuming you have this class correctly implemented
-from datamodel import DataModel
-from point import Point  # Assuming you have this class correctly implemented
+from .adapter import Adapter9000
+from .datamodel import DataModel
+from .point import Point  
 from ttkbootstrap import Style
 from ttkbootstrap import ttk
 
