@@ -1,6 +1,8 @@
 import tkinter as tk
-from Adapter import Adapter9000  # Assuming you have this class correctly implemented
-from datamodel import DataModel  # Assuming you have this class correctly implemented
+# Assuming you have this class correctly implemented
+from adapter import Adapter9000
+# Assuming you have this class correctly implemented
+from datamodel import DataModel
 from point import Point  # Assuming you have this class correctly implemented
 from ttkbootstrap import Style
 from ttkbootstrap import ttk
@@ -15,7 +17,8 @@ class CanvasWrapper:
         canvas_height = h_steps * step_size
         self.canvas_height = canvas_height
         self.isMouseSelected = True
-        self.adapter = Adapter9000(canvas_width, canvas_height, step_size, padding)
+        self.adapter = Adapter9000(
+            canvas_width, canvas_height, step_size, padding)
         self.data = DataModel(padding, padding)
         self.mouse_dot_x, self.mouse_dot_y = 0, 0
         self.sidebar_width = 240
@@ -32,14 +35,16 @@ class CanvasWrapper:
 
     def create_canvas(self):
         root = tk.Tk()
-        root.geometry(f"{self.canvas_width + self.sidebar_width}x{self.canvas_height}")
+        root.geometry(
+            f"{self.canvas_width + self.sidebar_width}x{self.canvas_height}")
         root.title("Kalman Example in 2D - Visualisation")
 
         style = Style(theme='vapor')
         frame = ttk.Frame(root, padding=10)
         frame.pack(fill=tk.BOTH, expand=True)
         # Create a Canvas widget
-        canvas = tk.Canvas(frame, width=self.canvas_width, height=self.canvas_height, bg='#1F1F31')
+        canvas = tk.Canvas(frame, width=self.canvas_width,
+                           height=self.canvas_height, bg='#1F1F31')
         canvas.grid(row=0, column=0, rowspan=15, sticky="nsew")
         canvas.bind("<Motion>", self.update_mouse_position)
 
@@ -48,15 +53,17 @@ class CanvasWrapper:
 
         sigma_label = ttk.Label(frame, text="Covariance Sigma: 15")
         sigma_label.grid(row=0, column=2, padx=10, pady=5)
-        
-        sigma_scale = ttk.Scale(frame, from_=1, to=100, orient=tk.HORIZONTAL, style='info.Horizontal.TScale', command=self.update_sigma)
+
+        sigma_scale = ttk.Scale(frame, from_=1, to=100, orient=tk.HORIZONTAL,
+                                style='info.Horizontal.TScale', command=self.update_sigma)
         sigma_scale.set(15)
         sigma_scale.grid(row=1, column=2, padx=10, pady=5)
 
         fps_label = ttk.Label(frame, text="FPS: 60")
         fps_label.grid(row=2, column=2, padx=10, pady=5)
-        
-        fps_scale = ttk.Scale(frame, from_=1, to=120, orient=tk.HORIZONTAL, style='info.Horizontal.TScale', command=self.update_fps)
+
+        fps_scale = ttk.Scale(frame, from_=1, to=120, orient=tk.HORIZONTAL,
+                              style='info.Horizontal.TScale', command=self.update_fps)
         fps_scale.set(60)
         fps_scale.grid(row=3, column=2, padx=10, pady=5)
 
@@ -64,8 +71,9 @@ class CanvasWrapper:
         input_var = tk.StringVar(value="Rechteck")
         input_label = ttk.Label(frame, text="Input Source")
         input_label.grid(row=4, column=2, padx=10, pady=5)
-        
-        input_menu = ttk.Combobox(frame, textvariable=input_var, values=["Maus", "Joystick", "Rechteck"], state="readonly")
+
+        input_menu = ttk.Combobox(frame, textvariable=input_var, values=[
+                                  "Maus", "Joystick", "Rechteck"], state="readonly")
         input_menu.grid(row=5, column=2, padx=10, pady=5)
         input_menu.bind("<<ComboboxSelected>>", self.update_input_source)
 
@@ -94,29 +102,40 @@ class CanvasWrapper:
             self.adapter.update_input_signal("Rechteck")
 
     def update_canvas(self):
-        if self.isMouseSelected:
-            position, noise, kalman = self.adapter.update_values(self.mouse_dot_x, self.mouse_dot_y)
+        if hasattr(self.adapter.input, "is_joystick_connected") and not self.adapter.input.is_joystick_connected:
+            self.canvas.delete("all")
+            self.canvas.create_text(
+                200, 200, text="No Joystick connected!", fill="white")
+            self.adapter.update_values()
+            self.render_canvas()
+            self.canvas.after(int(1000 / self.fps), self.update_canvas)
         else:
-            position, noise, kalman = self.adapter.update_values()
-        self.data.add_new_pos_point(position)
-        self.data.add_new_noise_point(noise)
-        self.data.add_new_kalman_point(kalman)
-        self.canvas.delete("all")
-        self.render_canvas()
-        self.canvas.after(int(1000 / self.fps), self.update_canvas)
+            if self.isMouseSelected:
+                position, noise, kalman = self.adapter.update_values(
+                    self.mouse_dot_x, self.mouse_dot_y)
+            else:
+                position, noise, kalman = self.adapter.update_values()
+            self.data.add_new_pos_point(position)
+            self.data.add_new_noise_point(noise)
+            self.data.add_new_kalman_point(kalman)
+            self.canvas.delete("all")
+            self.render_canvas()
+            self.canvas.after(int(1000 / self.fps), self.update_canvas)
 
     def create_dot(self, point, color):
-        self.canvas.create_oval(point.x-2, point.y-2, point.x+2, point.y+2, fill=color, outline='')
+        self.canvas.create_oval(point.x-2, point.y-2,
+                                point.x+2, point.y+2, fill=color, outline='')
 
     def render_lines(self, points, color):
         for i in range(len(points) - 1):
-            self.canvas.create_line(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y, fill=color)
+            self.canvas.create_line(
+                points[i].x, points[i].y, points[i + 1].x, points[i + 1].y, fill=color)
 
     def render_canvas(self):
         position_points = self.data.position_points
         noise_points = self.data.noise_points
         kalman_points = self.data.kalman_points
-        
+
         for p in position_points:
             self.create_dot(p, "blue")
         for p in noise_points:
@@ -133,6 +152,7 @@ class CanvasWrapper:
     def run(self):
         self.canvas.after(int(1000 / self.fps), self.update_canvas)
         self.root.mainloop()
+
 
 executable = CanvasWrapper()
 executable.run()
