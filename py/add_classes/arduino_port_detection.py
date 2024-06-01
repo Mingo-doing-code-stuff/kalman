@@ -13,8 +13,8 @@ def find_arduino_port():
     ports = list(serial.tools.list_ports.comports())
     for p in ports:
         vid_pid = (p.vid, p.pid)
-        print(
-            f"Found port: {p.device} - VID: {p.vid:04X} PID: {p.pid:04X} - {p.description}")
+        # print(
+            # f"Found port: {p.device} - VID: {p.vid:04X} PID: {p.pid:04X} - {p.description}")
         if p.vid and p.pid:
             vid_hex = f"{p.vid:04X}"
             pid_hex = f"{p.pid:04X}"
