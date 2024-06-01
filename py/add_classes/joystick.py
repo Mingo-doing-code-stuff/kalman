@@ -1,18 +1,13 @@
 import serial
 import serial.tools.list_ports
 import sys
+from arduino_port_detection import find_arduino_port
 
 
 class Joystick():
 
     def __init__(self, w, h) -> None:
-        ports = list(serial.tools.list_ports.comports())
-        for p in ports:
-            if "Arduino Uno" in p.description:
-                port = p.name
-            else:
-                print("No Arduino Uno connected")
-                sys.exit()
+        port = find_arduino_port()
         self.ser = serial.Serial(port, 9600)
         self.width = w
         self.heigth = h
