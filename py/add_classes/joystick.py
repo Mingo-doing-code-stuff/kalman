@@ -1,13 +1,22 @@
 import serial
+import serial.tools.list_ports
+import sys
+
 
 class Joystick():
-    
-    def __init__(self, w, h, port = 'COM4') -> None:
+
+    def __init__(self, w, h) -> None:
+        ports = list(serial.tools.list_ports.comports())
+        for p in ports:
+            if "Arduino Uno" in p.description:
+                port = p.name
+            else:
+                sys.exit()
         self.ser = serial.Serial(port, 9600)
         self.width = w
         self.heigth = h
         pass
-    
+
     def update_position(self):
         data = self.ser.readline().decode().strip().split(',')
         if len(data) == 3:
