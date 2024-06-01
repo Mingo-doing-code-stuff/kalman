@@ -19,7 +19,8 @@ class CanvasWrapper:
         self.data = DataModel(padding, padding)
         self.mouse_dot_x, self.mouse_dot_y = 0, 0
         self.sidebar_width = 200
-        self.root, self.canvas, self.sigma_scale = self.create_canvas()
+        self.fps = 60
+        self.root, self.canvas, self.sigma_scale, self.sigma_label, self.fps_scale, self.fps_label = self.create_canvas()
         pass
 
     def update_mouse_position(self, event):
@@ -34,7 +35,7 @@ class CanvasWrapper:
         root.geometry(f"{self.canvas_width + self.sidebar_width}x{self.canvas_height}")
         root.title("Kalman Example in 2D - Visualisation")
 
-        style = Style(theme='flatly')
+        style = Style(theme='vapor')
         frame = ttk.Frame(root, padding=10)
         frame.pack(fill=tk.BOTH, expand=True)
         # Create a Canvas widget
@@ -42,14 +43,33 @@ class CanvasWrapper:
         canvas.grid(row=0, column=0, rowspan=5, sticky="nsew")
         canvas.bind("<Motion>", self.update_mouse_position)
 
-        sigma_scale = ttk.Scale(frame, from_=1, to=100, orient=tk.HORIZONTAL, style='info.Horizontal.TScale', command=self.update_sigma)
-        sigma_scale.grid(row=1, column=2, padx=10, pady=5)
+        # Set a fixed width for the column
+        frame.grid_columnconfigure(2, minsize=self.sidebar_width)
+
+        sigma_label = ttk.Label(frame, text="Covariance Sigma: 15")
+        sigma_label.grid(row=0, column=2, padx=10, pady=5)
         
-        return root, canvas, sigma_scale
+        sigma_scale = ttk.Scale(frame, from_=1, to=100, orient=tk.HORIZONTAL, style='info.Horizontal.TScale', command=self.update_sigma)
+        sigma_scale.set(15)
+        sigma_scale.grid(row=1, column=2, padx=10, pady=5)
+
+        fps_label = ttk.Label(frame, text="FPS: 60")
+        fps_label.grid(row=2, column=2, padx=10, pady=5)
+        
+        fps_scale = ttk.Scale(frame, from_=1, to=120, orient=tk.HORIZONTAL, style='info.Horizontal.TScale', command=self.update_fps)
+        fps_scale.set(60)
+        fps_scale.grid(row=3, column=2, padx=10, pady=5)
+
+        return root, canvas, sigma_scale, sigma_label, fps_scale, fps_label
 
     def update_sigma(self, value):
         sigma_value = float(value)
+        self.sigma_label.config(text=f"Covariance Sigma: {sigma_value:.3f}")
         self.adapter.update_sigma(sigma_value)
+
+    def update_fps(self, value):
+        self.fps = int(float(value))
+        self.fps_label.config(text=f"FPS: {self.fps}")
 
     def set_selected(self, var):
         if var == 0:
@@ -66,7 +86,7 @@ class CanvasWrapper:
         self.data.add_new_kalman_point(kalman)
         self.canvas.delete("all")
         self.render_canvas()
-        return
+        self.canvas.after(int(1000 / self.fps), self.update_canvas)
 
     def create_dot(self, point, color):
         self.canvas.create_oval(point.x-2, point.y-2, point.x+2, point.y+2, fill=color, outline='')
@@ -87,11 +107,10 @@ class CanvasWrapper:
         for p in kalman_points:
             self.create_dot(p, "red")
 
-        self.canvas.after(40, self.update_canvas)
         return
 
     def run(self):
-        self.canvas.after(40, self.update_canvas)
+        self.canvas.after(int(1000 / self.fps), self.update_canvas)
         self.root.mainloop()
 
 
