@@ -47,12 +47,12 @@ class Adapter9000():
         self.noise_generator.set_sigma(sigma)
 
     def update_input_signal(self, idx):
-        if (idx == 1):
+        if (idx == "Maus"):
             # self.input = Mouse
             self.kalman = Kalman(self.sigma)
             self.noise_generator = NoiseGenerator(self.sigma)
             return
-        elif (idx == 2):
+        elif (idx == "Joystick"):
             self.input = Joystick(self.canvas_width, self.canvas_height)
             self.kalman = Kalman(self.sigma)
             self.noise_generator = NoiseGenerator(self.sigma)
