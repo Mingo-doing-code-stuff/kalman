@@ -39,7 +39,7 @@ class CanvasWrapper:
             f"{self.canvas_width + self.sidebar_width}x{self.canvas_height}")
         root.title("Kalman Example in 2D - Visualisation")
 
-        style = Style(theme='vapor')
+        style = Style(theme='solar')
         frame = ttk.Frame(root, padding=10)
         frame.pack(fill=tk.BOTH, expand=True)
         # Create a Canvas widget
@@ -93,12 +93,15 @@ class CanvasWrapper:
         print(selection)
         if selection == "Maus":
             self.isMouseSelected = True
+            self.data = DataModel(0,0)
             self.adapter.update_input_signal("Maus")
         elif selection == "Joystick":
             self.isMouseSelected = False
+            self.data = DataModel(0,0)
             self.adapter.update_input_signal("Joystick")
         elif selection == "Rechteck":
             self.isMouseSelected = False
+            self.data = DataModel(0,0)
             self.adapter.update_input_signal("Rechteck")
 
     def update_canvas(self):
