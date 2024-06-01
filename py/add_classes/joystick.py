@@ -11,6 +11,7 @@ class Joystick():
             if "Arduino Uno" in p.description:
                 port = p.name
             else:
+                print("No Arduino Uno connected")
                 sys.exit()
         self.ser = serial.Serial(port, 9600)
         self.width = w
