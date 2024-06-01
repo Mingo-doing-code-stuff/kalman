@@ -1,6 +1,5 @@
 import serial
 import serial.tools.list_ports
-import sys
 from arduino_port_detection import find_arduino_port
 
 
