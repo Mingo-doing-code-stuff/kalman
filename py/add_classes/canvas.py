@@ -1,6 +1,6 @@
 import tkinter as tk
 # Assuming you have this class correctly implemented
-from py.deprecated.adapter import Adapter9000
+from adapter import Adapter9000
 # Assuming you have this class correctly implemented
 from datamodel import DataModel
 from point import Point  # Assuming you have this class correctly implemented
@@ -93,15 +93,15 @@ class CanvasWrapper:
         print(selection)
         if selection == "Maus":
             self.isMouseSelected = True
-            self.data = DataModel(0,0)
+            self.data = DataModel(0, 0)
             self.adapter.update_input_signal("Maus")
         elif selection == "Joystick":
             self.isMouseSelected = False
-            self.data = DataModel(0,0)
+            self.data = DataModel(0, 0)
             self.adapter.update_input_signal("Joystick")
         elif selection == "Rechteck":
             self.isMouseSelected = False
-            self.data = DataModel(0,0)
+            self.data = DataModel(0, 0)
             self.adapter.update_input_signal("Rechteck")
 
     def update_canvas(self):
