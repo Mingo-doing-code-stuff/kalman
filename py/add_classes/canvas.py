@@ -1,7 +1,9 @@
 import tkinter as tk
-from Adapter import Adapter9000
-from datamodel import DataModel
-from point import Point
+from Adapter import Adapter9000  # Assuming you have this class correctly implemented
+from datamodel import DataModel  # Assuming you have this class correctly implemented
+from point import Point  # Assuming you have this class correctly implemented
+from ttkbootstrap import Style
+from ttkbootstrap import ttk
 
 
 class CanvasWrapper:
@@ -13,11 +15,11 @@ class CanvasWrapper:
         canvas_height = h_steps * step_size
         self.canvas_height = canvas_height
         self.isMouseSelected = 1
-        self.adapter = Adapter9000(
-            canvas_width, canvas_height, step_size, padding)
+        self.adapter = Adapter9000(canvas_width, canvas_height, step_size, padding)
         self.data = DataModel(padding, padding)
         self.mouse_dot_x, self.mouse_dot_y = 0, 0
-        self.root, self.canvas = self.create_canvas()
+        self.sidebar_width = 200
+        self.root, self.canvas, self.sigma_scale = self.create_canvas()
         pass
 
     def update_mouse_position(self, event):
@@ -29,18 +31,28 @@ class CanvasWrapper:
 
     def create_canvas(self):
         root = tk.Tk()
-        root.geometry(f"{self.canvas_width}x{self.canvas_height}")
+        root.geometry(f"{self.canvas_width + self.sidebar_width}x{self.canvas_height}")
         root.title("Kalman Example in 2D - Visualisation")
 
+        style = Style(theme='flatly')
+        frame = ttk.Frame(root, padding=10)
+        frame.pack(fill=tk.BOTH, expand=True)
         # Create a Canvas widget
-        canvas = tk.Canvas(root, width=self.canvas_width,
-                           height=self.canvas_height, bg='#1F1F31')
+        canvas = tk.Canvas(frame, width=self.canvas_width, height=self.canvas_height, bg='#1F1F31')
+        canvas.grid(row=0, column=0, rowspan=5, sticky="nsew")
         canvas.bind("<Motion>", self.update_mouse_position)
-        canvas.pack()
-        return root, canvas
+
+        sigma_scale = ttk.Scale(frame, from_=1, to=100, orient=tk.HORIZONTAL, style='info.Horizontal.TScale', command=self.update_sigma)
+        sigma_scale.grid(row=1, column=2, padx=10, pady=5)
+        
+        return root, canvas, sigma_scale
+
+    def update_sigma(self, value):
+        sigma_value = float(value)
+        self.adapter.update_sigma(sigma_value)
 
     def set_selected(self, var):
-        if (var == 0):
+        if var == 0:
             self.isMouseSelected = 1
             self.adapter.update_input_signal(var)
         else:
@@ -52,15 +64,12 @@ class CanvasWrapper:
         self.data.add_new_pos_point(position)
         self.data.add_new_noise_point(noise)
         self.data.add_new_kalman_point(kalman)
-
         self.canvas.delete("all")
         self.render_canvas()
-        # //TODO: Render Cycle Updates
         return
 
     def create_dot(self, point, color):
-        self.canvas.create_oval(point.x-2, point.y-2,
-                                point.x+2, point.y+2, fill=color)
+        self.canvas.create_oval(point.x-2, point.y-2, point.x+2, point.y+2, fill=color, outline='')
 
     def render_canvas(self):
         position_points = self.data.position_points
@@ -78,7 +87,6 @@ class CanvasWrapper:
         for p in kalman_points:
             self.create_dot(p, "red")
 
-        self.canvas.pack()
         self.canvas.after(40, self.update_canvas)
         return
 
