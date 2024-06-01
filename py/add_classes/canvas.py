@@ -64,7 +64,7 @@ class CanvasWrapper:
 
     def update_sigma(self, value):
         sigma_value = float(value)
-        self.sigma_label.config(text=f"Covariance Sigma: {sigma_value:.3f}")
+        self.sigma_label.config(text=f"Covariance Sigma: {sigma_value:.0f}")
         self.adapter.update_sigma(sigma_value)
 
     def update_fps(self, value):
