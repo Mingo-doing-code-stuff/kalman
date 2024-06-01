@@ -1,7 +1,7 @@
 import serial
 import serial.tools.list_ports
 import sys
-from py.src.helper.arduino_port_detection import find_arduino_port
+from helper.arduino_port_detection import find_arduino_port
 
 
 class Joystick():

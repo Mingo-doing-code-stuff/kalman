@@ -1,10 +1,11 @@
-from py.runnable.inputs.rectangularPath import RectangularPath
-from py.runnable.inputs.joystick import Joystick
-# from mouse import Mouse ???
-from py.runnable.kalman import Kalman
-from py.src.helper.point import Point
+from inputs.rectangularPath import RectangularPath
+from inputs.joystick import Joystick
+# from inputs.mouse import Mouse ???
+from helper.kalman import Kalman
+from helper.point import Point
 import numpy as np
 import random
+
 
 
 class NoiseGenerator():

@@ -1,4 +1,4 @@
-from py.src.helper.point import Point
+from .point import Point
 
 
 class DataModel():
