@@ -48,16 +48,19 @@ class Adapter9000():
 
     def update_input_signal(self, idx):
         if (idx == "Maus"):
-            # self.input = Mouse
+            self.input = "Mouse"
+            self.prev_noise = [0, 0]
             self.kalman = Kalman(self.sigma)
             self.noise_generator = NoiseGenerator(self.sigma)
             return
         elif (idx == "Joystick"):
+            self.prev_noise = [0, 0]
             self.input = Joystick(self.canvas_width, self.canvas_height)
             self.kalman = Kalman(self.sigma)
             self.noise_generator = NoiseGenerator(self.sigma)
             return
         else:
+            self.prev_noise = [0, 0]
             self.input = RectangularPath(
                 self.canvas_width, self.canvas_height, self.step_size, self.padding)
             self.kalman = Kalman(self.sigma)
@@ -70,8 +73,13 @@ class Adapter9000():
     def set_prev_noise(self, x, y):
         self.prev_noise = [x, y]
 
-    def update_values(self):
-        x_pos, y_pos = self.input.update_position()
+    def update_values(self, x=0,y=0):
+        x_pos, y_pos = 0, 0
+        if self.input == "Mouse":
+            x_pos, y_pos = x, y
+        else:
+            x_pos, y_pos = self.input.update_position()
+        
         x_n, y_n = self.noise_generator.add_noise(x_pos, y_pos)
         x_n_prev, y_n_prev = self.get_prev_noise()
         self.set_prev_noise(x_n, y_n)

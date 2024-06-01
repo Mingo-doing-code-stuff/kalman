@@ -61,7 +61,7 @@ class CanvasWrapper:
         fps_scale.grid(row=3, column=2, padx=10, pady=5)
 
         # Dropdown Menu for Input Selection
-        input_var = tk.StringVar(value="Maus")
+        input_var = tk.StringVar(value="Rechteck")
         input_label = ttk.Label(frame, text="Input Source")
         input_label.grid(row=4, column=2, padx=10, pady=5)
         
@@ -94,7 +94,10 @@ class CanvasWrapper:
             self.adapter.update_input_signal("Rechteck")
 
     def update_canvas(self):
-        position, noise, kalman = self.adapter.update_values()
+        if self.isMouseSelected:
+            position, noise, kalman = self.adapter.update_values(self.mouse_dot_x, self.mouse_dot_y)
+        else:
+            position, noise, kalman = self.adapter.update_values()
         self.data.add_new_pos_point(position)
         self.data.add_new_noise_point(noise)
         self.data.add_new_kalman_point(kalman)
@@ -113,17 +116,13 @@ class CanvasWrapper:
         position_points = self.data.position_points
         noise_points = self.data.noise_points
         kalman_points = self.data.kalman_points
-
-        if self.isMouseSelected:
-            position_point = Point(self.mouse_dot_x, self.mouse_dot_y)
-            self.create_dot(position_point, "purple")
-        else :
-            for p in position_points:
-                self.create_dot(p, "blue")
-            for p in noise_points:
-                self.create_dot(p, "green")
-            for p in kalman_points:
-                self.create_dot(p, "red")
+        
+        for p in position_points:
+            self.create_dot(p, "blue")
+        for p in noise_points:
+            self.create_dot(p, "green")
+        for p in kalman_points:
+            self.create_dot(p, "red")
 
         self.render_lines(position_points, "blue")
         self.render_lines(noise_points, "green")
