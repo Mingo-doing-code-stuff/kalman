@@ -27,22 +27,22 @@
 \frame{\titlepage}
 
 \begin{frame}
-    \frametitle{Inhaltsverzeichnis}
+    \frametitle{Table of contents}
     \tableofcontents
 \end{frame}
 
-\section{Einleitung}
+\section{Introduction}
 
 \begin{frame}
     \frametitle{What is the Kalman Filter?}
-    The Kalman filter is a mathematical method for iteratively estimating parameters to describe 
+    The Kalman filter is a mathematical method for iteratively estimating parameters to describe
     system states.
 
-    In this process, a prediction about a parameter value is repeatedly made, combined with the 
+    In this process, a prediction about a parameter value is repeatedly made, combined with the
     error-prone measurement, and then used again to make a new prediction.
 \end{frame}
 
-\section{Vereinfachte Erklärung}
+\section{Simplified explanation}
 
 \begin{frame}
     \frametitle{Process of Kalman Filters}
@@ -104,17 +104,17 @@
     \begin{figure}
         \centering
         \includegraphics[width=0.9\textwidth]{images/05_correction.png}
-        \caption{Correction of the Kalman Gain after Messurement at \(t_1\)}
+        \caption{Correction of the Kalman Gain after measurement at \(t_1\)}
     \end{figure}
 \end{frame}
 
 \begin{frame}
     \frametitle{Takeaways}
     \begin{itemize}
-        \item The precision sinks with the prediction
-        \item The precision grows with the correction
+        \item The precision decreases with the prediction
+        \item The precision increases with the correction
     \end{itemize}
-    
+
 \end{frame}
 
 \section{Joystick example}
@@ -123,13 +123,13 @@
     \frametitle{State Representation}
     % //TODO: Make x's differentiabable
     We define the state vector \(x\) to include the position and velocity of the mouse in both x and y directions
-   
+
     \begin{equation*}
         x = \begin{bmatrix}
-            x      \\
-            y      \\
-            v_{x}  \\
-            v_{y}  \\
+            x     \\
+            y     \\
+            v_{x} \\
+            v_{y} \\
         \end{bmatrix}
     \end{equation*}
 
@@ -145,7 +145,7 @@
 
 \begin{frame}
     \frametitle{Formulate the Transtition Model}
-    The state transition model describes how the state evolves from one time step to the next. 
+    The state transition model describes how the state evolves from one time step to the next.
     If we assume a constant velocity model, the state transition can be expressed as:
     \begin{equation*}
         x_{k+1}=Ax_{k}+w_{k}
@@ -155,14 +155,14 @@
 
 \begin{frame}
     \frametitle{Create the Transition Matrix}
-    The transition matrix A for a constant velocity Model is: 
-    
+    The transition matrix A for a constant velocity Model is:
+
     \begin{equation*}
         A = \begin{bmatrix}
             1 & 0 & \Delta t & 0        \\
             0 & 1 & 0        & \Delta t \\
             0 & 0 & 1        & 0        \\
-            0 & 0 & 0        & 1        \\ 
+            0 & 0 & 0        & 1        \\
         \end{bmatrix}
     \end{equation*}
 
@@ -179,7 +179,7 @@
     covariance \(R\).
 
     The observation matrix \(H\) for direct measurement of position is:
-    
+
     \begin{equation*}
         H = \begin{bmatrix}
             1 & 0 & 0 & 0 \\
@@ -191,19 +191,19 @@
 
 \begin{frame}
     \frametitle{Prediction Step}
-    
+
     The prediction step estimates the next state and its uncertainty:
 
     \begin{itemize}
         \item Predict the state:
-        \begin{equation}
-            x_{k+1}=Ax_{k} 
-        \end{equation}
+              \begin{equation}
+                  x_{k+1}=Ax_{k}
+              \end{equation}
 
         \item Predict the error coavriance:
-        \begin{equation}
-            P_{k+1}=AP_{k}A^{T}+Q
-        \end{equation}
+              \begin{equation}
+                  P_{k+1}=AP_{k}A^{T}+Q
+              \end{equation}
     \end{itemize}
 \end{frame}
 
@@ -212,17 +212,17 @@
     The correction step updates the state estimate with the new measurement:
     \begin{itemize}
         \item Compute the Kalman gain:
-            \begin{equation}
-                K_{k} = P_{k}H^{T}(HP_{k}H^{T}+R)^{-1}
-            \end{equation}
+              \begin{equation}
+                  K_{k} = P_{k}H^{T}(HP_{k}H^{T}+R)^{-1}
+              \end{equation}
         \item Update the state estimate:
-            \begin{equation}
-                x_{k} = x_{k}+K_{k}(z_{k}-Hx_{k})
-            \end{equation}
+              \begin{equation}
+                  x_{k} = x_{k}+K_{k}(z_{k}-Hx_{k})
+              \end{equation}
         \item Update the error covariance:
-            \begin{equation}
-                P_{k} = (I-K_{k}H)P_{k}
-            \end{equation}
+              \begin{equation}
+                  P_{k} = (I-K_{k}H)P_{k}
+              \end{equation}
     \end{itemize}
 \end{frame}
 
@@ -240,22 +240,22 @@
     \begin{table}[h]
         \centering
         \begin{tabular}{|l|p{8cm}|}
-        \hline
-        \textbf{Symbol} & \textbf{Meaning} \\ \hline
-        \(k\)          & Interval / iteration of the Kalman filter\\ \hline
-        \(z_k\)       & Measurement from the sensor  \\ \hline
-        \(x_k\)       & Value of the current estimation \\ \hline
-        \(x_{k-1}\)   & Value of the previous estimation \\ \hline
-        \(P_k\)       & Value of the current error covariance \\ \hline
-        \(P_{k-1}\)   & Value of the previous error covariance \\ \hline
-        % //TODO: Translate to english
-        \(R\)          & Variance of the measurements \\ \hline
-        \(Q\)          & Process noise covariance \\ \hline
-        \(A\)          & Transition Matrix \\ \hline
-        \(H\)          & Observation Matrix \\ \hline
-        \(Bu_{k-1}\) & Control signal \\ \hline
+            \hline
+            \textbf{Symbol} & \textbf{Meaning}                          \\ \hline
+            \(k\)           & Interval / iteration of the Kalman filter \\ \hline
+            \(z_k\)         & Measurement from the sensor               \\ \hline
+            \(x_k\)         & Value of the current estimation           \\ \hline
+            \(x_{k-1}\)     & Value of the previous estimation          \\ \hline
+            \(P_k\)         & Value of the current error covariance     \\ \hline
+            \(P_{k-1}\)     & Value of the previous error covariance    \\ \hline
+            % //TODO: Translate to english
+            \(R\)           & Variance of the measurements              \\ \hline
+            \(Q\)           & Process noise covariance                  \\ \hline
+            \(A\)           & Transition Matrix                         \\ \hline
+            \(H\)           & Observation Matrix                        \\ \hline
+            \(Bu_{k-1}\)    & Control signal                            \\ \hline
         \end{tabular}
-        \end{table}
+    \end{table}
 \end{frame}
 
 \section{Summary}
