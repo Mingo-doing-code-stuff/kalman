@@ -30,11 +30,45 @@
 
 \begin{frame}
     \frametitle{Table of contents}
-    \tableofcontents
+    \begin{columns}
+        \begin{column}{0.4\textwidth}
+            \tableofcontents
+        \end{column}
+        \begin{column}{0.4\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=1\textwidth]{images/graphics/Bildschirmfoto 2024-06-02 um 16.40.09.png}
+            \end{figure} 
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \section{Introduction}
 
+% ABOUT KALMAN BOY
+\begin{frame}
+    \frametitle{Rudolf Emil Kalman}
+    \begin{columns}
+        \begin{column}{0.7\textwidth}
+           \begin{itemize}
+            \item was born in 1930 in Hungary
+            \item Bachelor of Science and Master of Science at the MIT
+            \item PHD 1957 at the Columbia
+            \item developed the filter arond the years 1960 to 1961
+            \item died in 2016 in Florida
+           \end{itemize} 
+        \end{column}
+        \begin{column}{0.3\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=1\textwidth]{images/graphics/kalman_bre.jpeg}
+                \caption{Rudolf Emil Kalman}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% KALMAN FILTER FIRST EXPLAINATION
 \begin{frame}
     \frametitle{What is the Kalman Filter?}
     The Kalman filter is a mathematical method for iteratively estimating parameters to describe
@@ -44,15 +78,20 @@
     error-prone measurement, and then used again to make a new prediction.
 \end{frame}
 
+% KALMAN FILTER PROCESS GRAPHIC
 \begin{frame}
     \frametitle{Kalman Filter}
     \begin{figure}
         \centering
-        \includegraphics[width=1\textwidth]{images/graphics/flow.png} % //TODO: find Good Image
+        \includegraphics[width=1\textwidth]{images/graphics/flow.png}
         \caption{Procedure of the Kalman Filter\footnotemark}
     \end{figure}
 \end{frame}
 
+% APPLICATION EXAMPLE
+% TODO: Add some Esy to follow real world example here.
+
+% LIST OF SENSOR EXAMPLES
 \begin{frame}
     \frametitle{Sensors susceptible to failure}
     \begin{columns}
@@ -86,6 +125,8 @@
 
 \section{Foundations}
 
+% FIRST STATISTICAL FOUNDATIONS
+% THE MEAN VALUE
 \begin{frame}
     \frametitle{The Mean}
     \begin{figure}
@@ -94,10 +135,11 @@
     \end{figure}
     \vspace{1cm}
     \begin{equation*}
-        \mu = \frac{1}{N} \sum _{n=1}^{N}V_{n}= \frac{1}{5} \left( 5+5+10+10+10 \right) = 8 cent
+        \mu = \frac{1}{N} \sum _{n=1}^{N}V_{n}= \frac{1}{5} \left( 5+5+10+10+10 \right) = 8 \text{ Cent}
     \end{equation*}
 \end{frame}
 
+% THE STANDARD DEVIATION
 \begin{frame}
     \frametitle{The standarddeviation}
 
@@ -134,7 +176,7 @@
 
 \end{frame}
 
-
+% THE VARIANCE I
 \begin{frame}
     \frametitle{The variance}
 
@@ -170,6 +212,7 @@
 
 \end{frame}
 
+% THE VARIANCE II
 \begin{frame}
     \frametitle{The variance}
     
@@ -178,20 +221,20 @@
     \end{equation*}
 
     \vspace{5mm}
-    \footnotesize
-
-    \begin{align*}
-        &\sigma_{\scriptscriptstyle \!A}^{2} = \frac{1}{N} \sum _{n=1}^{N} \left( x_{\scriptscriptstyle \!A_{n}} -  \mu  \right) ^{2}\\ &= \frac{1}{5} \left( 0.000576+ 0.034596+ 0.026896+ 0.004356+ 0.004096 \right) = 0.014m^{2}
-    \end{align*}
+    \tiny
+    \begin{equation*}
+        \sigma_{\scriptscriptstyle \!A}^{2} = \frac{1}{N} \sum _{n=1}^{N} \left( x_{\scriptscriptstyle \!A_{n}} -  \mu  \right) ^{2} = \frac{1}{5} \left( 0.000576+ 0.034596+ 0.026896+ 0.004356+ 0.004096 \right) = 0.014m^{2}
+    \end{equation*}
     
-    \vspace{3mm}
+    \vspace{1mm}
     
-    \begin{align*}
-       &\sigma_{\scriptscriptstyle \!B}^{2} = \frac{1}{N} \sum _{n=1}^{N} \left( x_{\scriptscriptstyle \!B_{n}} -  \mu  \right) ^{2}\\ & = \frac{1}{5} \left( 0.000676+ 0.000196+ 0.003136+ 0.000576+ 0.001936 \right) = 0.0013m^{2}
-    \end{align*}
+    \begin{equation*}
+       \sigma_{\scriptscriptstyle \!B}^{2} = \frac{1}{N} \sum _{n=1}^{N} \left( x_{\scriptscriptstyle \!B_{n}} -  \mu  \right) ^{2} = \frac{1}{5} \left( 0.000676+ 0.000196+ 0.003136+ 0.000576+ 0.001936 \right) = 0.0013m^{2}
+    \end{equation*}
    
 \end{frame}
 
+% THE COVARIANCE
 \begin{frame}
     \frametitle{Covariance}
     \footnotesize
@@ -210,6 +253,7 @@
     \end{block}
 \end{frame}
 
+% THE COVARIANCE, TOO
 \begin{frame}
     \frametitle{The covariance}
     \begin{itemize}
@@ -227,12 +271,9 @@
 
 \end{frame}
 
-\begin{frame}
-    \frametitle{The covariance}
-\end{frame}
-
 \section{Simplified explanation}
 
+% PROCESS EQUATIONS FOR THE KALMAN FILTER
 \begin{frame}
     \frametitle{Process of Kalman Filters}
 
@@ -251,7 +292,7 @@
     5. Covariance Update: \( P_{k}=(I-K_{k}H)P_{k} \)
 \end{frame}
 
-
+% KALMAN EXAMPLE WITH THE GAUSS STUFF
 \begin{frame}
     \frametitle{Kalman explained}
     \begin{figure}
@@ -261,6 +302,7 @@
     \end{figure}
 \end{frame}
 
+% KALMAN EXAMPLE WITH THE GAUSS STUFF
 \begin{frame}
     \frametitle{Kalman explained}
     \begin{figure}
@@ -270,6 +312,7 @@
     \end{figure}
 \end{frame}
 
+% KALMAN EXAMPLE WITH THE GAUSS STUFF
 \begin{frame}
     \frametitle{Kalman explained}
     \begin{figure}
@@ -279,6 +322,7 @@
     \end{figure}
 \end{frame}
 
+% KALMAN EXAMPLE WITH THE GAUSS STUFF
 \begin{frame}
     \frametitle{Kalman explained}
     \begin{figure}
@@ -288,6 +332,7 @@
     \end{figure}
 \end{frame}
 
+% KALMAN EXAMPLE WITH THE GAUSS STUFF
 \begin{frame}
     \frametitle{Kalman explained}
     \begin{figure}
@@ -297,6 +342,7 @@
     \end{figure}
 \end{frame}
 
+% KALMAN EXAMPLE WITH THE GAUSS STUFF
 \begin{frame}
     \frametitle{Takeaways}
     \begin{itemize}
@@ -307,6 +353,12 @@
 \end{frame}
 
 \section{Joystick example}
+
+\begin{frame}
+    % TODO: Make Section Header Files
+    \huge
+    \textbf{Einbindung in einen konkreten Anwendungsfall}
+\end{frame}
 
 \begin{frame}
     \frametitle{State Representation}
@@ -426,23 +478,22 @@
 
 \begin{frame}
     \frametitle{Cheat Sheet - Math Symbols}
+    \scriptsize
     \begin{table}[h]
         \centering
-        \begin{tabular}{|l|p{8cm}|}
+        \begin{tabular}{|c|p{8cm}|}
             \hline
-            \textbf{Symbol} & \textbf{Meaning}                          \\ \hline
-            \(k\)           & Interval / iteration of the Kalman filter \\ \hline
-            \(z_k\)         & Measurement from the sensor               \\ \hline
-            \(x_k\)         & Value of the current estimation           \\ \hline
-            \(x_{k-1}\)     & Value of the previous estimation          \\ \hline
-            \(P_k\)         & Value of the current error covariance     \\ \hline
-            \(P_{k-1}\)     & Value of the previous error covariance    \\ \hline
-            % //TODO: Translate to english
-            \(R\)           & Variance of the measurements              \\ \hline
-            \(Q\)           & Process noise covariance                  \\ \hline
-            \(A\)           & Transition Matrix                         \\ \hline
-            \(H\)           & Observation Matrix                        \\ \hline
-            \(Bu_{k-1}\)    & Control signal                            \\ \hline
+            \textbf{Symbol} & \textbf{Meaning}                                                                                                                                  \\ \hline
+            \(k\)           & Interval or iteration of the Kalman filter                                                                                                        \\ \hline
+            \(z_k\)         & Measurement vector. This contains the real-world measurement we received in this time step.                                                       \\ \hline
+            \(x_k\)         & Newest estimate of the current "true" state.                                                                                                      \\ \hline
+            \(P_k\)         & Newest estimate of the average error for each part of the state.                                                                                  \\ \hline
+            \(R\)           & Estimated measurement error covariance. Finding precise values for Q and R are beyond the scope of this guide.                                    \\ \hline
+            \(Q\)           & Estimated process error covariance. Finding precise values for Q and R are beyond the scope of this guide.                                        \\ \hline
+            \(A\)           & State transition matrix. Basically, multiply state by this and add control factors, and you get a prediction of the state for the next time step. \\ \hline
+            \(H\)           & Observation matrix. Multiply a state vector by H to translate it to a measurement vector.                                                         \\ \hline
+            \(B\)           & Control matrix. This is used to define linear equations for any control factors.                                                                  \\ \hline
+            \(u_{k-1}\)     & Control vector. This indicates the magnitude of any control system's or user's control on the situation.                                          \\ \hline
         \end{tabular}
     \end{table}
 \end{frame}
@@ -452,6 +503,8 @@
 \begin{frame}
     \frametitle{Summary}
     KALMA KALMA !
+    
+    \huge TO TH MOOOOOON!
 \end{frame}
 
 \begin{frame}
