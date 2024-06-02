@@ -16,9 +16,11 @@
 \date{\today}
 \renewcommand{\dateseparator}{.}
 \newcommand\w[1]{\makebox[2.5em]{$#1$}}
+\addtobeamertemplate{footnote}{\hspace{25ex}}{}
 
 \setbeamertemplate{sections/subsections in toc}[square]
-%\setbeamertemplate{sections/subsections in toc}[sections numbered]
+% \setbeamertemplate{sections/subsections in toc}[sections numbered]
+% \setbeamertemplate{caption}[numbered]
 
 \usefonttheme[onlymath]{serif}
 
@@ -40,6 +42,72 @@
 
     In this process, a prediction about a parameter value is repeatedly made, combined with the
     error-prone measurement, and then used again to make a new prediction.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Kalman Filter}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{images/graphics/flow.png} % //TODO: find Good Image
+        \caption{Procedure of the Kalman Filter\footnotemark}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Sensors susceptible to failure}
+    \begin{columns}
+
+        \begin{column}{0.4\textwidth}
+            \footnotesize
+            \begin{itemize}
+                \item Light sensor (photoresistor)
+                \item Ultrasonic sensor
+                \item Infrared sensor
+                \item Temperature sensor (thermoelectric)
+                \item Magnetic field sensor
+                \item Gas and air quality sensor
+                \item Humidity sensor
+                \item Motion sensor (accelerometer)
+                \item Pressure sensor
+                \item Sound sensor
+            \end{itemize}
+        \end{column}
+        
+        \begin{column}{0.6\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=1\textwidth]{images/graphics/sensors.png}
+                \caption{sensors}
+            \end{figure}
+        \end{column}
+
+    \end{columns}
+\end{frame}
+
+\section{Foundations}
+
+\begin{frame}
+    \frametitle{The Mean}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{images/graphics/coins.png}
+    \end{figure}
+    \vspace{1cm}
+    \begin{equation*}
+        \mu = \frac{1}{N} \sum _{n=1}^{N}V_{n}= \frac{1}{5} \left( 5+5+10+10+10 \right) = 8 cent
+    \end{equation*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{The standarddeviation}
+\end{frame}
+
+\begin{frame}
+    \frametitle{The variance}
+\end{frame}
+
+\begin{frame}
+    \frametitle{The covariance}
 \end{frame}
 
 \section{Simplified explanation}
@@ -263,6 +331,12 @@
 \begin{frame}
     \frametitle{Summary}
     KALMA KALMA !
+\end{frame}
+
+\begin{frame}
+    \frametitle{List of figures}
+    \listoffigures
+    \footnotetext[1]{A test footnote in the first column}
 \end{frame}
 
 \end{document}
