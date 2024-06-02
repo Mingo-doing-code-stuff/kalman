@@ -100,10 +100,131 @@
 
 \begin{frame}
     \frametitle{The standarddeviation}
+
+
+    \footnotesize
+    \begin{tabular}{ c|ccccc|c }
+        \hline
+             & Player1 & Player2 & Player3 & Player4 & Player5 & Mean \\ 
+        \hline
+            Team A & \(1.89\)m & \(2.10\)m & \(1.75\)m & \(1.98\)m & \(1.85\)m & \(1.914\)m \\ 
+            Team B & \(1.94\)m & \(1.90\)m & \(1.97\)m & \(1.89\)m & \(1.87\)m & \(1.194\)m \\ 
+        \hline
+    \end{tabular}
+
+    \vspace{0.5cm}
+
+    \normalsize
+    \begin{equation*}
+        x_{n} -  \mu = x_{n}-1.914m
+    \end{equation*}
+
+    \vspace{0.5cm}
+
+    \footnotesize
+    \begin{tabular}{ c|ccccc }
+        \hline
+             & Player1 & Player2 & Player3 & Player4 & Player5 \\ 
+        \hline
+            Team A & \(-0.024\)m & \(0.186\)m & \(-0.164\)m & \(0.066\)m & \(-0.064\)m \\ 
+            Team B & \(0.026\)m & \(-0.014\)m & \(0.056\)m & \(-0.024\)m & \(-0.044\)m \\ 
+        \hline
+    \end{tabular}
+
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{The variance}
+
+    \footnotesize
+    % \scriptsize
+    \begin{tabular}{ c|ccccc }
+        \hline
+             & Player1 & Player2 & Player3 & Player4 & Player5 \\ 
+        \hline
+            Team A & \(-0.024\)m & \(0.186\)m & \(-0.164\)m & \(0.066\)m & \(-0.064\)m \\ 
+            Team B & \(0.026\)m & \(-0.014\)m & \(0.056\)m & \(-0.024\)m & \(-0.044\)m \\ 
+        \hline
+    \end{tabular}
+
+    \vspace{0.5cm}
+
+    \normalsize
+    \begin{equation*}
+        \left( x_{n}-  \mu  \right) ^{2} =  \left( x_{n}- 1.914m \right) ^{2}
+    \end{equation*}
+
+    \vspace{0.5cm}
+
+    \tiny
+    \begin{tabular}{ c|ccccc }
+        \hline
+             & Player1 & Player2 & Player3 & Player4 & Player5 \\ 
+        \hline
+            Team A & \(0.000576\)m\(^{2}\) & \(0.034596\)m\(^{2}\) & \(0.026896\)m\(^{2}\) & \(0.004356\)m\(^{2}\) & \(0.004096\)m\(^{2}\) \\ 
+            Team B & \(0.000676\)m\(^{2}\) & \(0.000196\)m\(^{2}\) & \(0.003136\)m\(^{2}\) & \(0.000576\)m\(^{2}\) & \(0.001936\)m\(^{2}\) \\ 
+        \hline
+    \end{tabular}
+
 \end{frame}
 
 \begin{frame}
     \frametitle{The variance}
+    
+    \begin{equation*}
+        \sigma^{2} = \frac{1}{N} \sum _{n=1}^{N} \left( x_{\scriptscriptstyle \!B_{n}} -  \mu  \right) ^{2}
+    \end{equation*}
+
+    \vspace{5mm}
+    \footnotesize
+
+    \begin{align*}
+        &\sigma_{\scriptscriptstyle \!A}^{2} = \frac{1}{N} \sum _{n=1}^{N} \left( x_{\scriptscriptstyle \!A_{n}} -  \mu  \right) ^{2}\\ &= \frac{1}{5} \left( 0.000576+ 0.034596+ 0.026896+ 0.004356+ 0.004096 \right) = 0.014m^{2}
+    \end{align*}
+    
+    \vspace{3mm}
+    
+    \begin{align*}
+       &\sigma_{\scriptscriptstyle \!B}^{2} = \frac{1}{N} \sum _{n=1}^{N} \left( x_{\scriptscriptstyle \!B_{n}} -  \mu  \right) ^{2}\\ & = \frac{1}{5} \left( 0.000676+ 0.000196+ 0.003136+ 0.000576+ 0.001936 \right) = 0.0013m^{2}
+    \end{align*}
+   
+\end{frame}
+
+\begin{frame}
+    \frametitle{Covariance}
+    \footnotesize
+
+    \begin{itemize}
+        \item \textbf{Definition:}
+        Covariance is a measure of how much two random variables change together. If the greater values of one variable mainly correspond with the greater values of the other variable, and the same holds for the lesser values (i.e., the variables tend to show similar behavior), the covariance is positive. In the opposite case, when the greater values of one variable mainly correspond to the lesser values of the other (i.e., the variables tend to show opposite behavior), the covariance is negative.
+    \end{itemize}
+
+    \begin{block}{Mathematical Definition}
+        Given two random variables \(X\) and \(Y\), the covariance is defined as:
+        \[
+        \text{Cov}(X, Y) = \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])]
+        \]
+        where \(\mathbb{E}[X]\) and \(\mathbb{E}[Y]\) are the expected values (means) of \(X\) and \(Y\), respectively.
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{The covariance}
+    \begin{itemize}
+        \item \textbf{Example:}
+        Consider two random variables, \(X\) and \(Y\), representing the number of hours studied and the test scores of students. If higher hours of study tend to correspond with higher test scores, the covariance between \(X\) and \(Y\) would be positive.
+    \end{itemize}
+
+    \begin{block}{Properties}
+        \begin{itemize}
+            \item \(\text{Cov}(X, Y) = \text{Cov}(Y, X)\)
+            \item \(\text{Cov}(X, X) = \text{Var}(X)\) (Variance of \(X\))
+            \item If \(X\) and \(Y\) are independent, \(\text{Cov}(X, Y) = 0\)
+        \end{itemize}
+    \end{block}
+
 \end{frame}
 
 \begin{frame}
