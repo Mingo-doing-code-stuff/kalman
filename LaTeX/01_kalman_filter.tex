@@ -500,18 +500,18 @@
     \frametitle{Messwerte des Beispiel}
 
     % \centering
-    Imagine the following scenario: 
+    Imagine the following scenario:
     We are driving to the THWS, and are passing an funnel on our way.
-    We are traveling on an average of 22.22\(m/s\) (80km/h). 
-    
+    We are traveling on an average of 22.22\(m/s\) (80km/h).
+
     \vspace{1em}
 
     \centering
     \begin{tabular}{ | r | c|c|c|c|c|c|c|c|c|c|c| }
-        \hline 
-        Time in $s$      &    1 &    2 &    3 &    4 &    5 &    6 &    7 &    8 &    9 & 10   \\
-        \hline                                               
-        Distance in $m$  & 24.0 & 21.4 & 22.5 & 21.9 & 21.6 & 21.9 & 22.0 & 22.6 & 19.2 & 20.0 \\ 
+        \hline
+        Time in $s$     & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    & 10   \\
+        \hline
+        Distance in $m$ & 24.0 & 21.4 & 22.5 & 21.9 & 21.6 & 21.9 & 22.0 & 22.6 & 19.2 & 20.0 \\
         \hline
     \end{tabular}
 \end{frame}
@@ -522,105 +522,157 @@
 
         \begin{column}{0.45\textwidth}
             \begin{tabular}{ | l |  }
-                \hline 
-                \bf{Prediction} \\
-                \hline 
-                \hline 
-                Project the state ahead \\
-                \(x_{k+1} = \hat{x}_{k} = 0\) \\
-                \hline 
+                \hline
+                \bf{Prediction}                    \\
+                \hline
+                \hline
+                Project the state ahead            \\
+                \(\hat{x}_{k}  = 0\)               \\
+                \hline
                 Project the error covariance ahead \\
-                \(P_{k+1} = P_{k} = 1\) \\
+                \(P_{k} = 1\)                      \\
                 \hline
             \end{tabular}
         \end{column}
 
         \begin{column}{0.45\textwidth}
-        \begin{tabular}{ | l |  }
-            \hline 
-            \bf{Correction} \\
-            \hline 
-            \hline 
-            Compute the Kalman Gain \\
-                \(K_{k+1} = \frac{P_{k}}{P_{k}+R} = \frac{1}{1+0.1} = 0.909\) \\
-            \hline 
-            Update the estimate via Measurement \\
-                \(\hat{x}_{k+1} = \hat{x}_{k} + K_{k}(z_{k} - \hat{x}_{k}) \)\\
-                \(= 0 + 0.909 * (24.0 - 0) \)\\
-                \(= 21,816\) \\
-            \hline 
-            Update the error covariance \\
-                \(P_{k+1} = (I - K_{k})P_{k}\) \\
-                \(=(1-0.909)\cdot 1\) \\
-                \(= 0,091\) \\
-            \hline
-        \end{tabular}
+            \begin{tabular}{ | l |  }
+                \hline
+                \bf{Correction}                                               \\
+                \hline
+                \hline
+                Compute the Kalman Gain                                       \\
+                \(K_{k} = \frac{P_{k}}{P_{k}+R} = \frac{1}{1+0.58} = 0.6329\) \\
+                \hline
+                Update the estimate via Measurement                           \\
+                \(\hat{x}_{k+1} = \hat{x}_{k} + K_{k}(z_{k} - \hat{x}_{k}) \) \\
+                \(= 0 + 0.6329 \cdot (24.0 - 0) \)                            \\
+                \(= 15.2\)                                                    \\
+                \hline
+                Update the error covariance                                   \\
+                \(P_{k+1} = (I - K_{k})P_{k}\)                                \\
+                \(=(1-0.6329)\cdot 1\)                                        \\
+                \(= 0.3671\)                                                  \\
+                \hline
+            \end{tabular}
         \end{column}
     \end{columns}
 \end{frame}
 
 \begin{frame}
     \frametitle{Example, 1. Iteration}
-    \footnotesize
 
     \begin{columns}[T]
 
         \begin{column}{0.45\textwidth}
             \begin{tabular}{ | l |  }
-                \hline 
-                \bf{Prediction} \\
-                \hline 
-                \hline 
-                Project the state ahead \\
-                \(x_{k+1} = \hat{x}_{k} = 0\) \\
-                \hline 
+                \hline
+                \bf{Prediction}                    \\
+                \hline
+                \hline
+                Project the state ahead            \\
+                \(\hat{x}_{k} = 15.2\)             \\
+                \hline
                 Project the error covariance ahead \\
-                \(P_{k+1} = P_{k} = 1\) \\
+                \(P_{k} = 0.3671\)                 \\
                 \hline
             \end{tabular}
         \end{column}
 
         \begin{column}{0.45\textwidth}
-        \begin{tabular}{ | l |  }
-            \hline 
-            \bf{Correction} \\
-            \hline 
-            \hline 
-            Compute the Kalman Gain \\
-                \(K_{k+1} = \frac{P_{k}}{P_{k}+R} = \frac{1}{1+0.1} = 0.909\) \\
-            \hline 
-            Update the estimate via Measurement \\
-                \(\hat{x}_{k+1} = \hat{x}_{k} + K_{k}(z_{k} - \hat{x}_{k}) \)\\
-                \(= 0 + 0.909 * (495,1 - 0) \)\\
-                \(= 450,0\) \\
-            \hline 
-            Update the error covariance \\
-                \(P_{k+1} = (I - K_{k})P_{k}\) \\
-                \(=(1-450,0)\cdot 1\) \\
-                \(= -449\) \\
-            \hline
-        \end{tabular}
+            \begin{tabular}{ | l |  }
+                \hline
+                \bf{Correction}                                                         \\
+                \hline
+                \hline
+                Compute the Kalman Gain                                                 \\
+                \(K_{k} = \frac{P_{k}}{P_{k}+R} = \frac{0.3671}{0.3671+0.58} = 0.3876\) \\
+                \hline
+                Update the estimate via Measurement                                     \\
+                \(\hat{x}_{k+1} = \hat{x}_{k} + K_{k}(z_{k} - \hat{x}_{k}) \)           \\
+                \(= 15.2 + 0.3876 \cdot (21.4 - 15.2) \)                                \\
+                \(= 17.6\)                                                              \\
+                \hline
+                Update the error covariance                                             \\
+                \(P_{k+1} = (I - K_{k})P_{k}\)                                          \\
+                \(=(1-0.3876)\cdot 0.3671\)                                             \\
+                \(= 0.2248\)                                                            \\
+                \hline
+            \end{tabular}
         \end{column}
     \end{columns}
-    
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Example, 2. Iteration}
+
+    \begin{columns}[T]
+
+        \begin{column}{0.45\textwidth}
+            \begin{tabular}{ | l |  }
+                \hline
+                \bf{Prediction}                    \\
+                \hline
+                \hline
+                Project the state ahead            \\
+                \(\hat{x}_{k} = 17.6\)             \\
+                \hline
+                Project the error covariance ahead \\
+                \(P_{k} = 0.2248\)                 \\
+                \hline
+            \end{tabular}
+        \end{column}
+
+        \begin{column}{0.45\textwidth}
+            \begin{tabular}{ | l |  }
+                \hline
+                \bf{Correction}                                                         \\
+                \hline
+                \hline
+                Compute the Kalman Gain                                                 \\
+                \(K_{k} = \frac{P_{k}}{P_{k}+R} = \frac{0.2248}{0.2248+0.58} = 0.2793\) \\
+                \hline
+                Update the estimate via Measurement                                     \\
+                \(\hat{x}_{k+1} = \hat{x}_{k} + K_{k}(z_{k} - \hat{x}_{k}) \)           \\
+                \(= 17.6 + 0.2793 \cdot (22.5 - 17.6) \)                                \\
+                \(= 19.0\)                                                              \\
+                \hline
+                Update the error covariance                                             \\
+                \(P_{k+1} = (I - K_{k})P_{k}\)                                          \\
+                \(=(1-0.2793)\cdot 0.2248\)                                             \\
+                \(= 0.1620\)                                                            \\
+                \hline
+            \end{tabular}
+        \end{column}
+    \end{columns}
+
 \end{frame}
 
 \begin{frame}
     \frametitle{Iteration 1 to 10}
     \centering
     \begin{tabular}{ | l | r | r | r | r | r | r | r | r | r | r |  }
-        \hline 
-        \(k\)         &    1 &    2 &    3 &    4 & 5    &    6 &    7 &    8 &    9 &   10 \\
-         \hline  
-        \(z_k\)       & 24.0 & 21.4 & 22.5 & 21.9 & 21.6 & 21.9 & 22.0 & 22.6 & 19.2 & 20.0 \\
-        \hline  
-        \(K_k\)       & 0.63 & 0.38 & 0.27 & 0.21 & 0.17 & 0.15 & 0.13 & 0.11 & 0.10 & 0.09 \\
-        \hline  
-        \(P_k\)       &    1 & 0.36 & 0.22 & 0.16 & 0.12 & 0.10 & 0.08 & 0.07 & 0.06 & 0.06 \\
-        \hline 
-        \(\hat{x}_k\) & 15.2 & 17.6 & 19.0 & 19.6 & 20.0 & 20.3 & 20.5 & 20.7 & 20.6 & 20.5 \\
         \hline
-    \end{tabular} 
+        \(k\)         & 0    & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    \\
+        \hline
+        \(z_k\)       & 24.0 & 21.4 & 22.5 & 21.9 & 21.6 & 21.9 & 22.0 & 22.6 & 19.2 & 20.0 \\
+        \hline
+        \(K_k\)       & 0.63 & 0.38 & 0.27 & 0.21 & 0.17 & 0.15 & 0.13 & 0.11 & 0.10 & 0.09 \\
+        \hline
+        \(P_k\)       & 1    & 0.36 & 0.22 & 0.16 & 0.12 & 0.10 & 0.08 & 0.07 & 0.06 & 0.06 \\
+        \hline
+        \(\hat{x}_k\) & 0    & 15.2 & 17.6 & 19.0 & 19.6 & 20.0 & 20.3 & 20.5 & 20.7 & 20.6 \\
+        \hline
+    \end{tabular}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Tunnel}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.95\textwidth]{images/tunnel.png}
+    \end{figure}
 \end{frame}
 
 \section{Summary}

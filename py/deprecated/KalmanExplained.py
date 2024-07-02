@@ -123,6 +123,9 @@ estimate_previous_iteration = 0
 # Vorheriger Messwert unbekannt, deshalb 0 (= `estimate_previous_iteration`)
 estimate_current_iteration = estimate_previous_iteration
 
+dach_x_k = []
+dach_x_k.append(f"{estimate_current_iteration}")
+
 # Fehlerkovarianz am Anfang 1 und nicht 0, da normalerweise immer ein Messrauschen vorhanden ist
 error_covariance_previous_iteration = 1
 error_covariance_current_iteration = error_covariance_previous_iteration
@@ -162,17 +165,16 @@ k = []
 z_k = []
 K_k = []
 P_k = []
-dach_x_k = []
 
 k.append("1")
 z_k.append(f"{messurement_current}")
 K_k.append(f"{kalman_gain_current_iteration}")
 P_k.append(f"{error_covariance_current_iteration}")
-dach_x_k.append(f"{estimate_current_iteration}")
 
 
 for iteration in range(1, messurement_sample_size):
 
+    dach_x_k.append(f"{estimate_current_iteration}")
     # -- Vorhersage - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     # [1.] Den nächsten Zustand darstellen
@@ -209,7 +211,6 @@ for iteration in range(1, messurement_sample_size):
     z_k.append(f"{messurement_current}")
     K_k.append(f"{kalman_gain_current_iteration}")
     P_k.append(f"{error_covariance_current_iteration}")
-    dach_x_k.append(f"{estimate_current_iteration}")
 
     gesamt = [k, z_k, K_k, P_k, dach_x_k]
 
