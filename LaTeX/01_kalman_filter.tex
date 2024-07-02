@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[aspectratio=169]{beamer}
 
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -31,15 +31,15 @@
 \begin{frame}
     \frametitle{Table of contents}
     \begin{columns}
-        \begin{column}{0.4\textwidth}
+        \begin{column}{\textwidth}
             \tableofcontents
         \end{column}
-        \begin{column}{0.4\textwidth}
-            \begin{figure}
-                \centering
-                \includegraphics[width=1\textwidth]{images/graphics/Bildschirmfoto 2024-06-02 um 16.40.09.png}
-            \end{figure} 
-        \end{column}
+        % \begin{column}{0.4\textwidth}
+        %     \begin{figure}
+        %         \centering
+        %         \includegraphics[width=1\textwidth]{images/graphics/Bildschirmfoto 2024-06-02 um 16.40.09.png}
+        %     \end{figure}
+        % \end{column}
     \end{columns}
 \end{frame}
 
@@ -50,13 +50,13 @@
     \frametitle{Rudolf Emil Kalman}
     \begin{columns}
         \begin{column}{0.7\textwidth}
-           \begin{itemize}
-            \item was born in 1930 in Hungary
-            \item Bachelor of Science and Master of Science at the MIT
-            \item PHD 1957 at the Columbia
-            \item developed the filter arond the years 1960 to 1961
-            \item died in 2016 in Florida
-           \end{itemize} 
+            \begin{itemize}
+                \item was born in 1930 in Hungary
+                \item Bachelor of Science and Master of Science at the MIT
+                \item PHD 1957 at the Columbia
+                \item developed the filter around the years 1960 to 1961
+                \item died 2016 in Florida
+            \end{itemize}
         \end{column}
         \begin{column}{0.3\textwidth}
             \begin{figure}
@@ -84,7 +84,7 @@
     \begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{images/graphics/flow.png}
-        \caption{Procedure of the Kalman Filter\footnotemark}
+        \caption{Procedure of the Kalman Filter}
     \end{figure}
 \end{frame}
 
@@ -111,7 +111,7 @@
                 \item Sound sensor
             \end{itemize}
         \end{column}
-        
+
         \begin{column}{0.6\textwidth}
             \begin{figure}
                 \centering
@@ -128,14 +128,14 @@
 % FIRST STATISTICAL FOUNDATIONS
 % THE MEAN VALUE
 \begin{frame}
-    \frametitle{The Mean}
+    \frametitle{The mean}
     \begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{images/graphics/coins.png}
     \end{figure}
     \vspace{1cm}
     \begin{equation*}
-        \mu = \frac{1}{N} \sum _{n=1}^{N}V_{n}= \frac{1}{5} \left( 5+5+10+10+10 \right) = 8 \text{ Cent}
+        \mu = \frac{1}{N} \sum _{n=1}^{N}V_{n}= \frac{1}{5} \left( 5+5+10+10+10 \right) = 8
     \end{equation*}
 \end{frame}
 
@@ -147,10 +147,10 @@
     \footnotesize
     \begin{tabular}{ c|ccccc|c }
         \hline
-             & Player1 & Player2 & Player3 & Player4 & Player5 & Mean \\ 
+               & Player1   & Player2   & Player3   & Player4   & Player5   & Mean       \\
         \hline
-            Team A & \(1.89\)m & \(2.10\)m & \(1.75\)m & \(1.98\)m & \(1.85\)m & \(1.914\)m \\ 
-            Team B & \(1.94\)m & \(1.90\)m & \(1.97\)m & \(1.89\)m & \(1.87\)m & \(1.194\)m \\ 
+        Team A & \(1.89\)m & \(2.10\)m & \(1.75\)m & \(1.98\)m & \(1.85\)m & \(1.914\)m \\
+        Team B & \(1.94\)m & \(1.90\)m & \(1.97\)m & \(1.89\)m & \(1.87\)m & \(1.194\)m \\
         \hline
     \end{tabular}
 
@@ -166,10 +166,10 @@
     \footnotesize
     \begin{tabular}{ c|ccccc }
         \hline
-             & Player1 & Player2 & Player3 & Player4 & Player5 \\ 
+               & Player1     & Player2     & Player3     & Player4     & Player5     \\
         \hline
-            Team A & \(-0.024\)m & \(0.186\)m & \(-0.164\)m & \(0.066\)m & \(-0.064\)m \\ 
-            Team B & \(0.026\)m & \(-0.014\)m & \(0.056\)m & \(-0.024\)m & \(-0.044\)m \\ 
+        Team A & \(-0.024\)m & \(0.186\)m  & \(-0.164\)m & \(0.066\)m  & \(-0.064\)m \\
+        Team B & \(0.026\)m  & \(-0.014\)m & \(0.056\)m  & \(-0.024\)m & \(-0.044\)m \\
         \hline
     \end{tabular}
 
@@ -184,10 +184,10 @@
     % \scriptsize
     \begin{tabular}{ c|ccccc }
         \hline
-             & Player1 & Player2 & Player3 & Player4 & Player5 \\ 
+               & Player1     & Player2     & Player3     & Player4     & Player5     \\
         \hline
-            Team A & \(-0.024\)m & \(0.186\)m & \(-0.164\)m & \(0.066\)m & \(-0.064\)m \\ 
-            Team B & \(0.026\)m & \(-0.014\)m & \(0.056\)m & \(-0.024\)m & \(-0.044\)m \\ 
+        Team A & \(-0.024\)m & \(0.186\)m  & \(-0.164\)m & \(0.066\)m  & \(-0.064\)m \\
+        Team B & \(0.026\)m  & \(-0.014\)m & \(0.056\)m  & \(-0.024\)m & \(-0.044\)m \\
         \hline
     \end{tabular}
 
@@ -203,10 +203,10 @@
     \tiny
     \begin{tabular}{ c|ccccc }
         \hline
-             & Player1 & Player2 & Player3 & Player4 & Player5 \\ 
+               & Player1               & Player2               & Player3               & Player4               & Player5               \\
         \hline
-            Team A & \(0.000576\)m\(^{2}\) & \(0.034596\)m\(^{2}\) & \(0.026896\)m\(^{2}\) & \(0.004356\)m\(^{2}\) & \(0.004096\)m\(^{2}\) \\ 
-            Team B & \(0.000676\)m\(^{2}\) & \(0.000196\)m\(^{2}\) & \(0.003136\)m\(^{2}\) & \(0.000576\)m\(^{2}\) & \(0.001936\)m\(^{2}\) \\ 
+        Team A & \(0.000576\)m\(^{2}\) & \(0.034596\)m\(^{2}\) & \(0.026896\)m\(^{2}\) & \(0.004356\)m\(^{2}\) & \(0.004096\)m\(^{2}\) \\
+        Team B & \(0.000676\)m\(^{2}\) & \(0.000196\)m\(^{2}\) & \(0.003136\)m\(^{2}\) & \(0.000576\)m\(^{2}\) & \(0.001936\)m\(^{2}\) \\
         \hline
     \end{tabular}
 
@@ -215,7 +215,7 @@
 % THE VARIANCE II
 \begin{frame}
     \frametitle{The variance}
-    
+
     \begin{equation*}
         \sigma^{2} = \frac{1}{N} \sum _{n=1}^{N} \left( x_{\scriptscriptstyle \!B_{n}} -  \mu  \right) ^{2}
     \end{equation*}
@@ -225,13 +225,13 @@
     \begin{equation*}
         \sigma_{\scriptscriptstyle \!A}^{2} = \frac{1}{N} \sum _{n=1}^{N} \left( x_{\scriptscriptstyle \!A_{n}} -  \mu  \right) ^{2} = \frac{1}{5} \left( 0.000576+ 0.034596+ 0.026896+ 0.004356+ 0.004096 \right) = 0.014m^{2}
     \end{equation*}
-    
+
     \vspace{1mm}
-    
+
     \begin{equation*}
-       \sigma_{\scriptscriptstyle \!B}^{2} = \frac{1}{N} \sum _{n=1}^{N} \left( x_{\scriptscriptstyle \!B_{n}} -  \mu  \right) ^{2} = \frac{1}{5} \left( 0.000676+ 0.000196+ 0.003136+ 0.000576+ 0.001936 \right) = 0.0013m^{2}
+        \sigma_{\scriptscriptstyle \!B}^{2} = \frac{1}{N} \sum _{n=1}^{N} \left( x_{\scriptscriptstyle \!B_{n}} -  \mu  \right) ^{2} = \frac{1}{5} \left( 0.000676+ 0.000196+ 0.003136+ 0.000576+ 0.001936 \right) = 0.0013m^{2}
     \end{equation*}
-   
+
 \end{frame}
 
 % THE COVARIANCE
@@ -241,13 +241,13 @@
 
     \begin{itemize}
         \item \textbf{Definition:}
-        Covariance is a measure of how much two random variables change together. If the greater values of one variable mainly correspond with the greater values of the other variable, and the same holds for the lesser values (i.e., the variables tend to show similar behavior), the covariance is positive. In the opposite case, when the greater values of one variable mainly correspond to the lesser values of the other (i.e., the variables tend to show opposite behavior), the covariance is negative.
+              Covariance is a measure of how much two random variables change together. If the greater values of one variable mainly correspond with the greater values of the other variable, and the same holds for the lesser values (i.e., the variables tend to show similar behavior), the covariance is positive. In the opposite case, when the greater values of one variable mainly correspond to the lesser values of the other (i.e., the variables tend to show opposite behavior), the covariance is negative.
     \end{itemize}
 
     \begin{block}{Mathematical Definition}
         Given two random variables \(X\) and \(Y\), the covariance is defined as:
         \[
-        \text{Cov}(X, Y) = \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])]
+            \text{Cov}(X, Y) = \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])]
         \]
         where \(\mathbb{E}[X]\) and \(\mathbb{E}[Y]\) are the expected values (means) of \(X\) and \(Y\), respectively.
     \end{block}
@@ -258,7 +258,7 @@
     \frametitle{The covariance}
     \begin{itemize}
         \item \textbf{Example:}
-        Consider two random variables, \(X\) and \(Y\), representing the number of hours studied and the test scores of students. If higher hours of study tend to correspond with higher test scores, the covariance between \(X\) and \(Y\) would be positive.
+              Consider two random variables, \(X\) and \(Y\), representing the number of hours studied and the test scores of students. If higher hours of study tend to correspond with higher test scores, the covariance between \(X\) and \(Y\) would be positive.
     \end{itemize}
 
     \begin{block}{Properties}
@@ -357,7 +357,7 @@
 \begin{frame}
     % TODO: Make Section Header Files
     \huge
-    \textbf{Einbindung in einen konkreten Anwendungsfall}
+    \textbf{TODO: Integration into a concrete use case}
 \end{frame}
 
 \begin{frame}
@@ -407,7 +407,7 @@
         \end{bmatrix}
     \end{equation*}
 
-    \(\Delta t\) is the time intervall between mesurements.
+    \(\Delta t\) describes the changes between two measurements.
 \end{frame}
 
 \begin{frame}
@@ -438,7 +438,7 @@
     \begin{itemize}
         \item Predict the state:
               \begin{equation}
-                  x_{k+1}=Ax_{k}
+                  x_{k+1}=Ax_{k} + Bu_{k}
               \end{equation}
 
         \item Predict the error coavriance:
@@ -502,15 +502,15 @@
 
 \begin{frame}
     \frametitle{Summary}
-    KALMA KALMA !
-    
-    \huge TO TH MOOOOOON!
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.6\textwidth]{images/graphics/Bildschirmfoto 2024-06-02 um 16.40.09.png}
+    \end{figure}
 \end{frame}
 
 \begin{frame}
     \frametitle{List of figures}
     \listoffigures
-    \footnotetext[1]{A test footnote in the first column}
 \end{frame}
 
 \end{document}

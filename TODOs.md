@@ -53,5 +53,18 @@
 
 ### Ziele
 
-- Slider und Settings für Anzeigefenster
+- ~~Slider und Settings für Anzeigefenster~~
 - Powerpoint auf Latex migrieren
+
+
+## Präsentation
+
+### Must-Haves
+
+- Praktisches Anwendungsbeispiel
+- Mathe Formeln besser machen
+
+
+### Nice-to-Have
+
+- Gauss 1D Simulation (viele Gauss Kurven, wie Balzer82)
