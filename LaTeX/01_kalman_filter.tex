@@ -514,14 +514,37 @@
 
 \begin{frame}
     \frametitle{Beispiel 1. Schritt}
+    \tiny
+
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            \begin{tabular}{ | l |  }
+                \hline 
+                Project the state ahead \\
+                \(a^2+b^2 =c^2\) \\
+                \hline 
+                Project the error covariance ahead \\
+                \(a^2+b^2 =c^2\) \\
+                \hline
+            \end{tabular}
+        \end{column}
+
+        \begin{column}{0.45\textwidth}
+        \begin{tabular}{ | l |  }
+            \hline 
+            Compute the Kalman Gain \\
+                \(a^2+b^2 =c^2\) \\
+            \hline 
+            Update the estimate via Measurement \\
+                \(a^2+b^2 =c^2\) \\
+            \hline 
+            Update the error covariance \\
+                \(a^2+b^2 =c^2\) \\
+            \hline
+        \end{tabular}
+        \end{column}
+    \end{columns}
     
-    \begin{tabular}{ | r | c|c|c|c|c|c|c|c|c|c|c|c | }
-        \hline 
-        Zeit in $\text{ms}$             &  1 &  2 &  3 &  4 &  5 &  6 &  7 &  8 &  9 & 10 \\
-        \hline 
-        Winkelgeschwindigkeit $\omega$  &  x &  x &  x &  x &  x &  x &  x &  x &  x &  x \\
-        \hline
-    \end{tabular}
 \end{frame}
 
 
