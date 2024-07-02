@@ -461,7 +461,7 @@
     \frametitle{Kalman Filter}
     \begin{figure}
         \centering
-        \includegraphics[width=0.95\textwidth]{images/06_kalman_diagram.png}
+        \includegraphics[width=0.75\textwidth]{images/06_kalman_diagram.png}
         \caption{Iterative Nature of the Kalman filter}
     \end{figure}
 \end{frame}
@@ -510,17 +510,17 @@
 
 \begin{frame}
     \frametitle{Beispiel 1. Schritt}
-    \tiny
+    \footnotesize
 
     \begin{columns}[T]
         \begin{column}{0.45\textwidth}
             \begin{tabular}{ | l |  }
                 \hline 
                 Project the state ahead \\
-                \(a^2+b^2 =c^2\) \\
+                \(x_{k+1} = a^2+b^2 =c^2\) \\
                 \hline 
                 Project the error covariance ahead \\
-                \(a^2+b^2 =c^2\) \\
+                \(P_{k+1} = a^2+b^2 =c^2\) \\
                 \hline
             \end{tabular}
         \end{column}
