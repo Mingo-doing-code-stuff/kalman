@@ -68,6 +68,8 @@
     \end{columns}
 \end{frame}
 
+\input{02_wiener_filter.tex}
+
 % KALMAN FILTER FIRST EXPLAINATION
 \begin{frame}
     \frametitle{What is the Kalman Filter?}
@@ -143,27 +145,24 @@
 \begin{frame}
     \frametitle{The standarddeviation}
 
-
-    \footnotesize
+    \centering
     \begin{tabular}{ c|ccccc|c }
         \hline
                & Player1   & Player2   & Player3   & Player4   & Player5   & Mean       \\
         \hline
         Team A & \(1.89\)m & \(2.10\)m & \(1.75\)m & \(1.98\)m & \(1.85\)m & \(1.914\)m \\
-        Team B & \(1.94\)m & \(1.90\)m & \(1.97\)m & \(1.89\)m & \(1.87\)m & \(1.194\)m \\
+        Team B & \(1.94\)m & \(1.90\)m & \(1.97\)m & \(1.89\)m & \(1.87\)m & \(1.914\)m \\
         \hline
     \end{tabular}
 
     \vspace{0.5cm}
 
-    \normalsize
     \begin{equation*}
         x_{n} -  \mu = x_{n}-1.914m
     \end{equation*}
 
     \vspace{0.5cm}
 
-    \footnotesize
     \begin{tabular}{ c|ccccc }
         \hline
                & Player1     & Player2     & Player3     & Player4     & Player5     \\
@@ -180,8 +179,7 @@
 \begin{frame}
     \frametitle{The variance}
 
-    \footnotesize
-    % \scriptsize
+    \centering
     \begin{tabular}{ c|ccccc }
         \hline
                & Player1     & Player2     & Player3     & Player4     & Player5     \\
@@ -193,14 +191,12 @@
 
     \vspace{0.5cm}
 
-    \normalsize
     \begin{equation*}
         \left( x_{n}-  \mu  \right) ^{2} =  \left( x_{n}- 1.914m \right) ^{2}
     \end{equation*}
 
     \vspace{0.5cm}
 
-    \tiny
     \begin{tabular}{ c|ccccc }
         \hline
                & Player1               & Player2               & Player3               & Player4               & Player5               \\
@@ -221,7 +217,7 @@
     \end{equation*}
 
     \vspace{5mm}
-    \tiny
+    \scriptsize
     \begin{equation*}
         \sigma_{\scriptscriptstyle \!A}^{2} = \frac{1}{N} \sum _{n=1}^{N} \left( x_{\scriptscriptstyle \!A_{n}} -  \mu  \right) ^{2} = \frac{1}{5} \left( 0.000576+ 0.034596+ 0.026896+ 0.004356+ 0.004096 \right) = 0.014m^{2}
     \end{equation*}
@@ -352,13 +348,7 @@
 
 \end{frame}
 
-\section{Joystick example}
-
-\begin{frame}
-    % TODO: Make Section Header Files
-    \huge
-    \textbf{TODO: Integration into a concrete use case}
-\end{frame}
+\section{The Math behind}
 
 \begin{frame}
     \frametitle{State Representation}
@@ -497,6 +487,39 @@
         \end{tabular}
     \end{table}
 \end{frame}
+
+\section{Practical example}
+
+\begin{frame}
+    % TODO: Make Section Header Files
+    \huge
+    \textbf{TODO: Integration into a concrete use case}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Messwerte des Beispiel}
+    
+    \begin{tabular}{ | r | c|c|c|c|c|c|c|c|c|c|c|c | }
+        \hline 
+        Zeit in $\text{ms}$             &  1 &  2 &  3 &  4 &  5 &  6 &  7 &  8 &  9 & 10 \\
+        \hline 
+        Winkelgeschwindigkeit $\omega$  &  x &  x &  x &  x &  x &  x &  x &  x &  x &  x \\
+        \hline
+    \end{tabular}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Beispiel 1. Schritt}
+    
+    \begin{tabular}{ | r | c|c|c|c|c|c|c|c|c|c|c|c | }
+        \hline 
+        Zeit in $\text{ms}$             &  1 &  2 &  3 &  4 &  5 &  6 &  7 &  8 &  9 & 10 \\
+        \hline 
+        Winkelgeschwindigkeit $\omega$  &  x &  x &  x &  x &  x &  x &  x &  x &  x &  x \\
+        \hline
+    \end{tabular}
+\end{frame}
+
 
 \section{Summary}
 
