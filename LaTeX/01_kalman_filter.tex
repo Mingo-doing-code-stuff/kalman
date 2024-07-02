@@ -498,20 +498,24 @@
 
 \begin{frame}
     \frametitle{Messwerte des Beispiel}
-    
-    \begin{tabular}{ | r | c|c|c|c|c|c|c|c|c|c|c|c | }
+    % \(t_{\rm{F}} = \sqrt {\frac{2 \cdot h}{g}}\)
+    \centering
+    \begin{tabular}{ | r | c|c|c|c|c|c|| }
         \hline 
-        Time in $\text{s}$             &  1 &  2 &  3 &  4 &  5 &  6 &  7 &  8 &  9 & 10 \\
-        \hline 
-        Distance in $\text{m}$  &  x &  x &  x &  x &  x &  x &  x &  x &  x &  x \\
+        Time in $\text{s}$    &     1 &     2 &     3 &     4 &      5 \\
+        \hline                                               
+        Height in $\text{m}$  & 495,1 & 490,4 & 455,9 & 421,5 &  377,4  \\
+        \hline
+        \hline
+        Time in $\text{s}$     &     6 &     7 &     8 &     9 & 10  \\
+        \hline
+        Height in $\text{m}$   & 323,4 & 259,7 & 186,1 & 102,7 & 9,5\\
         \hline
     \end{tabular}
 \end{frame}
 
 \begin{frame}
     \frametitle{Example, 1. Iteration}
-    \footnotesize
-
     \begin{columns}[T]
 
         \begin{column}{0.45\textwidth}
@@ -540,18 +544,17 @@
             \hline 
             Update the estimate via Measurement \\
                 \(\hat{x}_{k+1} = \hat{x}_{k} + K_{k}(z_{k} - \hat{x}_{k}) \)\\
-                \(= 0 + -.909 * (-17.5 - 0) \)\\
-                \(= -15.9091\) \\
+                \(= 0 + 0.909 * (495,1 - 0) \)\\
+                \(= 450,0\) \\
             \hline 
             Update the error covariance \\
                 \(P_{k+1} = (I - K_{k})P_{k}\) \\
-                \(=(1-0.909)\cdot 1\) \\
-                \(=0.0991\) \\
+                \(=(1-450,0)\cdot 1\) \\
+                \(= -449\) \\
             \hline
         \end{tabular}
         \end{column}
     \end{columns}
-    
 \end{frame}
 
 \begin{frame}
@@ -586,13 +589,13 @@
             \hline 
             Update the estimate via Measurement \\
                 \(\hat{x}_{k+1} = \hat{x}_{k} + K_{k}(z_{k} - \hat{x}_{k}) \)\\
-                \(= 0 + -.909 * (-17.5 - 0) \)\\
-                \(= -15.9091\) \\
+                \(= 0 + 0.909 * (495,1 - 0) \)\\
+                \(= 450,0\) \\
             \hline 
             Update the error covariance \\
                 \(P_{k+1} = (I - K_{k})P_{k}\) \\
-                \(=(1-0.909)\cdot 1\) \\
-                \(=0.0991\) \\
+                \(=(1-450,0)\cdot 1\) \\
+                \(= -449\) \\
             \hline
         \end{tabular}
         \end{column}
