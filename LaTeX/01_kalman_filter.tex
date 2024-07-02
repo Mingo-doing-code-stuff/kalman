@@ -501,26 +501,30 @@
     
     \begin{tabular}{ | r | c|c|c|c|c|c|c|c|c|c|c|c | }
         \hline 
-        Zeit in $\text{ms}$             &  1 &  2 &  3 &  4 &  5 &  6 &  7 &  8 &  9 & 10 \\
+        Time in $\text{s}$             &  1 &  2 &  3 &  4 &  5 &  6 &  7 &  8 &  9 & 10 \\
         \hline 
-        Winkelgeschwindigkeit $\omega$  &  x &  x &  x &  x &  x &  x &  x &  x &  x &  x \\
+        Distance in $\text{m}$  &  x &  x &  x &  x &  x &  x &  x &  x &  x &  x \\
         \hline
     \end{tabular}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Beispiel 1. Schritt}
+    \frametitle{Example, 1. Iteration}
     \footnotesize
 
     \begin{columns}[T]
+
         \begin{column}{0.45\textwidth}
             \begin{tabular}{ | l |  }
                 \hline 
+                \bf{Prediction} \\
+                \hline 
+                \hline 
                 Project the state ahead \\
-                \(x_{k+1} = a^2+b^2 =c^2\) \\
+                \(x_{k+1} = \hat{x}_{k} = 0\) \\
                 \hline 
                 Project the error covariance ahead \\
-                \(P_{k+1} = a^2+b^2 =c^2\) \\
+                \(P_{k+1} = P_{k} = 1\) \\
                 \hline
             \end{tabular}
         \end{column}
@@ -528,14 +532,21 @@
         \begin{column}{0.45\textwidth}
         \begin{tabular}{ | l |  }
             \hline 
+            \bf{Correction} \\
+            \hline 
+            \hline 
             Compute the Kalman Gain \\
-                \(a^2+b^2 =c^2\) \\
+                \(K_{k+1} = \frac{P_{k}}{P_{k}+R} = \frac{1}{1+0.1} = 0.909\) \\
             \hline 
             Update the estimate via Measurement \\
-                \(a^2+b^2 =c^2\) \\
+                \(\hat{x}_{k+1} = \hat{x}_{k} + K_{k}(z_{k} - \hat{x}_{k}) \)\\
+                \(= 0 + -.909 * (-17.5 - 0) \)\\
+                \(= -15.9091\) \\
             \hline 
             Update the error covariance \\
-                \(a^2+b^2 =c^2\) \\
+                \(P_{k+1} = (I - K_{k})P_{k}\) \\
+                \(=(1-0.909)\cdot 1\) \\
+                \(=0.0991\) \\
             \hline
         \end{tabular}
         \end{column}
@@ -543,6 +554,79 @@
     
 \end{frame}
 
+\begin{frame}
+    \frametitle{Example, 2. Iteration}
+    \footnotesize
+
+    \begin{columns}[T]
+
+        \begin{column}{0.45\textwidth}
+            \begin{tabular}{ | l |  }
+                \hline 
+                \bf{Prediction} \\
+                \hline 
+                \hline 
+                Project the state ahead \\
+                \(x_{k+1} = \hat{x}_{k} = 0\) \\
+                \hline 
+                Project the error covariance ahead \\
+                \(P_{k+1} = P_{k} = 1\) \\
+                \hline
+            \end{tabular}
+        \end{column}
+
+        \begin{column}{0.45\textwidth}
+        \begin{tabular}{ | l |  }
+            \hline 
+            \bf{Correction} \\
+            \hline 
+            \hline 
+            Compute the Kalman Gain \\
+                \(K_{k+1} = \frac{P_{k}}{P_{k}+R} = \frac{1}{1+0.1} = 0.909\) \\
+            \hline 
+            Update the estimate via Measurement \\
+                \(\hat{x}_{k+1} = \hat{x}_{k} + K_{k}(z_{k} - \hat{x}_{k}) \)\\
+                \(= 0 + -.909 * (-17.5 - 0) \)\\
+                \(= -15.9091\) \\
+            \hline 
+            Update the error covariance \\
+                \(P_{k+1} = (I - K_{k})P_{k}\) \\
+                \(=(1-0.909)\cdot 1\) \\
+                \(=0.0991\) \\
+            \hline
+        \end{tabular}
+        \end{column}
+    \end{columns}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{Iteration 1 to 10}
+    \begin{tabular}{ | l | r | r | r | r | r |  }
+        \hline 
+        \(k\) & 1 & 2 & 3 & 4 & 5 \\
+        \hline 
+        \(z_k\) & Nan & Nan & Nan & Nan & Nan \\
+        \hline 
+        \(K_k\) & Nan & Nan & Nan & Nan & Nan \\
+        \hline 
+        \(P_k\) & Nan & Nan & Nan & Nan & Nan \\
+        \hline 
+        \(\hat{x}_k\) & Nan & Nan & Nan & Nan & Nan \\
+        \hline
+        \hline 
+        \(k\) & 6 & 7 & 8 & 9 & 10 \\
+        \hline 
+        \(z_k\) & Nan & Nan & Nan & Nan & Nan \\
+        \hline 
+        \(K_k\) & Nan & Nan & Nan & Nan & Nan \\
+        \hline 
+        \(P_k\) & Nan & Nan & Nan & Nan & Nan \\
+        \hline 
+        \(\hat{x}_k\) & Nan & Nan & Nan & Nan & Nan \\
+        \hline
+    \end{tabular} 
+\end{frame}
 
 \section{Summary}
 
