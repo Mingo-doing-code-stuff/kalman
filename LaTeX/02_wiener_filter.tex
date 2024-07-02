@@ -5,15 +5,6 @@
         \item Minimizes mean square error between estimated and true signal.
     \end{itemize}
     \vspace{0.5cm}
-    \textbf{Mathematical Foundation:}
-    \begin{equation*}
-        H(f) = \frac{S_{dx}(f)}{S_{xx}(f)}
-    \end{equation*}
-    \begin{itemize}
-        \item \( S_{dx}(f) \): Cross-power spectral density.
-        \item \( S_{xx}(f) \): Power spectral density.
-    \end{itemize}
-    \vspace{0.5cm}
     \textbf{Applications:}
     \begin{itemize}
         \item Noise reduction, image restoration, data smoothing.
@@ -36,20 +27,6 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Kalman Filter: Mathematical Formulation}
-    \textbf{Prediction Step:}
-    \begin{align*}
-        \hat{x}_{k|k-1} & = F_{k-1} \hat{x}_{k-1|k-1} + B_{k-1} u_{k-1} \\
-        P_{k|k-1}       & = F_{k-1} P_{k-1|k-1} F_{k-1}^T + Q_{k-1}
-    \end{align*}
-    \vspace{0.5cm}
-    \textbf{Update Step:}
-    \begin{align*}
-        K_k           & = P_{k|k-1} H_k^T (H_k P_{k|k-1} H_k^T + R_k)^{-1}  \\
-        \hat{x}_{k|k} & = \hat{x}_{k|k-1} + K_k (z_k - H_k \hat{x}_{k|k-1}) \\
-        P_{k|k}       & = (I - K_k H_k) P_{k|k-1}
-    \end{align*}
-\end{frame}
 
 \begin{frame}{Conclusion}
     \begin{itemize}
