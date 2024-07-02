@@ -1,13 +1,13 @@
 *.DS_Store
-LaTeX/build/
-*.nav
-*.nav(busy)
-*.snm
-*.snm(busy)
-*.synctex.gs
-*.synctex.gs(busy)
-*.aux
-*.aux(busy)
+# LaTeX/build/
+# *.nav
+# *.nav(busy)
+# *.snm
+# *.snm(busy)
+# *.synctex.gz
+# *.synctex.gz(busy)
+# *.aux
+# *.aux(busy)
 *.pyc
 
 .venv
