@@ -82,7 +82,7 @@
 
 % KALMAN FILTER PROCESS GRAPHIC
 \begin{frame}
-    \frametitle{Kalman Filter}
+    \frametitle{Kalman Filter loop}
     \begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{images/graphics/flow.png}
@@ -232,7 +232,7 @@
 
 % THE COVARIANCE
 \begin{frame}
-    \frametitle{Covariance}
+    \frametitle{The covariance}
     \footnotesize
 
     \begin{itemize}
@@ -253,7 +253,7 @@
     \frametitle{The covariance}
     \begin{itemize}
         \item \textbf{Example:}
-            Consider two random variables, \(X\) and \(Y\), representing the number of hours studied and the test scores of students. If higher hours of study tend to correspond with higher test scores, the covariance between \(X\) and \(Y\) would be positive.
+              Consider two random variables, \(X\) and \(Y\), representing the number of hours studied and the test scores of students. If higher hours of study tend to correspond with higher test scores, the covariance between \(X\) and \(Y\) would be positive.
         \item \textbf{Properties}
               \begin{itemize}
                   \item \(\text{Cov}(X, Y) = \text{Cov}(Y, X)\)
@@ -306,7 +306,7 @@
 
 % KALMAN EXAMPLE WITH THE GAUSS STUFF
 \begin{frame}
-    \frametitle{Kalman explained}
+    \frametitle{Kalman explained - Starting position}
     \begin{figure}
         \centering
         \includegraphics[width=0.7\textwidth]{images/01_normal_distribution.png}
@@ -316,17 +316,17 @@
 
 % KALMAN EXAMPLE WITH THE GAUSS STUFF
 \begin{frame}
-    \frametitle{Kalman explained}
+    \frametitle{Kalman explained - first prediction}
     \begin{figure}
         \centering
         \includegraphics[width=0.7\textwidth]{images/02_normal_distribution_after_move.png}
-        \caption{Calculated Postion at \(t_1\)}
+        \caption{Calculated prediction at \(t_1\)}
     \end{figure}
 \end{frame}
 
 % KALMAN EXAMPLE WITH THE GAUSS STUFF
 \begin{frame}
-    \frametitle{Kalman explained}
+    \frametitle{Kalman explained - prediction update}
     \begin{figure}
         \centering
         \includegraphics[width=0.7\textwidth]{images/03_first_prediction.png}
@@ -336,21 +336,21 @@
 
 % KALMAN EXAMPLE WITH THE GAUSS STUFF
 \begin{frame}
-    \frametitle{Kalman explained}
+    \frametitle{Kalman explained - measurement}
     \begin{figure}
         \centering
         \includegraphics[width=0.7\textwidth]{images/04_measurement.png}
-        \caption{Messured Sensor Data of Postion at \(t_1\)}
+        \caption{Messured Sensor Data at \(t_1\)}
     \end{figure}
 \end{frame}
 
 % KALMAN EXAMPLE WITH THE GAUSS STUFF
 \begin{frame}
-    \frametitle{Kalman explained}
+    \frametitle{Kalman explained - correction}
     \begin{figure}
         \centering
         \includegraphics[width=0.7\textwidth]{images/05_correction.png}
-        \caption{Correction of the Kalman Gain after measurement at \(t_1\)}
+        \caption{Correction of the estimate \(t_1\)}
     \end{figure}
 \end{frame}
 
@@ -500,7 +500,7 @@
 \section{Practical example}
 
 \begin{frame}
-    \frametitle{Messwerte des Beispiel}
+    \frametitle{Application example}
 
     % \centering
     Imagine the following scenario:
@@ -544,7 +544,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Prediction Step}
+    \frametitle{Resulting formulas}
 
     The prediction step estimates the next state and its uncertainty:
 
@@ -766,7 +766,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Famous use-casses}
+    \frametitle{Famous use-cases}
     \begin{columns}
         \column{0.5\textwidth}
         \textbf{Apollo Program (NASA)}
@@ -783,7 +783,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Famous use-casses}
+    \frametitle{Famous use-cases}
     \begin{columns}
         \column{0.5\textwidth}
         \textbf{Autonomous Vehicles}
