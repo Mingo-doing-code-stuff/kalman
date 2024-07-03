@@ -238,15 +238,14 @@
     \begin{itemize}
         \item \textbf{Definition:}
               Covariance is a measure of how much two random variables change together. If the greater values of one variable mainly correspond with the greater values of the other variable, and the same holds for the lesser values (i.e., the variables tend to show similar behavior), the covariance is positive. In the opposite case, when the greater values of one variable mainly correspond to the lesser values of the other (i.e., the variables tend to show opposite behavior), the covariance is negative.
+        \item \textbf{Mathematical Definition}
+              Given two random variables \(X\) and \(Y\), the covariance is defined as:\\
+              \[
+                  \text{Cov}(X, Y) = \frac{\sum_{i=1}^{N} (x_{i} - \overline{x})(y_{i} - \overline{y})}{N - 1}
+              \] \\
+              where \(\overline{x}\) and \(\overline{y}\) are the means of \(X\) and \(Y\), respectively.
     \end{itemize}
 
-    \begin{block}{Mathematical Definition}
-        Given two random variables \(X\) and \(Y\), the covariance is defined as:
-        \[
-            \text{Cov}(X, Y) = \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])]
-        \]
-        where \(\mathbb{E}[X]\) and \(\mathbb{E}[Y]\) are the expected values (means) of \(X\) and \(Y\), respectively.
-    \end{block}
 \end{frame}
 
 % THE COVARIANCE, TOO
@@ -254,16 +253,15 @@
     \frametitle{The covariance}
     \begin{itemize}
         \item \textbf{Example:}
-              Consider two random variables, \(X\) and \(Y\), representing the number of hours studied and the test scores of students. If higher hours of study tend to correspond with higher test scores, the covariance between \(X\) and \(Y\) would be positive.
+            Consider two random variables, \(X\) and \(Y\), representing the number of hours studied and the test scores of students. If higher hours of study tend to correspond with higher test scores, the covariance between \(X\) and \(Y\) would be positive.
+        \item \textbf{Properties}
+              \begin{itemize}
+                  \item \(\text{Cov}(X, Y) = \text{Cov}(Y, X)\)
+                  \item \(\text{Cov}(X, X) = \text{Var}(X)\) (Variance of \(X\))
+                  \item If \(X\) and \(Y\) are independent, \(\text{Cov}(X, Y) = 0\)
+              \end{itemize}
     \end{itemize}
 
-    \begin{block}{Properties}
-        \begin{itemize}
-            \item \(\text{Cov}(X, Y) = \text{Cov}(Y, X)\)
-            \item \(\text{Cov}(X, X) = \text{Var}(X)\) (Variance of \(X\))
-            \item If \(X\) and \(Y\) are independent, \(\text{Cov}(X, Y) = 0\)
-        \end{itemize}
-    \end{block}
 
 \end{frame}
 
@@ -506,8 +504,13 @@
 
     % \centering
     Imagine the following scenario:
-    You are driving at a constant speed of 22.22\(m/s\) (80km/h) on the road.
-    Your speed is measured via GPS.
+    You are driving at a constant velocity of 22.22\(m/s\) (80km/h) on a straight road.
+    Following conditions are given:
+    \begin{itemize}
+        \item No external control signals
+        \item No noise from external factors
+        \item Gaussian distributed noise on sensor
+    \end{itemize}
 
     \vspace{1em}
 
@@ -794,6 +797,69 @@
             \caption{Autonomous Vehicles}
         \end{figure}
     \end{columns}
+\end{frame}
+
+\begin{frame}{Types of Kalman Filters}
+    \footnotesize
+    \begin{itemize}
+        \item \textbf{Kalman Filter (KF)}
+              \begin{itemize}
+                  \item Assumes linear system dynamics and Gaussian noise
+                  \item Optimal for linear systems
+              \end{itemize}
+        \item \textbf{Extended Kalman Filter (EKF)}
+              \begin{itemize}
+                  \item Handles non-linear system dynamics by linearizing around the current estimate
+                  \item Uses first-order Taylor expansion
+              \end{itemize}
+        \item \textbf{Unscented Kalman Filter (UKF)}
+              \begin{itemize}
+                  \item Handles non-linear system dynamics without linearization
+                  \item Uses a deterministic sampling approach to capture the mean and covariance accurately
+              \end{itemize}
+        \item \textbf{Ensemble Kalman Filter (EnKF)}
+              \begin{itemize}
+                  \item Uses an ensemble of system states to estimate the mean and covariance
+                  \item Suitable for high-dimensional systems
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Differences between Kalman Filter Types}
+    \tiny
+    \begin{itemize}
+        \item \textbf{Linear vs Non-linear}
+              \begin{itemize}
+                  \item KF: Linear systems
+                  \item EKF: Non-linear systems, linearized
+                  \item UKF: Non-linear systems, unscented transformation
+                  \item EnKF: Non-linear systems, ensemble approach
+              \end{itemize}
+        \item \textbf{Approach to Non-linearity}
+              \begin{itemize}
+                  \item EKF: Linearization using Taylor series
+                  \item UKF: Deterministic sampling (unscented transform)
+                  \item EnKF: Monte Carlo sampling (ensemble)
+              \end{itemize}
+        \item \textbf{Computational Complexity}
+              \begin{itemize}
+                  \item KF: Low
+                  \item EKF: Moderate, due to linearization
+                  \item UKF: Moderate, due to unscented transform
+                  \item EnKF: High, due to multiple ensemble members
+              \end{itemize}
+        \item \textbf{Accuracy in Non-linear Systems}
+              \begin{itemize}
+                  \item EKF: May be less accurate due to linearization
+                  \item UKF: More accurate, captures non-linearities better
+                  \item EnKF: High accuracy, handles complex non-linearities well
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/graphics/live_demo.png}
 \end{frame}
 
 
