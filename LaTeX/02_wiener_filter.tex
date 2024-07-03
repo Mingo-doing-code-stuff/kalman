@@ -2,7 +2,7 @@
     \textbf{Overview:}
     \begin{itemize}
         \item Developed by Norbert Wiener in the 1940s.
-        \item Minimizes mean square error between estimated and true signal.
+        \item Aims to produce an estimate of a desired signal by suppressing noise present in the observed data.
     \end{itemize}
     \vspace{0.5cm}
     \textbf{Applications:}
@@ -21,7 +21,6 @@
     \textbf{Key Features:}
     \begin{itemize}
         \item Handles non-stationary processes.
-        \item Uses state-space representation.
         \item Operates recursively for real-time applications.
         \item Models process and measurement noise.
     \end{itemize}
@@ -33,5 +32,10 @@
         \item Wiener filter laid the groundwork for statistical signal processing.
         \item Kalman filter extended these principles for dynamic systems.
         \item Widely used in aerospace, robotics, finance, and more.
+    \end{itemize}
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item The Wiener filter is optimal for stationary signals, meaning it assumes the statistical properties of the process do not change over time.
+        \item The Kalman filter, however, handles non-stationary processes by considering the evolution of the system state over time.
     \end{itemize}
 \end{frame}

@@ -52,8 +52,8 @@
         \begin{column}{0.7\textwidth}
             \begin{itemize}
                 \item was born in 1930 in Hungary
-                \item Bachelor of Science and Master of Science at the MIT
-                \item PHD 1957 at the Columbia
+                \item Bachelor of Science and Master of Science at MIT
+                \item PHD 1957 at Columbia
                 \item developed the filter around the years 1960 to 1961
                 \item died 2016 in Florida
             \end{itemize}
@@ -213,7 +213,7 @@
     \frametitle{The variance}
 
     \begin{equation*}
-        \sigma^{2} = \frac{1}{N} \sum _{n=1}^{N} \left( x_{\scriptscriptstyle \!B_{n}} -  \mu  \right) ^{2}
+        \sigma^{2} = \frac{1}{N} \sum _{n=1}^{N} \left( x_{n} -  \mu  \right) ^{2}
     \end{equation*}
 
     \vspace{5mm}
@@ -826,7 +826,7 @@
 \end{frame}
 
 \begin{frame}{Differences between Kalman Filter Types}
-    \tiny
+    \footnotesize
     \begin{itemize}
         \item \textbf{Linear vs Non-linear}
               \begin{itemize}
@@ -834,12 +834,6 @@
                   \item EKF: Non-linear systems, linearized
                   \item UKF: Non-linear systems, unscented transformation
                   \item EnKF: Non-linear systems, ensemble approach
-              \end{itemize}
-        \item \textbf{Approach to Non-linearity}
-              \begin{itemize}
-                  \item EKF: Linearization using Taylor series
-                  \item UKF: Deterministic sampling (unscented transform)
-                  \item EnKF: Monte Carlo sampling (ensemble)
               \end{itemize}
         \item \textbf{Computational Complexity}
               \begin{itemize}
