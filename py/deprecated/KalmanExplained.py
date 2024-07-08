@@ -63,8 +63,8 @@ def get_next_error_estimation(P_kprev, A=1, AT=1, Q=0):
     return P_k
 
 
-def receive_new_messurement(iteration):
-    return messurement_bias[iteration]
+def receive_new_measurement(iteration):
+    return measurement_bias[iteration]
 
 
 def update_kalman_gain(P_k, R, HT, H):
@@ -91,21 +91,26 @@ def update_error_estimate(P_k, I, K_k, H=1):
 
 
 df = pd.read_csv('c_serial_port/data_flugzeug.csv', delimiter=';')
-messurement_data_gyro_axis_x = [22.22, 22.22, 22.22, 22.22, 22.22, 22.22,
-                                22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22]+np.random.randn(15)
-# messurement_data_gyro_axis_x = [
+measurement_data_gyro_axis_x = [22.22, 22.22, 22.22, 22.22, 22.22, 22.22,
+                                22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22,
+                                22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22,
+                                22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22,
+                                22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22, 22.22]+np.random.randn(60)
+# measurement_data_gyro_axis_x = [
 #     500.0, 495.1, 490.4, 455.9, 421.5, 377.4, 323.4, 259.7, 186.1, 102.7, 9.5]
 # Anzahl der Messwerte
 
-messurement_sample_size = len(messurement_data_gyro_axis_x)
+# measurement_data_gyro_axis_x[range(30, 34)] = 0
+
+measurement_sample_size = len(measurement_data_gyro_axis_x)
 # Median der Messwerte
-median_of_messurement_data = np.median(messurement_data_gyro_axis_x)
+median_of_measurement_data = np.median(measurement_data_gyro_axis_x)
 # Temperaturbias (Drift) berechnen
-messurement_bias = messurement_data_gyro_axis_x  # - median_of_messurement_data
+measurement_bias = measurement_data_gyro_axis_x  # - median_of_measurement_data
 # Varianz der Messergebnisse (für ein anschauliches Beispiel verwenden wir 0.58)
-messurement_bias_varianz = 0.58
+measurement_bias_varianz = 0.58
 # Varianz der Messergebnisse wird durch R dargestellt
-varianz_der_messung = messurement_bias_varianz
+varianz_der_messung = measurement_bias_varianz
 # Einheitsmatrix, hier numerisch, deshalb = 1
 I = 1
 
@@ -116,8 +121,8 @@ I = 1
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-
 # -- Initiale Vorbelegung
 
-filter_collected_values_array = np.zeros(messurement_sample_size)
-kalman_collected_values_array = np.zeros(messurement_sample_size)
+filter_collected_values_array = np.zeros(measurement_sample_size)
+kalman_collected_values_array = np.zeros(measurement_sample_size)
 
 estimate_previous_iteration = 0
 # Vorheriger Messwert unbekannt, deshalb 0 (= `estimate_previous_iteration`)
@@ -134,9 +139,9 @@ error_covariance_current_iteration = error_covariance_previous_iteration
 # -- Iteration 1: Erste Schätzung
 
 # Messung vornehmen:
-messurement_current = messurement_bias[0]
+measurement_current = measurement_bias[0]
 
-print(messurement_current)
+print(measurement_current)
 # [3.] Den Kalman Gain berechnen
 kalman_gain_current_iteration = error_covariance_current_iteration / \
     (error_covariance_current_iteration + varianz_der_messung)
@@ -147,7 +152,7 @@ print(kalman_gain_current_iteration)
 # [4.] Die Schätzung mit der gemessenen Winkelgeschwindigkeit aktualisieren
 estimate_current_iteration = estimate_current_iteration + \
     kalman_gain_current_iteration * \
-    (messurement_current - estimate_current_iteration)
+    (measurement_current - estimate_current_iteration)
 filter_collected_values_array[0] = estimate_current_iteration
 
 print(estimate_current_iteration)
@@ -159,7 +164,7 @@ error_covariance_previous_iteration = (
 print(error_covariance_previous_iteration)
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-
-# -- Iteration 2 bis messurement_sample_size
+# -- Iteration 2 bis measurement_sample_size
 
 k = []
 z_k = []
@@ -167,12 +172,12 @@ K_k = []
 P_k = []
 
 k.append("1")
-z_k.append(f"{messurement_current}")
+z_k.append(f"{measurement_current}")
 K_k.append(f"{kalman_gain_current_iteration}")
 P_k.append(f"{error_covariance_current_iteration}")
 
 
-for iteration in range(1, messurement_sample_size):
+for iteration in range(1, measurement_sample_size):
 
     dach_x_k.append(f"{estimate_current_iteration}")
     # -- Vorhersage - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -187,7 +192,7 @@ for iteration in range(1, messurement_sample_size):
 
     # -- Korrektur - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    messurement_current = messurement_bias[iteration]
+    measurement_current = measurement_bias[iteration]
 
     # [3.] Den Kalman Gain berechnen
     # K_k = P_k * (P_k + R)^-1                            [K_k = P_k * H^T * (H * P_k * H^T + R)^-1]
@@ -199,7 +204,7 @@ for iteration in range(1, messurement_sample_size):
     # x_k + K_k * (z_k - x_k)                                       [x_k = x_k + K_k(z_k - H * x_k)]
     estimate_current_iteration = estimate_current_iteration + \
         kalman_gain_current_iteration * \
-        (messurement_current - estimate_current_iteration)
+        (measurement_current - estimate_current_iteration)
     filter_collected_values_array[iteration] = estimate_current_iteration
 
     # [5.] Die Fehlerkovarianz aktualisieren
@@ -208,7 +213,7 @@ for iteration in range(1, messurement_sample_size):
         I - kalman_gain_current_iteration) * error_covariance_current_iteration
 
     k.append(f"{iteration + 1}")
-    z_k.append(f"{messurement_current}")
+    z_k.append(f"{measurement_current}")
     K_k.append(f"{kalman_gain_current_iteration}")
     P_k.append(f"{error_covariance_current_iteration}")
 
@@ -224,9 +229,9 @@ for iteration in range(1, messurement_sample_size):
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-
 
 fig, axs = plt.subplots(2)
-axs[1].bar(range(messurement_sample_size), kalman_collected_values_array,
+axs[1].bar(range(measurement_sample_size), kalman_collected_values_array,
            label='Kk: Kalman Gain', linestyle='-', color=[0, 0.75, 1], edgecolor='b')
-axs[0].plot(messurement_bias, '-', label='zk: Messwerte', color='red')
+axs[0].plot(measurement_bias, '-', label='zk: Messwerte', color='red')
 axs[0].plot(filter_collected_values_array, color='green',
             linewidth=2, label='xk: gefilterte Werte')
 axs[0].axhline(22.22, color='blue', label='reales Signal')
@@ -240,8 +245,8 @@ axs[0].set_ylabel('Geschwindigkeit in m/s')
 
 
 # Bereich X-Achse anpassen
-axs[0].set_xlim([0, messurement_sample_size])
-axs[1].set_xlim([0, messurement_sample_size])
+axs[0].set_xlim([0, measurement_sample_size])
+axs[1].set_xlim([0, measurement_sample_size])
 
 # Plot anzeigen
 plt.show()
