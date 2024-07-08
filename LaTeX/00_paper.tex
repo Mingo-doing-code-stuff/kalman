@@ -1,14 +1,23 @@
-\documentclass{article}
-\usepackage{amsmath}
-\usepackage{tikz}
-\usetikzlibrary{positioning, arrows.meta, calc}
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{gensymb}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{biblatex}
+\usepackage{multirow}
+
+\addbibresource{references.bib}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \begin{document}
-
-\title{An Overview of the Kalman Filter}
-\author{Your Name}
-\date{\today}
-\maketitle
 
 \begin{abstract}
     The Kalman filter is a recursive algorithm used for estimating the state of dynamic systems from noisy measurements, widely applied in fields like robotics and control systems. This paper offers a brief overview of the Kalman filter, covering its mathematical foundation and key steps: prediction and update. Practical applications, such as autonomous navigation and sensor fusion, are discussed to illustrate its effectiveness. By the end, readers will understand the basic operation and significance of the Kalman filter in computational applications.
