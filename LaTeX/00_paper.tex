@@ -29,7 +29,7 @@
     applications.
 \end{abstract}
 
-\section{Introduction}
+\subsection{Introduction}
 In the realm of dynamic systems, the challenge of accurately estimating the state of a system from
 noisy and incomplete measurements is a common yet critical problem. The Kalman filter, introduced by
 Rudolf E. Kalman in 1960, provides an elegant and efficient solution to this problem. Its recursive
@@ -47,9 +47,9 @@ its application in real-world scenarios. By understanding the Kalman filter, com
 students and practitioners can leverage its power to enhance the performance and reliability of
 systems that rely on noisy data inputs.
 
-\section{Understanding the Kalman Filter}
+\subsection{Understanding the Kalman Filter}
 
-\subsection{Mathematical Foundation}
+\subsubsection{Mathematical Foundation}
 The Kalman filter operates on a system modeled by linear stochastic difference equations. The system
 state is described by the vector \( \mathbf{x}_k \) at time \( k \), which evolves according to the
 following state-space equations:
@@ -74,7 +74,7 @@ those with control inputs, process noise, and measurement noise. The key advanta
 representation is that it can be used to derive the recursive equations that form the basis of the
 Kalman filter algorithm.
 
-\subsection{Algorithm Implementation}
+\subsubsection{Algorithm Implementation}
 The Kalman filter consists of two main steps: prediction and update.
 
 \textbf{1. Prediction Step:}
@@ -120,7 +120,7 @@ gain determines how much the measurement influences the updated estimate, with h
 corresponding to more weight being given to the measurement. This step reduces the uncertainty in
 the state estimate by incorporating the information from the measurement.
 
-\section{Influence of the Wiener Filter}
+\subsection{Influence of the Wiener Filter}
 
 The development of the Kalman filter was significantly influenced by the Wiener filter, which was
 devised by Norbert Wiener in the 1940s for the purpose of signal processing and noise reduction.
@@ -148,13 +148,20 @@ Key concepts adapted from the Wiener filter to the Kalman filter include:
 By building on the theoretical foundation of the Wiener filter, the Kalman filter was able to
 provide a powerful and practical solution for real-time state estimation in dynamic systems.
 
-\section{Practical Applications}
+\subsection{Practical Applications}
 
-\subsection{Autonomous Navigation}
+\subsubsection{Autonomous Navigation}
 In autonomous vehicles, the Kalman filter is employed to fuse data from various sensors (such as
 GPS, accelerometers, and gyroscopes) to provide accurate estimates of the vehicle’s position,
 velocity, and orientation. This enables the vehicle to navigate safely and efficiently in dynamic
 environments.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{images/Tunnel_crop.png}
+    \caption{Simulation of GPS signal while driving through a tunnel with Kalman gain}
+    \label{fig:tunnel-kalman}
+\end{figure}
 
 For example, consider an autonomous car equipped with a GPS receiver, an accelerometer, and a
 gyroscope. The GPS provides periodic position measurements, while the accelerometer and gyroscope
@@ -166,7 +173,8 @@ The Kalman filter can also be used to estimate the state of the vehicle's enviro
 position and velocity of other vehicles on the road. This information is crucial for collision
 avoidance and path planning, enabling the autonomous vehicle to make informed decisions in real time.
 
-\subsection{Sensor Fusion}
+
+\subsubsection{Sensor Fusion}
 In robotics, sensor fusion using the Kalman filter allows for the integration of multiple sensor
 data sources to enhance the reliability and accuracy of the robot's perception of its surroundings.
 For instance, combining visual data with inertial measurements can significantly improve the
@@ -182,9 +190,9 @@ The Kalman filter can also be used in multi-robot systems to share and combine i
 different robots. This collaborative approach can improve the overall performance and robustness
 of the system, enabling tasks such as cooperative mapping and target tracking.
 
-\section{Advanced Topics}
+\subsection{Advanced Topics}
 
-\subsection{Extended Kalman Filter (EKF)}
+\subsubsection{Extended Kalman Filter (EKF)}
 The standard Kalman filter is limited to linear systems. However, many real-world systems are
 nonlinear. The Extended Kalman Filter (EKF) extends the Kalman filter to handle nonlinear systems
 by linearizing the system dynamics around the current estimate.
@@ -203,7 +211,7 @@ The EKF approximates these nonlinear functions using a first-order Taylor expans
 linearized system that can be processed using the standard Kalman filter equations. The EKF is
 widely used in applications such as robotics and aerospace, where nonlinearities are common.
 
-\subsection{Unscented Kalman Filter (UKF)}
+\subsubsection{Unscented Kalman Filter (UKF)}
 The Unscented Kalman Filter (UKF) is another extension of the Kalman filter for nonlinear systems.
 Unlike the EKF, which linearizes the system using a Taylor expansion, the UKF uses a deterministic
 sampling approach to capture the mean and covariance of the state distribution.
@@ -213,7 +221,7 @@ propagated through the nonlinear system model, and the resulting mean and covari
 update the state estimate. The UKF provides more accurate results than the EKF for highly nonlinear
 systems, with less computational complexity than higher-order extensions.
 
-\section{Conclusion}
+\subsection{Conclusion}
 The Kalman filter is a fundamental algorithm with broad applications in fields requiring the
 estimation of dynamic systems from noisy data. Its mathematical elegance and computational
 efficiency make it an indispensable tool in modern technology. By understanding its principles and
@@ -230,11 +238,5 @@ The influence of the Wiener filter on the development of the Kalman filter under
 importance of foundational research in signal processing and estimation theory. By building on the
 principles established by the Wiener filter, the Kalman filter was able to offer a practical
 solution for real-time applications, paving the way for numerous advancements in technology.
-
-\section{Bild}
-\begin{figure}[hb]
-    \includegraphics[width=0.48\textwidth]{images/Tunnel_crop.png}
-\end{figure}
-
 
 \end{document}
