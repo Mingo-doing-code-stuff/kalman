@@ -20,28 +20,39 @@
 \begin{document}
 
 \begin{abstract}
-    The Kalman filter is a recursive algorithm used for estimating the state of dynamic systems from
-    noisy measurements, widely applied in fields like robotics and control systems. This paper
-    offers a brief overview of the Kalman filter, covering its mathematical foundation and key
-    steps: prediction and update. Practical applications, such as autonomous navigation and
-    sensor fusion, are discussed to illustrate its effectiveness. By the end, readers will 
-    understand the basic operation and significance of the Kalman filter in computational 
-    applications.
+The Kalman filter is a recursive algorithm used for estimating the state of dynamic systems from
+noisy measurements, widely applied in fields like robotics and control systems. This paper
+offers a brief overview of the Kalman filter, covering its mathematical foundation and key
+steps: prediction and update. Practical applications, such as autonomous navigation and
+sensor fusion, are discussed to illustrate its effectiveness. By the end, readers will 
+understand the basic operation and significance of the Kalman filter in computational 
+applications.
 \end{abstract}
 
 \section{Introduction}
 In the realm of dynamic systems, the challenge of accurately estimating the state of a system from 
 noisy and incomplete measurements is a common yet critical problem. The Kalman filter, introduced by
-Rudolf E. Kalman in 1960, provides an elegant and efficient solution to this problem. Its recursive nature allows for real-time processing of data, making it an indispensable tool in various applications, including robotics, autonomous vehicles, and aerospace engineering.
+Rudolf E. Kalman in 1960, provides an elegant and efficient solution to this problem. Its recursive 
+nature allows for real-time processing of data, making it an indispensable tool in various 
+applications, including robotics, autonomous vehicles, and aerospace engineering.
 
-At its core, the Kalman filter combines predictions from a mathematical model with measurements from sensors to produce estimates that are more accurate than those obtained by using either the model or the measurements alone. This is achieved through a series of mathematical operations that account for the uncertainties in both the model and the measurements.
+At its core, the Kalman filter combines predictions from a mathematical model with measurements from
+sensors to produce estimates that are more accurate than those obtained by using either the model or
+the measurements alone. This is achieved through a series of mathematical operations that account
+for the uncertainties in both the model and the measurements.
 
-This paper aims to provide a clear and concise introduction to the Kalman filter. It will cover the essential concepts and mathematical foundations, explain the algorithm's main steps, and demonstrate its application in real-world scenarios. By understanding the Kalman filter, computer science students and practitioners can leverage its power to enhance the performance and reliability of systems that rely on noisy data inputs.
+This paper aims to provide a clear and concise introduction to the Kalman filter. It will cover the
+essential concepts and mathematical foundations, explain the algorithm's main steps, and demonstrate
+its application in real-world scenarios. By understanding the Kalman filter, computer science 
+students and practitioners can leverage its power to enhance the performance and reliability of 
+systems that rely on noisy data inputs.
 
 \section{Understanding the Kalman Filter}
 
 \subsection{Mathematical Foundation}
-The Kalman filter operates on a system modeled by linear stochastic difference equations. The system state is described by the vector \( \mathbf{x}_k \) at time \( k \), which evolves according to the following state-space equations:
+The Kalman filter operates on a system modeled by linear stochastic difference equations. 
+The system state is described by the vector \( \mathbf{x}_k \) at time \( k \), 
+which evolves according to the following state-space equations:
 
 \[
     \mathbf{x}_{k+1} = \mathbf{A} \mathbf{x}_k + \mathbf{B} \mathbf{u}_k + \mathbf{w}_k
@@ -51,14 +62,26 @@ The Kalman filter operates on a system modeled by linear stochastic difference e
     \mathbf{z}_k = \mathbf{H} \mathbf{x}_k + \mathbf{v}_k
 \]
 
-Here, \( \mathbf{A} \) is the state transition matrix, \( \mathbf{B} \) is the control input matrix, \( \mathbf{u}_k \) is the control vector, \( \mathbf{w}_k \) is the process noise, \( \mathbf{H} \) is the observation matrix, \( \mathbf{z}_k \) is the measurement vector, and \( \mathbf{v}_k \) is the measurement noise. Both \( \mathbf{w}_k \) and \( \mathbf{v}_k \) are assumed to be independent, white, and normally distributed with covariance matrices \( \mathbf{Q} \) and \( \mathbf{R} \) respectively.
+Here, 
+\( \mathbf{A} \) is the state transition matrix, 
+\( \mathbf{B} \) is the control input matrix, 
+\( \mathbf{u}_k \) is the control vector, 
+\( \mathbf{w}_k \) is the process noise, 
+\( \mathbf{H} \) is the observation matrix, 
+\( \mathbf{z}_k \) is the measurement vector, and 
+\( \mathbf{v}_k \) is the measurement noise. Both 
+\( \mathbf{w}_k \) and \( \mathbf{v}_k \) are assumed to be independent, white, 
+and normally distributed with covariance matrices 
+\( \mathbf{Q} \) and \( \mathbf{R} \) respectively.
 
 \subsection{Algorithm Implementation}
 The Kalman filter consists of two main steps: prediction and update.
 
 \textbf{1. Prediction Step:}
 
-In the prediction step, the filter produces estimates of the current state variables, along with their uncertainties. The predicted state \( \hat{\mathbf{x}}_{k|k-1} \) and the error covariance \( \mathbf{P}_{k|k-1} \) are given by:
+In the prediction step, the filter produces estimates of the current state variables, along with 
+their uncertainties. The predicted state \( \hat{\mathbf{x}}_{k|k-1} \) and the error covariance 
+\( \mathbf{P}_{k|k-1} \) are given by:
 
 \[
     \hat{\mathbf{x}}_{k|k-1} = \mathbf{A} \hat{\mathbf{x}}_{k-1|k-1} + \mathbf{B} \mathbf{u}_k
@@ -70,13 +93,16 @@ In the prediction step, the filter produces estimates of the current state varia
 
 \textbf{2. Update Step:}
 
-In the update step, the filter incorporates the new measurement \( \mathbf{z}_k \) to refine the state estimate. The Kalman gain \( \mathbf{K}_k \) is calculated to determine the weight given to the measurement:
+In the update step, the filter incorporates the new measurement \( \mathbf{z}_k \) to refine the 
+state estimate. The Kalman gain \( \mathbf{K}_k \) is calculated to determine the weight given to 
+the measurement:
 
 \[
     \mathbf{K}_k = \mathbf{P}_{k|k-1} \mathbf{H}^\top (\mathbf{H} \mathbf{P}_{k|k-1} \mathbf{H}^\top + \mathbf{R})^{-1}
 \]
 
-The updated state estimate \( \hat{\mathbf{x}}_{k|k} \) and error covariance \( \mathbf{P}_{k|k} \) are then:
+The updated state estimate \( \hat{\mathbf{x}}_{k|k} \) and error covariance \( \mathbf{P}_{k|k} \) 
+are then:
 
 \[
     \hat{\mathbf{x}}_{k|k} = \hat{\mathbf{x}}_{k|k-1} + \mathbf{K}_k (\mathbf{z}_k - \mathbf{H} \hat{\mathbf{x}}_{k|k-1})
@@ -89,13 +115,22 @@ The updated state estimate \( \hat{\mathbf{x}}_{k|k} \) and error covariance \( 
 \section{Practical Applications}
 
 \subsection{Autonomous Navigation}
-In autonomous vehicles, the Kalman filter is employed to fuse data from various sensors (such as GPS, accelerometers, and gyroscopes) to provide accurate estimates of the vehicle’s position, velocity, and orientation. This enables the vehicle to navigate safely and efficiently in dynamic environments.
+In autonomous vehicles, the Kalman filter is employed to fuse data from various sensors (such as 
+GPS, accelerometers, and gyroscopes) to provide accurate estimates of the vehicle’s position, 
+velocity, and orientation. This enables the vehicle to navigate safely and efficiently in dynamic 
+environments.
 
 \subsection{Sensor Fusion}
-In robotics, sensor fusion using the Kalman filter allows for the integration of multiple sensor data sources to enhance the reliability and accuracy of the robot's perception of its surroundings. For instance, combining visual data with inertial measurements can significantly improve the performance of robot localization and mapping.
+In robotics, sensor fusion using the Kalman filter allows for the integration of multiple sensor 
+data sources to enhance the reliability and accuracy of the robot's perception of its surroundings. 
+For instance, combining visual data with inertial measurements can significantly improve the 
+performance of robot localization and mapping.
 
 \section{Conclusion}
-The Kalman filter is a fundamental algorithm with broad applications in fields requiring the estimation of dynamic systems from noisy data. Its mathematical elegance and computational efficiency make it an indispensable tool in modern technology. By understanding its principles and applications, computer science students can better appreciate its value and utilize it effectively in various domains.
-
+The Kalman filter is a fundamental algorithm with broad applications in fields requiring the 
+estimation of dynamic systems from noisy data. Its mathematical elegance and computational 
+efficiency make it an indispensable tool in modern technology. By understanding its principles and 
+applications, computer science students can better appreciate its value and utilize it effectively 
+in various domains.
 
 \end{document}
