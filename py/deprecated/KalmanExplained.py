@@ -100,7 +100,7 @@ measurement_data_gyro_axis_x = [22.22, 22.22, 22.22, 22.22, 22.22, 22.22,
 #     500.0, 495.1, 490.4, 455.9, 421.5, 377.4, 323.4, 259.7, 186.1, 102.7, 9.5]
 # Anzahl der Messwerte
 
-# measurement_data_gyro_axis_x[range(30, 34)] = 0
+measurement_data_gyro_axis_x[range(30, 34)] = 0
 
 measurement_sample_size = len(measurement_data_gyro_axis_x)
 # Median der Messwerte
